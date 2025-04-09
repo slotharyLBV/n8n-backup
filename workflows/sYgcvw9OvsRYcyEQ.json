@@ -1,7 +1,18 @@
 {
   "active": false,
   "connections": {
-    "Schedule Trigger": {
+    "Notion": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI": {
       "main": [
         [
           {
@@ -12,23 +23,29 @@
         ]
       ]
     },
-    "Notion": {
+    "If": {
       "main": [
         [
           {
-            "node": "Loop Over Items",
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "OpenAI1",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Loop Over Items": {
+    "OpenAI1": {
       "main": [
-        [],
         [
           {
-            "node": "If",
+            "node": "Loop Over Items1",
             "type": "main",
             "index": 0
           }
@@ -46,11 +63,23 @@
         ]
       ]
     },
-    "OpenAI": {
+    "Loop Over Items1": {
       "main": [
+        [],
         [
           {
             "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "CCP_Zielgruppe",
             "type": "main",
             "index": 0
           }
@@ -67,25 +96,6 @@
   "nodes": [
     {
       "parameters": {
-        "rule": {
-          "interval": [
-            {
-              "field": "hours"
-            }
-          ]
-        }
-      },
-      "type": "n8n-nodes-base.scheduleTrigger",
-      "typeVersion": 1.2,
-      "position": [
-        0,
-        0
-      ],
-      "id": "58646560-d4b7-45fe-b868-5886a2718971",
-      "name": "Schedule Trigger"
-    },
-    {
-      "parameters": {
         "resource": "databasePage",
         "operation": "getAll",
         "databaseId": {
@@ -97,6 +107,7 @@
         },
         "returnAll": true,
         "filterType": "manual",
+        "matchType": "allFilters",
         "filters": {
           "conditions": [
             {
@@ -120,12 +131,13 @@
       "type": "n8n-nodes-base.notion",
       "typeVersion": 2.2,
       "position": [
-        220,
-        0
+        1000,
+        -260
       ],
       "id": "8767771f-5664-48b1-b79a-eaba757523e3",
       "name": "Notion",
       "alwaysOutputData": false,
+      "executeOnce": true,
       "credentials": {
         "notionApi": {
           "id": "yDYyBY9jyV4cRvEx",
@@ -135,53 +147,18 @@
     },
     {
       "parameters": {
-        "options": {}
-      },
-      "type": "n8n-nodes-base.splitInBatches",
-      "typeVersion": 3,
-      "position": [
-        440,
-        0
-      ],
-      "id": "85b7d4e7-24f2-4b9b-a57c-ab9c68bacbf1",
-      "name": "Loop Over Items"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "75a089bd-6f61-4dd5-bea3-3ef691d1876a",
-              "name": "CCP_Zielgruppe",
-              "value": "Studierende, Berufseinsteiger, junge Erwachsene.",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        700,
-        -320
-      ],
-      "id": "943af620-87bb-4174-adcf-4412cae4f6eb",
-      "name": "CCP_Zielgruppe"
-    },
-    {
-      "parameters": {
         "resource": "assistant",
         "operation": "list"
       },
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 1.8,
       "position": [
-        720,
-        -120
+        380,
+        -260
       ],
       "id": "f5a7b80a-f35e-48c0-a467-3cca2a078e00",
       "name": "OpenAI",
+      "executeOnce": true,
       "credentials": {
         "openAiApi": {
           "id": "xSvlcZNPoASPwcvk",
@@ -201,12 +178,11 @@
           "conditions": [
             {
               "id": "634381ab-dc10-4bd0-a78f-02ec44867a70",
-              "leftValue": "",
-              "rightValue": "",
+              "leftValue": "={{ 'CCP_brainstormer_'+ $json.property_assistant_expert_name }}",
+              "rightValue": "={{ $('OpenAI').item.json.id }}",
               "operator": {
                 "type": "string",
-                "operation": "equals",
-                "name": "filter.operator.equals"
+                "operation": "equals"
               }
             }
           ],
@@ -218,11 +194,112 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        700,
-        120
+        1680,
+        0
       ],
       "id": "b756d3af-22f6-4825-b3a2-6506075b3dbc",
       "name": "If"
+    },
+    {
+      "parameters": {
+        "resource": "assistant",
+        "operation": "create",
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "name": "=CCP_brainstormer_{{ $json.property_assistant_expert_name }}",
+        "description": "=Idea Brainstorming Assistant für die Kategorie: {{ $json.name }}",
+        "instructions": "=Du bist ein kreativer und strategischer Brainstorming-Assistent. \nDeine Aufgabe ist es, täglich neue, originelle und relevante Content-Ideen für die Kategorie \"{{ $json.name }}\" zu generieren. Die Beschreibung für die Kategorie ist \"{{ $('Notion').item.json.property_beschreibung }}\".\n\nZielgruppe: {{ $('CCP_Zielgruppe').item.json.CCP_Zielgruppe }}\n\nPrimärer Ausspielungskanal: YouTube  \nSekundäre Kanäle (für spätere Anpassung): TikTok, Instagram, LinkedIn, Podcast-Plattformen\n\nDenke die Idee primär als Videokonzept für YouTube:\n- Ist das Thema visuell erzählbar?\n- Gibt es starke visuelle Hooks oder Emotionen?\n- Lässt sich daraus eine ansprechende Storyline oder Struktur bauen?\n\nKriterien:\n- Relevanz für die Zielgruppe\n- Potenzial für Engagement\n- Noch nicht behandelte Themen (Vermeide Redundanz)\n- Kreativität, aber realistisch umsetzbar\n\nFormat der Ausgabe:\n1. Titel der Idee\n2. Kurzbeschreibung (1–2 Sätze)\n3. Warum das Thema relevant ist\n\nGeneriere genau **{{ $json.ideaCountPerCategory }}** Ideen pro Anfrage.",
+        "knowledgeRetrieval": "={{ false }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        1960,
+        40
+      ],
+      "id": "4165f68c-8dbf-49ad-9ca7-5ff2c82061d9",
+      "name": "OpenAI1",
+      "credentials": {
+        "openAiApi": {
+          "id": "xSvlcZNPoASPwcvk",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "75a089bd-6f61-4dd5-bea3-3ef691d1876a",
+              "name": "CCP_Zielgruppe",
+              "value": "Studierende, Berufseinsteiger, junge Erwachsene.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        80,
+        -300
+      ],
+      "id": "943af620-87bb-4174-adcf-4412cae4f6eb",
+      "name": "CCP_Zielgruppe"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1360,
+        -60
+      ],
+      "id": "76036b97-d59e-494e-9b4f-f5fa2742a93a",
+      "name": "Loop Over Items1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -240,
+        -280
+      ],
+      "id": "ce3ca2c4-bdca-4b08-a14e-ecdcf3c2b14a",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "75a089bd-6f61-4dd5-bea3-3ef691d1876a",
+              "name": "CCP_ideaCountPerCategory",
+              "value": 3,
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1720,
+        320
+      ],
+      "id": "c113ebab-6413-4bd1-9603-796d0265e489",
+      "name": "CCP_ideaCountPerCategory"
     }
   ],
   "pinData": {},
@@ -232,6 +309,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-04-09T09:55:00.000Z",
-  "versionId": "397eb2e7-a4da-42d6-b826-6a7c9154c86a"
+  "updatedAt": "2025-04-09T11:28:24.000Z",
+  "versionId": "d17e3abf-d23a-4324-937a-e0518790845f"
 }
