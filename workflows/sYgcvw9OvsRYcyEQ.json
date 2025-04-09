@@ -164,8 +164,8 @@
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 1.8,
       "position": [
-        1800,
-        -20
+        1660,
+        60
       ],
       "id": "631d6812-357e-43c7-85ab-fd76e3eed882",
       "name": "OpenAI2",
@@ -315,8 +315,8 @@
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 1.8,
       "position": [
-        1080,
-        -40
+        920,
+        60
       ],
       "id": "4165f68c-8dbf-49ad-9ca7-5ff2c82061d9",
       "name": "OpenAI (erstelle Assisten)",
@@ -356,7 +356,7 @@
       "typeVersion": 2.2,
       "position": [
         880,
-        -180
+        -160
       ],
       "id": "b756d3af-22f6-4825-b3a2-6506075b3dbc",
       "name": "If (Assistent exist)"
@@ -378,8 +378,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1300,
-        -220
+        1140,
+        -200
       ],
       "id": "bd44254f-4de0-467a-9393-96006ec3da2b",
       "name": "Edit Fields (setze existierende assistantID)"
@@ -401,8 +401,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1300,
-        -40
+        1140,
+        -20
       ],
       "id": "f9094f8e-62ce-4f4a-9d62-05349a5bbb91",
       "name": "Edit Fields (setze erstellte assistantID)"
@@ -412,7 +412,7 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.1,
       "position": [
-        1560,
+        1420,
         -160
       ],
       "id": "7fa6c8bf-792a-4a9e-95c7-d48433c0f6c5",
@@ -426,6 +426,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-04-09T13:57:58.000Z",
-  "versionId": "4585b302-c42b-466a-9b71-879c4551098b"
+  "updatedAt": "2025-04-09T14:07:31.000Z",
+  "versionId": "cd93a3a9-5abb-416d-a268-4fd2d63dd9a7"
 }
