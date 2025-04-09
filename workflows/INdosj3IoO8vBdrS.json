@@ -699,11 +699,13 @@
   "settings": {},
   "staticData": {
     "node:Schedule Trigger": {
-      "recurrenceRules": []
+      "recurrenceRules": [
+        4
+      ]
     }
   },
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-04-09T00:39:52.000Z",
+  "updatedAt": "2025-04-09T01:43:03.000Z",
   "versionId": "c4735563-9209-4e0e-be61-6b576f4a5a9d"
 }
