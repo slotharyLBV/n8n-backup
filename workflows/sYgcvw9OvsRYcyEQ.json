@@ -1,85 +1,129 @@
 {
   "active": false,
   "connections": {
-    "Notion": {
+    "When clicking ‘Test workflow’": {
       "main": [
         [
           {
-            "node": "Loop Over Items1",
+            "node": "Variablen setzen",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "OpenAI": {
+    "OpenAI2": {
       "main": [
         [
           {
-            "node": "Notion",
+            "node": "Loop Over alle Kathegorien",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "If": {
+    "Variablen setzen": {
       "main": [
         [
           {
-            "node": "Loop Over Items1",
+            "node": "OpenAI (Liste Assistenten lesen)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI (Liste Assistenten lesen)": {
+      "main": [
+        [
+          {
+            "node": "Notion (ziehe alle Kategorien die aktiv sind)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion (ziehe alle Kategorien die aktiv sind)": {
+      "main": [
+        [
+          {
+            "node": "Loop Over alle Kathegorien",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over alle Kathegorien": {
+      "main": [
+        [],
+        [
+          {
+            "node": "If (Assistent exist)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI (erstelle Assisten)": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields (setze erstellte assistantID)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If (Assistent exist)": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields (setze existierende assistantID)",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "OpenAI1",
+            "node": "OpenAI (erstelle Assisten)",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "OpenAI1": {
+    "Edit Fields (setze existierende assistantID)": {
       "main": [
         [
           {
-            "node": "Loop Over Items1",
+            "node": "Merge (assistantID setzen)",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "CCP_Zielgruppe": {
+    "Edit Fields (setze erstellte assistantID)": {
       "main": [
         [
           {
-            "node": "OpenAI",
+            "node": "Merge (assistantID setzen)",
             "type": "main",
-            "index": 0
+            "index": 1
           }
         ]
       ]
     },
-    "Loop Over Items1": {
-      "main": [
-        [],
-        [
-          {
-            "node": "If",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "When clicking ‘Test workflow’": {
+    "Merge (assistantID setzen)": {
       "main": [
         [
           {
-            "node": "CCP_Zielgruppe",
+            "node": "OpenAI2",
             "type": "main",
             "index": 0
           }
@@ -95,6 +139,100 @@
   "name": "Content Creator Process (CCP)",
   "nodes": [
     {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -260,
+        -280
+      ],
+      "id": "ce3ca2c4-bdca-4b08-a14e-ecdcf3c2b14a",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "resource": "assistant",
+        "assistantId": {
+          "__rl": true,
+          "value": "={{ $json.assistantID }}",
+          "mode": "id"
+        },
+        "prompt": "define",
+        "text": "=Bitte generiere {{ $('Variablen setzen').item.json.CCP_ideaCountPerCategory }} Ideen.",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        1800,
+        -20
+      ],
+      "id": "631d6812-357e-43c7-85ab-fd76e3eed882",
+      "name": "OpenAI2",
+      "credentials": {
+        "openAiApi": {
+          "id": "xSvlcZNPoASPwcvk",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "75a089bd-6f61-4dd5-bea3-3ef691d1876a",
+              "name": "CCP_Zielgruppe",
+              "value": "Studierende, Berufseinsteiger, junge Erwachsene.",
+              "type": "string"
+            },
+            {
+              "id": "b3c48eea-3009-4b4f-a36b-d72432745dda",
+              "name": "CCP_ideaCountPerCategory",
+              "value": "3",
+              "type": "string"
+            },
+            {
+              "id": "4a7bf95b-7eb5-4410-8b39-b5e51d9db1b3",
+              "name": "CCP_assistentPrefix",
+              "value": "CCP_brainstormer_",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -20,
+        -280
+      ],
+      "id": "943af620-87bb-4174-adcf-4412cae4f6eb",
+      "name": "Variablen setzen"
+    },
+    {
+      "parameters": {
+        "resource": "assistant",
+        "operation": "list"
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        220,
+        -280
+      ],
+      "id": "f5a7b80a-f35e-48c0-a467-3cca2a078e00",
+      "name": "OpenAI (Liste Assistenten lesen)",
+      "executeOnce": true,
+      "credentials": {
+        "openAiApi": {
+          "id": "xSvlcZNPoASPwcvk",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
       "parameters": {
         "resource": "databasePage",
         "operation": "getAll",
@@ -105,7 +243,7 @@
           "cachedResultName": "SLCategory",
           "cachedResultUrl": "https://www.notion.so/1ceab5afd8fd8023aa4fd51a41a44be2"
         },
-        "returnAll": true,
+        "limit": 1,
         "filterType": "manual",
         "matchType": "allFilters",
         "filters": {
@@ -131,11 +269,11 @@
       "type": "n8n-nodes-base.notion",
       "typeVersion": 2.2,
       "position": [
-        1000,
-        -260
+        440,
+        -280
       ],
       "id": "8767771f-5664-48b1-b79a-eaba757523e3",
-      "name": "Notion",
+      "name": "Notion (ziehe alle Kategorien die aktiv sind)",
       "alwaysOutputData": false,
       "executeOnce": true,
       "credentials": {
@@ -147,18 +285,41 @@
     },
     {
       "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        680,
+        -280
+      ],
+      "id": "76036b97-d59e-494e-9b4f-f5fa2742a93a",
+      "name": "Loop Over alle Kathegorien"
+    },
+    {
+      "parameters": {
         "resource": "assistant",
-        "operation": "list"
+        "operation": "create",
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "name": "={{ $('Variablen setzen').item.json.CCP_assistentPrefix + $('Notion (ziehe alle Kategorien die aktiv sind)').item.json.property_assistant_expert_name}}",
+        "description": "=Idea Brainstorming Assistant für die Kategorie: {{ $json.name }}",
+        "instructions": "=Du bist ein kreativer und strategischer Brainstorming-Assistent. \nDeine Aufgabe ist es, neue, originelle und relevante Content-Ideen für die Kategorie \"{{ $json.name }}\" zu generieren. Die Beschreibung für die Kategorie ist \"{{ $json.property_beschreibung }}\".\n\nZielgruppe: {{ $('Variablen setzen').item.json.CCP_Zielgruppe }}\n\nPrimärer Ausspielungskanal: YouTube  \nContent-Länge: ca. 10 Minuten, maximal jedoch 20 Minuten.  \nSekundäre Kanäle (für spätere Anpassung): TikTok, Instagram, LinkedIn, Podcast-Plattformen\n\nDu hast Zugriff auf externe Wissensquellen (Vektordatenbank). Die Inhalte stammen aus verschiedenen Dateien.  \nVerhalte dich abhängig vom Dateinamen folgendermaßen:\n\n1. Wenn die Datei mit **\"usedIdeas_{{ $('Loop Over alle Kathegorien').item.json.property_assistant_expert_name }}\"** beginnt:\nAlle Ideen in den Dateien, deren Name mit \"usedIdeas_{{ $('Loop Over alle Kathegorien').item.json.property_assistant_expert_name }}\" beginnt, gelten als bereits verwendet.  \nDu darfst KEINE Inhalte generieren, die auch nur im Ansatz diesen ähneln.  \nDas betrifft Wortwahl, Formulierungen, Struktur, Themenkern oder Titelidee.  \nWenn du unsicher bist, ob eine Idee bereits vorhanden war – verzichte auf sie.\n\n2. Wenn die Datei mit **\"inspiration_\"** beginnt:  \n→ Diese Datei enthält Inhalte (z. B. von erfolgreichen YouTube-Kanälen oder Artikeln), die dir zur kreativen Inspiration dienen sollen.  \nDu darfst daraus Ideen ableiten, **aber sie müssen erweitert, angepasst oder neu interpretiert** werden – niemals 1:1 übernommen.\n\nBeziehe dieses Wissen aktiv in deine Überlegungen ein und trenne intern strikt zwischen diesen Quellen.\n\nDenke die Idee primär als Videokonzept für YouTube:\n- Ist das Thema visuell erzählbar?\n- Gibt es starke visuelle Hooks oder Emotionen?\n- Lässt sich daraus eine ansprechende Storyline oder Struktur bauen?\n\nKriterien:\n- Relevanz für die Zielgruppe\n- Potenzial für Engagement\n- Noch nicht behandelte Themen (Vermeide Redundanz)\n- Kreativität, aber realistisch umsetzbar\n\nGeneriere genau **{{ $('Variablen setzen').item.json.CCP_ideaCountPerCategory }}** Ideen pro Anfrage.\n\n🟡 Gib deine Antwort **ausschließlich** im folgenden JSON-Array zurück.  \n⚠️ Keine Kommentare, keine erklärenden Sätze davor oder danach. Nur reines, gültiges JSON.\n\nVerwende exakt diese Struktur:\n\n[\n  {\n    \"title\": \"Beispiel-Idee\",\n    \"description\": \"Kurzbeschreibung der Idee (1–2 Sätze).\",\n    \"relevance\": \"Warum das Thema relevant ist (1 Satz).\",\n    \"problemSolved\": \"Welches Problem wird gelöst (1 Satz).\",\n    \"inScope\": \"Was umfasst das Thema (1 Satz).\",\n    \"outOfScope\": \"Was ist nicht Bestandteil (1 Satz).\",\n    \"keywords\": [\"Begriff1\", \"Begriff2\", \"Begriff3\", \"Begriff4\", \"Begriff5\", \"Begriff6\", \"Begriff7\", \"Begriff8\", \"Begriff9\", \"Begriff10\"]\n  },\n  ...\n]",
+        "knowledgeRetrieval": "={{ false }}",
+        "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 1.8,
       "position": [
-        380,
-        -260
+        1080,
+        -40
       ],
-      "id": "f5a7b80a-f35e-48c0-a467-3cca2a078e00",
-      "name": "OpenAI",
-      "executeOnce": true,
+      "id": "4165f68c-8dbf-49ad-9ca7-5ff2c82061d9",
+      "name": "OpenAI (erstelle Assisten)",
       "credentials": {
         "openAiApi": {
           "id": "xSvlcZNPoASPwcvk",
@@ -178,8 +339,8 @@
           "conditions": [
             {
               "id": "634381ab-dc10-4bd0-a78f-02ec44867a70",
-              "leftValue": "={{ 'CCP_brainstormer_'+ $json.property_assistant_expert_name }}",
-              "rightValue": "={{ $('OpenAI').item.json.id }}",
+              "leftValue": "={{$('Variablen setzen').item.json.CCP_assistentPrefix + $json.property_assistant_expert_name }}",
+              "rightValue": "={{ $('OpenAI (Liste Assistenten lesen)').item.json.name }}",
               "operator": {
                 "type": "string",
                 "operation": "equals"
@@ -194,51 +355,20 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        1680,
-        0
+        880,
+        -180
       ],
       "id": "b756d3af-22f6-4825-b3a2-6506075b3dbc",
-      "name": "If"
-    },
-    {
-      "parameters": {
-        "resource": "assistant",
-        "operation": "create",
-        "modelId": {
-          "__rl": true,
-          "value": "gpt-4o-mini",
-          "mode": "list",
-          "cachedResultName": "GPT-4O-MINI"
-        },
-        "name": "=CCP_brainstormer_{{ $json.property_assistant_expert_name }}",
-        "description": "=Idea Brainstorming Assistant für die Kategorie: {{ $json.name }}",
-        "instructions": "=Du bist ein kreativer und strategischer Brainstorming-Assistent. \nDeine Aufgabe ist es, täglich neue, originelle und relevante Content-Ideen für die Kategorie \"{{ $json.name }}\" zu generieren. Die Beschreibung für die Kategorie ist \"{{ $('Notion').item.json.property_beschreibung }}\".\n\nZielgruppe: {{ $('CCP_Zielgruppe').item.json.CCP_Zielgruppe }}\n\nPrimärer Ausspielungskanal: YouTube  \nSekundäre Kanäle (für spätere Anpassung): TikTok, Instagram, LinkedIn, Podcast-Plattformen\n\nDenke die Idee primär als Videokonzept für YouTube:\n- Ist das Thema visuell erzählbar?\n- Gibt es starke visuelle Hooks oder Emotionen?\n- Lässt sich daraus eine ansprechende Storyline oder Struktur bauen?\n\nKriterien:\n- Relevanz für die Zielgruppe\n- Potenzial für Engagement\n- Noch nicht behandelte Themen (Vermeide Redundanz)\n- Kreativität, aber realistisch umsetzbar\n\nFormat der Ausgabe:\n1. Titel der Idee\n2. Kurzbeschreibung (1–2 Sätze)\n3. Warum das Thema relevant ist\n\nGeneriere genau **{{ $json.ideaCountPerCategory }}** Ideen pro Anfrage.",
-        "knowledgeRetrieval": "={{ false }}",
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.openAi",
-      "typeVersion": 1.8,
-      "position": [
-        1960,
-        40
-      ],
-      "id": "4165f68c-8dbf-49ad-9ca7-5ff2c82061d9",
-      "name": "OpenAI1",
-      "credentials": {
-        "openAiApi": {
-          "id": "xSvlcZNPoASPwcvk",
-          "name": "OpenAi account"
-        }
-      }
+      "name": "If (Assistent exist)"
     },
     {
       "parameters": {
         "assignments": {
           "assignments": [
             {
-              "id": "75a089bd-6f61-4dd5-bea3-3ef691d1876a",
-              "name": "CCP_Zielgruppe",
-              "value": "Studierende, Berufseinsteiger, junge Erwachsene.",
+              "id": "fc3f6b87-287d-4d1a-9b07-39f861739325",
+              "name": "assistantID",
+              "value": "={{ $('OpenAI (Liste Assistenten lesen)').item.json.id }}",
               "type": "string"
             }
           ]
@@ -248,45 +378,21 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        80,
-        -300
+        1300,
+        -220
       ],
-      "id": "943af620-87bb-4174-adcf-4412cae4f6eb",
-      "name": "CCP_Zielgruppe"
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "type": "n8n-nodes-base.splitInBatches",
-      "typeVersion": 3,
-      "position": [
-        1360,
-        -60
-      ],
-      "id": "76036b97-d59e-494e-9b4f-f5fa2742a93a",
-      "name": "Loop Over Items1"
-    },
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.manualTrigger",
-      "typeVersion": 1,
-      "position": [
-        -240,
-        -280
-      ],
-      "id": "ce3ca2c4-bdca-4b08-a14e-ecdcf3c2b14a",
-      "name": "When clicking ‘Test workflow’"
+      "id": "bd44254f-4de0-467a-9393-96006ec3da2b",
+      "name": "Edit Fields (setze existierende assistantID)"
     },
     {
       "parameters": {
         "assignments": {
           "assignments": [
             {
-              "id": "75a089bd-6f61-4dd5-bea3-3ef691d1876a",
-              "name": "CCP_ideaCountPerCategory",
-              "value": 3,
-              "type": "number"
+              "id": "f9b5ccc9-c7b4-42c6-87f5-b82e16b45a13",
+              "name": "assistantID",
+              "value": "={{ $json.id }}",
+              "type": "string"
             }
           ]
         },
@@ -295,11 +401,22 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1720,
-        320
+        1300,
+        -40
       ],
-      "id": "c113ebab-6413-4bd1-9603-796d0265e489",
-      "name": "CCP_ideaCountPerCategory"
+      "id": "f9094f8e-62ce-4f4a-9d62-05349a5bbb91",
+      "name": "Edit Fields (setze erstellte assistantID)"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.1,
+      "position": [
+        1560,
+        -160
+      ],
+      "id": "7fa6c8bf-792a-4a9e-95c7-d48433c0f6c5",
+      "name": "Merge (assistantID setzen)"
     }
   ],
   "pinData": {},
@@ -309,6 +426,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-04-09T11:28:24.000Z",
-  "versionId": "d17e3abf-d23a-4324-937a-e0518790845f"
+  "updatedAt": "2025-04-09T13:57:58.000Z",
+  "versionId": "4585b302-c42b-466a-9b71-879c4551098b"
 }
