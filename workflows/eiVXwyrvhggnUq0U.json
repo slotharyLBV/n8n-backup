@@ -1,0 +1,387 @@
+{
+  "active": false,
+  "connections": {
+    "Notion Trigger (Neuer Datensatz)": {
+      "main": [
+        [
+          {
+            "node": "Switch (0:unbestätigt | 1:abgemeldet)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch (0:unbestätigt | 1:abgemeldet)": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields (create new_token)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Discord (Abmeldung)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Notion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields (create new_token)": {
+      "main": [
+        [
+          {
+            "node": "Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Notion1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-04-09T00:06:17.857Z",
+  "id": "eiVXwyrvhggnUq0U",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Email-Double-Opt-In",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "databaseId": {
+          "__rl": true,
+          "value": "1ceab5af-d8fd-80df-88c7-f99a2ff9cf82",
+          "mode": "list",
+          "cachedResultName": "SLEmailverteiler",
+          "cachedResultUrl": "https://www.notion.so/1ceab5afd8fd80df88c7f99a2ff9cf82"
+        }
+      },
+      "type": "n8n-nodes-base.notionTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        -20
+      ],
+      "id": "c2f61ccb-8404-4038-8599-af22bc635238",
+      "name": "Notion Trigger (Neuer Datensatz)",
+      "credentials": {
+        "notionApi": {
+          "id": "yDYyBY9jyV4cRvEx",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.Status }}",
+                    "rightValue": "unbestätigt",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "92585bfa-7865-4657-b1cf-f4f567c60592"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "dfb94899-b48f-481e-88cf-c6126e60cb02",
+                    "leftValue": "={{ $json.Status }}",
+                    "rightValue": "abgemeldet",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        220,
+        -20
+      ],
+      "id": "ef1d85f2-ddd4-4d92-ab76-edca3b5a137a",
+      "name": "Switch (0:unbestätigt | 1:abgemeldet)"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "da179dfe-63a5-415a-b59f-9a9bf0dc1e30",
+              "name": "new_token",
+              "value": "={{ $json[\"E-Mail\"] + '-' + Date.now() + '-' + Math.random().toString(36).substring(2, 24) }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        440,
+        -20
+      ],
+      "id": "79cd22b0-8a03-41a8-9385-828478b41a91",
+      "name": "Edit Fields (create new_token)"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Switch (0:unbestätigt | 1:abgemeldet)').item.json['E-Mail'] }}",
+        "subject": "=Bitte bestätige deine E-Mail-Adresse für die E-Mailkommunikation mit mir",
+        "emailType": "text",
+        "message": "=Hallo {{ $('Notion Trigger (Neuer Datensatz)').item.json.Name }},\n\nbitte bestätige deine Anmeldung mit einem Klick auf folgenden Link:\n\n👉 https://limitbreak-ventures.app.n8n.cloud/webhook/f95a9617-1ac3-4f79-9fcb-ab8f8aa78cb9?token={{ $json.new_token }}\n\nWenn du dich nicht angemeldet hast, kannst du diese E-Mail ignorieren.\n\nViele Grüße\nSebastian Lothary",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        660,
+        -20
+      ],
+      "id": "4a153ad8-09fb-4d46-940d-f3cf8fafda35",
+      "name": "Gmail",
+      "webhookId": "9df9d3e7-74b5-43c7-a578-b915bb6da2d3",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "4RsXJXAxPePCgFVK",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "webhook",
+        "content": "=❌ Neue Abmeldung (E-Mail): {{ $json['E-Mail'] }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        1180,
+        160
+      ],
+      "id": "21118b02-5ecc-4e40-8afc-e178f92f67fe",
+      "name": "Discord (Abmeldung)",
+      "webhookId": "068f7ad1-81b0-4e7e-8250-78201592975d",
+      "credentials": {
+        "discordWebhookApi": {
+          "id": "CT60mEyq0TvBB1g8",
+          "name": "Discord Webhook account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "webhook",
+        "content": "=✅ Neue Anmeldung (E-Mail): {{ $json['E-Mail'] }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        1920,
+        80
+      ],
+      "id": "3a1ebad0-3ebb-4f6d-b50d-69ac65089e29",
+      "name": "Discord (Anmeldung)",
+      "webhookId": "068f7ad1-81b0-4e7e-8250-78201592975d",
+      "credentials": {
+        "discordWebhookApi": {
+          "id": "CT60mEyq0TvBB1g8",
+          "name": "Discord Webhook account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "1ceab5af-d8fd-80df-88c7-f99a2ff9cf82",
+          "mode": "list",
+          "cachedResultName": "SLEmailverteiler",
+          "cachedResultUrl": "https://www.notion.so/1ceab5afd8fd80df88c7f99a2ff9cf82"
+        },
+        "filterType": "manual",
+        "filters": {
+          "conditions": [
+            {
+              "key": "E-Mail|email",
+              "condition": "equals",
+              "emailValue": "={{ $json['E-Mail'] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        420,
+        260
+      ],
+      "id": "6b21516c-e6a1-4825-b999-331040feba9c",
+      "name": "Notion",
+      "credentials": {
+        "notionApi": {
+          "id": "yDYyBY9jyV4cRvEx",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "batchSize": 10,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        640,
+        260
+      ],
+      "id": "2d966cb7-428f-4722-9f5e-2952662841bb",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "operation": "archive",
+        "pageId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        }
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        920,
+        320
+      ],
+      "id": "abbd049f-520c-4dc9-970b-b2b7007d3a0e",
+      "name": "Notion1",
+      "credentials": {
+        "notionApi": {
+          "id": "yDYyBY9jyV4cRvEx",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "path": "f95a9617-1ac3-4f79-9fcb-ab8f8aa78cb9",
+        "options": {
+          "responseData": "<!DOCTYPE html><html lang=\"de\" translate=\"yes\"><head><meta charSet=\"utf-8\" data-next-head=\"\"/><title data-next-head=\"\">Anmeldung bestätigt</title><meta name=\"description\" content=\"Erstellt mit Tally - die einfachste Art, Formulare zu erstellen.\" data-next-head=\"\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, minimum-scale=1.0\" data-next-head=\"\"/><meta content=\"noindex,nofollow\" name=\"robots\" data-next-head=\"\"/><link rel=\"shortcut icon\" type=\"image/png\" href=\"https://tally.so/tally-square.png\" data-next-head=\"\"/><link rel=\"alternate icon\" type=\"image/png\" href=\"https://tally.so/favicon.png\" data-next-head=\"\"/><link rel=\"icon\" type=\"image/svg+xml\" href=\"https://tally.so/favicon.svg\" data-next-head=\"\"/><link rel=\"icon\" type=\"image/x-icon\" href=\"https://tally.so/favicon.ico\" data-next-head=\"\"/><meta property=\"og:type\" content=\"website\" data-next-head=\"\"/><meta property=\"og:site_name\" content=\"Tally Forms\" data-next-head=\"\"/><meta property=\"og:url\" content=\"https://tally.so/r/wozrae\" data-next-head=\"\"/><meta name=\"title\" property=\"og:title\" content=\"Anmeldung bestätigt\" data-next-head=\"\"/><meta property=\"og:description\" content=\"Erstellt mit Tally - die einfachste Art, Formulare zu erstellen.\" data-next-head=\"\"/><meta name=\"image\" property=\"og:image\" content=\"https://storage.tally.so/5f5be53d-7cce-436a-810d-a33124abf54c/SL-Youtube-Kanal-Banner.png\" data-next-head=\"\"/><meta name=\"twitter:card\" content=\"summary_large_image\" data-next-head=\"\"/><meta name=\"twitter:site\" content=\"@TallyForms\" data-next-head=\"\"/><meta name=\"twitter:title\" content=\"Anmeldung bestätigt\" data-next-head=\"\"/><meta name=\"twitter:description\" content=\"Erstellt mit Tally - die einfachste Art, Formulare zu erstellen.\" data-next-head=\"\"/><meta name=\"twitter:image\" content=\"https://storage.tally.so/5f5be53d-7cce-436a-810d-a33124abf54c/SL-Youtube-Kanal-Banner.png\" data-next-head=\"\"/><link rel=\"alternate\" type=\"application/json+oembed\" href=\"https://api.tally.so/oembed?url=https%3A%2F%2Ftally.so%2Fr%2Fwozrae&amp;format=json\" title=\"Anmeldung bestätigt\" data-next-head=\"\"/><script nomodule=\"\" data-next-head=\"\">window.location.href = \"https://tally.so/browser-not-supported.html\";</script><link rel=\"preload\" href=\"/_next/static/media/a34f9d1faa5f3315-s.p.woff2\" as=\"font\" type=\"font/woff2\" crossorigin=\"anonymous\" data-next-font=\"size-adjust\"/><link rel=\"preload\" href=\"/_next/static/css/7c1ec716dce595a7.css\" as=\"style\"/><link rel=\"stylesheet\" href=\"/_next/static/css/7c1ec716dce595a7.css\" data-n-g=\"\"/><noscript data-n-css=\"\"></noscript><script defer=\"\" nomodule=\"\" src=\"/_next/static/chunks/polyfills-42372ed130431b0a.js\"></script><script defer=\"\" src=\"/_next/static/chunks/69078.7eb40f18ff722deb.js\"></script><script src=\"/_next/static/chunks/webpack-0f2e102d780c3791.js\" defer=\"\"></script><script src=\"/_next/static/chunks/framework-67315b97d3d83b0b.js\" defer=\"\"></script><script src=\"/_next/static/chunks/main-1458a2c81dd49628.js\" defer=\"\"></script><script src=\"/_next/static/chunks/pages/_app-6d6231062598301b.js\" defer=\"\"></script><script src=\"/_next/static/chunks/47545-5838b900015ef6f3.js\" defer=\"\"></script><script src=\"/_next/static/chunks/5019-94a6dc8522391014.js\" defer=\"\"></script><script src=\"/_next/static/chunks/18473-307538cf986c5d72.js\" defer=\"\"></script><script src=\"/_next/static/chunks/88214-7370e4cf03894079.js\" defer=\"\"></script><script src=\"/_next/static/chunks/61675-a0e8925fd091d96c.js\" defer=\"\"></script><script src=\"/_next/static/chunks/2027-884a095964a2c2df.js\" defer=\"\"></script><script src=\"/_next/static/chunks/41716-d3909b1dc6270a4f.js\" defer=\"\"></script><script src=\"/_next/static/chunks/10069-383530abeaf624b9.js\" defer=\"\"></script><script src=\"/_next/static/chunks/5481-4820c29e08459089.js\" defer=\"\"></script><script src=\"/_next/static/chunks/1152-bc42c97b3e715dd0.js\" defer=\"\"></script><script src=\"/_next/static/chunks/17507-9d1391b1e3453372.js\" defer=\"\"></script><script src=\"/_next/static/chunks/51612-af8fdb26b4c13b12.js\" defer=\"\"></script><script src=\"/_next/static/chunks/70950-65604400fe5caeb7.js\" defer=\"\"></script><script src=\"/_next/static/chunks/11598-a05215b29f9aac9c.js\" defer=\"\"></script><script src=\"/_next/static/chunks/pages/r/%5Bid%5D-584a3a9b05d24089.js\" defer=\"\"></script><script src=\"/_next/static/vwD3S7YwIpoS_dM83Qvtb/_buildManifest.js\" defer=\"\"></script><script src=\"/_next/static/vwD3S7YwIpoS_dM83Qvtb/_ssgManifest.js\" defer=\"\"></script><style data-styled=\"\" data-styled-version=\"5.3.11\">.gUnmsF{-webkit-animation:bqrFYP 1.618s linear infinite;animation:bqrFYP 1.618s linear infinite;-webkit-transform-origin:center;-ms-transform-origin:center;transform-origin:center;-webkit-transform:translateZ(0);-ms-transform:translateZ(0);transform:translateZ(0);width:1.2em;height:1.2em;font-size:inherit;}/*!sc*/ data-styled.g1[id=\"sc-a835d982-0\"]{content:\"gUnmsF,\"}/*!sc*/ .jsQyeo{display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;-webkit-flex-shrink:0;-ms-flex-negative:0;flex-shrink:0;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-webkit-justify-content:center;-ms-flex-pack:center;justify-content:center;vertical-align:middle;-webkit-transition:opacity 100ms ease-in-out,color 100ms ease-in-out;transition:opacity 100ms ease-in-out,color 100ms ease-in-out;font-weight:600;-webkit-transform:translateZ(0);-ms-transform:translateZ(0);transform:translateZ(0);}/*!sc*/ data-styled.g5[id=\"sc-9c67e0aa-2\"]{content:\"jsQyeo,\"}/*!sc*/ .gHiQVI{font-style:normal;}/*!sc*/ .gHiQVI svg{width:1.2em;height:1.2em;}/*!sc*/ data-styled.g6[id=\"sc-9c67e0aa-3\"]{content:\"gHiQVI,\"}/*!sc*/ .eWuroW{position:absolute;right:0;left:0;bottom:0;top:0;gap:0;opacity:0;pointer-events:none;-webkit-transform:translateZ(0);-ms-transform:translateZ(0);transform:translateZ(0);}/*!sc*/ data-styled.g7[id=\"sc-9c67e0aa-4\"]{content:\"eWuroW,\"}/*!sc*/ .dnMLzj{position:relative;cursor:pointer;-webkit-transition:background-color 100ms ease-in-out,border-color 100ms ease-in-out,outline 100ms ease-in-out;transition:background-color 100ms ease-in-out,border-color 100ms ease-in-out,outline 100ms ease-in-out;line-height:1;display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;-webkit-flex-shrink:0;-ms-flex-negative:0;flex-shrink:0;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-webkit-justify-content:center;-ms-flex-pack:center;justify-content:center;text-align:center;vertical-align:middle;-webkit-text-decoration:none;text-decoration:none;overflow:hidden;-webkit-transform:translateZ(0);-ms-transform:translateZ(0);transform:translateZ(0);border:0;outline:none;outline-offset:-1px;height:36px;font-size:15px;border-radius:8px;padding:0 0.9em;gap:0.5em;background:#000000;}/*!sc*/ .dnMLzj:focus,.dnMLzj:focus-visible{outline:4px solid rgba(58,152,255,0.36);}/*!sc*/ .dnMLzj > .sc-9c67e0aa-3:first-of-type:first-child{margin-left:-0.15em;margin-right:-0.1em;}/*!sc*/ .dnMLzj > .sc-9c67e0aa-3:last-of-type:not(:first-child){margin-right:-0.15em;margin-left:-0.1em;}/*!sc*/ .dnMLzj > .sc-9c67e0aa-3:nth-last-child(2):first-child,.dnMLzj > .sc-9c67e0aa-3:nth-child(2):last-child{margin-left:-0.3em;margin-right:-0.3em;}/*!sc*/ .dnMLzj > .sc-9c67e0aa-2{gap:0.5em;}/*!sc*/ .dnMLzj .sc-9c67e0aa-2{color:#FFFFFF;}/*!sc*/ .dnMLzj:hover:not([disabled]){background:#37352F;}/*!sc*/ data-styled.g8[id=\"sc-9c67e0aa-5\"]{content:\"dnMLzj,\"}/*!sc*/ .TvhJa{position:absolute;top:6px;right:-8px;bottom:auto;left:auto;z-index:1;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-webkit-justify-content:center;-ms-flex-pack:center;justify-content:center;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;width:16px;height:16px;min-width:16px;min-height:16px;border-radius:50%;background-color:#f3f3f3;color:#37352F;font-size:14px;font-weight:900;text-align:center;cursor:pointer;}/*!sc*/ .TvhJa > span{position:relative;top:2px;}/*!sc*/ .TvhJa.hidden{visibility:hidden;}/*!sc*/ data-styled.g38[id=\"sc-12f1321e-0\"]{content:\"TvhJa,\"}/*!sc*/ .euOGTw{font-size:2.5rem;font-weight:800;line-height:1.1;padding-bottom:2.5rem;margin:0;}/*!sc*/ @media (max-width:758px){.euOGTw{padding-bottom:2rem;font-size:2rem;}}/*!sc*/ data-styled.g41[id=\"sc-fc189b32-0\"]{content:\"euOGTw,\"}/*!sc*/ .hXQVae{position:relative;display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;padding-top:1.25rem;padding-bottom:0.625rem;}/*!sc*/ .hXQVae.required-indicator-position-fallback .tally-required-indicator{position:relative;left:auto;right:auto;margin-left:5px;}/*!sc*/ .hXQVae.required-indicator-position-fallback h3{padding-right:0px;}/*!sc*/ data-styled.g43[id=\"sc-774657da-1\"]{content:\"hXQVae,\"}/*!sc*/ .klMWPF{margin:0;font-size:1.25rem;font-weight:600;line-height:1.25;padding-right:5px;}/*!sc*/ .klMWPF:empty{padding-right:0px;}/*!sc*/ @media (max-width:758px){.klMWPF{font-size:1.125rem;}}/*!sc*/ data-styled.g46[id=\"sc-774657da-4\"]{content:\"klMWPF,\"}/*!sc*/ .dciMJl{width:100%;height:36px;padding:0 10px;box-shadow:rgba(0,0,0,0.12) 0px 1px 1px 0px,rgba(61,59,53,0.16) 0px 0px 0px 1px,rgba(61,59,53,0.08) 0px 2px 5px 0px;border:0;border-radius:8px;outline:none;background-color:rgba(255,255,255,1);color:#37352F;caret-color:#37352F;}/*!sc*/ @media (hover:hover){.dciMJl:not([disabled]):hover{box-shadow:rgba(0,0,0,0.12) 0px 1px 1px 0px,rgba(61,59,53,0.16) 0px 0px 0px 1px,rgba(61,59,53,0.08) 0px 3px 9px 0px,rgba(61,59,53,0.08) 0px 2px 5px 0px;}}/*!sc*/ .dciMJl:not([disabled]):focus,.dciMJl:not([disabled]):focus-within{box-shadow:rgba(58,152,255,0.36) 0px 0px 0px 4px,rgba(61,59,53,0.16) 0px 0px 0px 1px;}/*!sc*/ .dciMJl::-webkit-input-placeholder{color:#bbbab8;}/*!sc*/ .dciMJl::-moz-placeholder{color:#bbbab8;}/*!sc*/ .dciMJl:-ms-input-placeholder{color:#bbbab8;}/*!sc*/ .dciMJl::placeholder{color:#bbbab8;}/*!sc*/ data-styled.g50[id=\"sc-f3968e05-0\"]{content:\"dciMJl,\"}/*!sc*/ .bLUVpS{width:100%;max-width:700px;margin:0 auto;}/*!sc*/ @media (max-width:758px){.bLUVpS{max-width:500px;max-width:min(700px,calc(100vw - 2 * 25px));}}/*!sc*/ data-styled.g54[id=\"sc-f8c04b13-1\"]{content:\"bLUVpS,\"}/*!sc*/ .cZYtlF{width:100%;max-width:700px;margin:0 auto;}/*!sc*/ @media (max-width:758px){.cZYtlF{max-width:500px;max-width:min(700px,calc(100vw - 2 * 25px));}}/*!sc*/ data-styled.g55[id=\"sc-f8c04b13-2\"]{content:\"cZYtlF,\"}/*!sc*/ .hcaJZt{position:relative;display:inline-block;max-width:320px;width:100%;}/*!sc*/ .hcaJZt .content-editable-block,.hcaJZt input:placeholder-shown{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}/*!sc*/ @media (max-width:758px){.hcaJZt{min-width:100%;}}/*!sc*/ data-styled.g56[id=\"sc-f8c04b13-3\"]{content:\"hcaJZt,\"}/*!sc*/ .fSalok{position:relative;margin-bottom:10px;}/*!sc*/ data-styled.g57[id=\"sc-87b2d468-0\"]{content:\"fSalok,\"}/*!sc*/ .jRJRAl{line-height:1.5;min-height:35px;padding-top:3px;padding-bottom:calc(3px + 5px);}/*!sc*/ data-styled.g63[id=\"sc-6991af84-0\"]{content:\"jRJRAl,\"}/*!sc*/ .jDyIyd{position:relative;display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;padding-top:1.25rem;padding-bottom:0.625rem;}/*!sc*/ .jDyIyd.required-indicator-position-fallback .tally-required-indicator{position:relative;left:auto;right:auto;margin-left:5px;}/*!sc*/ .jDyIyd.required-indicator-position-fallback h3{padding-right:0px;}/*!sc*/ data-styled.g68[id=\"sc-b92ae861-1\"]{content:\"jDyIyd,\"}/*!sc*/ .hgHHuI{margin:0;font-size:1.25rem;font-weight:600;line-height:1.25;padding-right:5px;}/*!sc*/ .hgHHuI:empty{padding-right:0px;}/*!sc*/ @media (max-width:758px){.hgHHuI{font-size:1.125rem;}}/*!sc*/ data-styled.g69[id=\"sc-b92ae861-2\"]{content:\"hgHHuI,\"}/*!sc*/ .dRdHaU{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;height:100%;-webkit-align-items:top;-webkit-box-align:top;-ms-flex-align:top;align-items:top;-webkit-flex:1;-ms-flex:1;flex:1;width:100%;}/*!sc*/ .dRdHaU label{padding-left:10px;line-height:18px;}/*!sc*/ .dRdHaU > svg{color:#888888 !important;margin-left:10px;}/*!sc*/ data-styled.g70[id=\"sc-744bdc94-0\"]{content:\"dRdHaU,\"}/*!sc*/ .hWDkTg{position:relative;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-webkit-justify-content:center;-ms-flex-pack:center;justify-content:center;min-width:18px;min-height:18px;width:18px;height:18px;background-color:rgba(255,255,255,1);box-shadow:rgba(0,0,0,0.12) 0px 1px 1px 0px,rgba(61,59,53,0.16) 0px 0px 0px 1px,rgba(61,59,53,0.08) 0px 2px 5px 0px;border-radius:3px;-webkit-tap-highlight-color:transparent;}/*!sc*/ @media (hover:hover){.hWDkTg:hover{box-shadow:rgba(0,0,0,0.12) 0px 1px 1px 0px,rgba(61,59,53,0.16) 0px 0px 0px 1px,rgba(61,59,53,0.08) 0px 3px 9px 0px,rgba(61,59,53,0.08) 0px 2px 5px 0px;}.hWDkTg:focus-within{box-shadow:rgba(58,152,255,0.36) 0px 0px 0px 4px,rgba(61,59,53,0.16) 0px 0px 0px 1px;}}/*!sc*/ .hWDkTg input{position:absolute;top:-1px;right:-1px;bottom:-1px;left:-1px;-webkit-appearance:checkbox;opacity:0;min-width:20px;min-height:20px;width:20px;height:20px;}/*!sc*/ .hWDkTg svg{color:#000000;}/*!sc*/ data-styled.g71[id=\"sc-744bdc94-1\"]{content:\"hWDkTg,\"}/*!sc*/ .iCdSaC a:not(.unstyled){color:#0070D7;cursor:pointer;border-bottom:1px solid #0070D7;-webkit-text-decoration:none;text-decoration:none;font-weight:500;}/*!sc*/ @media (hover:hover){.iCdSaC a:not(.unstyled):hover{color:#0066d6;border-bottom:1px solid #0066d6;}}/*!sc*/ .iCdSaC span.mention:empty{border-bottom:2px solid #bbbab8;}/*!sc*/ .iCdSaC span.mention:empty:before{content:'                    ';}/*!sc*/ data-styled.g80[id=\"sc-b964c8ef-0\"]{content:\"iCdSaC,\"}/*!sc*/ .eoyvYH{padding:1px 0;white-space:pre-wrap;word-break:break-word;}/*!sc*/ .eoyvYH:empty{padding:0;}/*!sc*/ data-styled.g83[id=\"sc-b964c8ef-3\"]{content:\"eoyvYH,\"}/*!sc*/ .UNCJM{position:relative;z-index:1;}/*!sc*/ data-styled.g84[id=\"sc-6e1c0f56-0\"]{content:\"UNCJM,\"}/*!sc*/ .dnXAYC{display:block;object-fit:cover;object-position:center 50%;width:100%;height:25vh;}/*!sc*/ data-styled.g85[id=\"sc-6e1c0f56-1\"]{content:\"dnXAYC,\"}/*!sc*/ .gRgrOb{position:relative;z-index:2;}/*!sc*/ .gRgrOb img{display:block;width:100px;height:100px;margin-top:-50px;object-fit:cover;border-radius:50%;}/*!sc*/ data-styled.g87[id=\"sc-92b588b6-1\"]{content:\"gRgrOb,\"}/*!sc*/ .tnIKR{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;background:#FFFFFF;direction:ltr;}/*!sc*/ data-styled.g94[id=\"sc-dfa83009-0\"]{content:\"tnIKR,\"}/*!sc*/ .kZQgaX{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;width:100%;height:auto;min-height:100vh;}/*!sc*/ data-styled.g95[id=\"sc-dfa83009-1\"]{content:\"kZQgaX,\"}/*!sc*/ .cqUTaF{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-pack:justify;-webkit-justify-content:space-between;-ms-flex-pack:justify;justify-content:space-between;margin:10px 0;}/*!sc*/ .cqUTaF button:nth-child(2),.cqUTaF .tally-powered{margin-left:10px;}/*!sc*/ .cqUTaF > div{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;min-width:0;}/*!sc*/ data-styled.g99[id=\"sc-817f8b6c-3\"]{content:\"cqUTaF,\"}/*!sc*/ .lhHujF{-webkit-flex:1;-ms-flex:1;flex:1;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;margin-top:150px;margin-bottom:50px;margin-top:50px;}/*!sc*/ .lhHujF progress{position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden;}/*!sc*/ .lhHujF .sc-817f8b6c-2 button{background:none !important;padding:0;}/*!sc*/ @media (hover:hover){.lhHujF .sc-817f8b6c-2 button:hover{background:none !important;}}/*!sc*/ .lhHujF .tally-context-menu{font-family:var(--font-family),sans-serif;}/*!sc*/ .lhHujF.tally-ranking-option-dragging .tally-ranking-option-dropzone{display:block;}/*!sc*/ @media (max-width:758px){.lhHujF{margin-top:50px;}}/*!sc*/ data-styled.g100[id=\"sc-817f8b6c-4\"]{content:\"lhHujF,\"}/*!sc*/ .iftNTH{position:absolute;display:inline-block;max-width:10px;text-indent:100%;white-space:nowrap;overflow:hidden;}/*!sc*/ data-styled.g280[id=\"sc-9fd4d0b5-0\"]{content:\"iftNTH,\"}/*!sc*/ .ffFoMF{position:relative;padding-bottom:10px;}/*!sc*/ data-styled.g281[id=\"sc-9fd4d0b5-1\"]{content:\"ffFoMF,\"}/*!sc*/ .giKoPO{position:relative;display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;min-height:36px;padding:9px 0;}/*!sc*/ .giKoPO label{line-height:1.125;cursor:pointer;}/*!sc*/ .giKoPO > img{max-width:260px;width:100%;margin-top:9px;}/*!sc*/ .giKoPO .tally-required-indicator{position:inherit;display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;margin-left:5px;}/*!sc*/ data-styled.g282[id=\"sc-9fd4d0b5-2\"]{content:\"giKoPO,\"}/*!sc*/ {/*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */}/*!sc*/ html{line-height:1.15;-webkit-text-size-adjust:100%;}/*!sc*/ body{margin:0;}/*!sc*/ main{display:block;}/*!sc*/ h1{font-size:2em;margin:0.67em 0;}/*!sc*/ hr{box-sizing:content-box;height:0;overflow:visible;}/*!sc*/ pre{font-family:monospace,monospace;font-size:1em;}/*!sc*/ a{background-color:transparent;}/*!sc*/ abbr[title]{border-bottom:none;-webkit-text-decoration:underline;text-decoration:underline;-webkit-text-decoration:underline dotted;text-decoration:underline dotted;}/*!sc*/ b,strong{font-weight:bolder;}/*!sc*/ code,kbd,samp{font-family:monospace,monospace;font-size:1em;}/*!sc*/ small{font-size:80%;}/*!sc*/ sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline;}/*!sc*/ sub{bottom:-0.25em;}/*!sc*/ sup{top:-0.5em;}/*!sc*/ img{border-style:none;}/*!sc*/ button,input,optgroup,select,textarea{font-family:inherit;font-size:100%;line-height:1.15;margin:0;}/*!sc*/ button,input{overflow:visible;}/*!sc*/ button,select{text-transform:none;}/*!sc*/ button,[type='button'],[type='reset'],[type='submit']{-webkit-appearance:button;}/*!sc*/ button::-moz-focus-inner,[type='button']::-moz-focus-inner,[type='reset']::-moz-focus-inner,[type='submit']::-moz-focus-inner{border-style:none;padding:0;}/*!sc*/ button:-moz-focusring,[type='button']:-moz-focusring,[type='reset']:-moz-focusring,[type='submit']:-moz-focusring{outline:1px dotted ButtonText;}/*!sc*/ fieldset{padding:0.35em 0.75em 0.625em;}/*!sc*/ legend{box-sizing:border-box;color:inherit;display:table;max-width:100%;padding:0;white-space:normal;}/*!sc*/ progress{vertical-align:baseline;}/*!sc*/ textarea{overflow:auto;}/*!sc*/ [type='checkbox'],[type='radio']{box-sizing:border-box;padding:0;}/*!sc*/ [type='number']::-webkit-inner-spin-button,[type='number']::-webkit-outer-spin-button{height:auto;}/*!sc*/ [type='search']{-webkit-appearance:textfield;outline-offset:-2px;}/*!sc*/ [type='search']::-webkit-search-decoration{-webkit-appearance:none;}/*!sc*/ ::-webkit-file-upload-button{-webkit-appearance:button;font:inherit;}/*!sc*/ details{display:block;}/*!sc*/ summary{display:list-item;}/*!sc*/ template{display:none;}/*!sc*/ [hidden]{display:none;}/*!sc*/ html{box-sizing:border-box;text-rendering:optimizelegibility;-webkit-text-size-adjust:100%;text-size-adjust:100%;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;color:#37352F;font-size:16px;}/*!sc*/ body{--font-family:'Inter','Inter Fallback';font-family:var(--font-family),sans-serif;font-size:16px;}/*!sc*/ *,*:before,*:after{box-sizing:inherit;padding:0;margin:0;}/*!sc*/ [role='button'],input[type='submit'],input[type='reset'],input[type='button'],button{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}/*!sc*/ html,body,[id='__next']{height:100%;width:100%;}/*!sc*/ [id='__next']{height:auto;min-height:100%;}/*!sc*/ input,select,textarea{-webkit-appearance:none;}/*!sc*/ .selecto-selection{border:0 !important;background:#0070D750 !important;}/*!sc*/ data-styled.g922[id=\"sc-global-dwEekr1\"]{content:\"sc-global-dwEekr1,\"}/*!sc*/ @-webkit-keyframes bqrFYP{0%{-webkit-transform:rotate(0deg);-ms-transform:rotate(0deg);transform:rotate(0deg);}100%{-webkit-transform:rotate(360deg);-ms-transform:rotate(360deg);transform:rotate(360deg);}}/*!sc*/ @keyframes bqrFYP{0%{-webkit-transform:rotate(0deg);-ms-transform:rotate(0deg);transform:rotate(0deg);}100%{-webkit-transform:rotate(360deg);-ms-transform:rotate(360deg);transform:rotate(360deg);}}/*!sc*/ data-styled.g924[id=\"sc-keyframes-bqrFYP\"]{content:\"bqrFYP,\"}/*!sc*/ </style></head><body data-iframe-size=\"true\"><div id=\"__next\"><div class=\"sc-dfa83009-0 tnIKR tally-app\"><main class=\"sc-dfa83009-1 kZQgaX\"><div class=\"sc-6e1c0f56-0 UNCJM tally-form-cover\"><img src=\"https://storage.tally.so/5f5be53d-7cce-436a-810d-a33124abf54c/SL-Youtube-Kanal-Banner.png\" alt=\"Form cover\" class=\"sc-6e1c0f56-1 dnXAYC\"/></div><div class=\"sc-f8c04b13-1 sc-92b588b6-1 bLUVpS gRgrOb tally-form-logo\"><img src=\"https://storage.tally.so/47a08540-b79c-4d51-9104-4aea4ea7b03f/pico-engineering-GmbH_Hannover_Lothary-Sebastian_10-09-2024_F029-1-otig-klein.jpg\" alt=\"Form logo\"/></div><section class=\"sc-f8c04b13-2 sc-817f8b6c-4 cZYtlF lhHujF tally-page tally-page-1\"><form><progress max=\"1\" value=\"1\">Seite 1 von 1</progress><div class=\"sc-b964c8ef-0 iCdSaC\"><div class=\"sc-b964c8ef-3 eoyvYH tally-block tally-block-form-title tally-block-91e022b4-cc8a-4b92-a00f-8bea2bfdb5a2\"><h1 class=\"sc-fc189b32-0 euOGTw\">Anmeldung best&auml;tigt</h1></div><div class=\"sc-b964c8ef-3 eoyvYH tally-block tally-block-title tally-block-3fbae406-f84c-44e9-9477-629d6b203d67\"><div class=\"sc-b92ae861-0 iJbXmr\"><div class=\"sc-b92ae861-1 jDyIyd title-content\"><h3 class=\"sc-b92ae861-2 hgHHuI\">Vielen Dank für Deine Zustimmung, mit Dir per E-Mail kommunizieren zu d&uuml;rfen. Ab sofort bekommst Du regelm&auml;&szlig;ig E-Mails von mir.<br><br>Viele Gr&uuml;&szlig;e<br>Sebastian Lothary</h3></div></div></div><div class=\"sc-b964c8ef-3 eoyvYH tally-block tally-block-input-text tally-block-2c46cdd2-7cf2-4f26-8994-6f71e21fafa7\"><div class=\"sc-87b2d468-0 fSalok\"></body></html>",
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "text/html"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -40,
+        580
+      ],
+      "id": "b807a9f4-010f-4421-8b38-e07fb96b0f4a",
+      "name": "Webhook",
+      "webhookId": "f95a9617-1ac3-4f79-9fcb-ab8f8aa78cb9"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-04-09T00:37:39.000Z",
+  "versionId": "6b7e1d81-3e76-4486-afc3-6d402fdf6681"
+}
