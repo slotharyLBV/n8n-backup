@@ -1,5 +1,5 @@
 {
-  "active": false,
+  "active": true,
   "connections": {
     "Notion Trigger (Neuer Datensatz)": {
       "main": [
@@ -23,12 +23,12 @@
         ],
         [
           {
-            "node": "Discord (Abmeldung)",
+            "node": "Discord (Meldung Neue Abmeldung)",
             "type": "main",
             "index": 0
           },
           {
-            "node": "Notion",
+            "node": "Notion (Alle Einträge mit mailaddy lesen)",
             "type": "main",
             "index": 0
           }
@@ -39,18 +39,7 @@
       "main": [
         [
           {
-            "node": "Gmail",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Notion": {
-      "main": [
-        [
-          {
-            "node": "Loop Over Items",
+            "node": "Notion (token u.a. in notion speichern)",
             "type": "main",
             "index": 0
           }
@@ -62,18 +51,100 @@
         [],
         [
           {
-            "node": "Notion1",
+            "node": "Notion (archiviere die Seiten)",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Notion1": {
+    "Notion (token u.a. in notion speichern)": {
+      "main": [
+        [
+          {
+            "node": "Gmail (mail mit token senden)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion (Alle Einträge mit mailaddy lesen)": {
       "main": [
         [
           {
             "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion (archiviere die Seiten)": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook (token geklickt für double-opt-in)": {
+      "main": [
+        [
+          {
+            "node": "Notion (Seite mit token finden)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion (Seite mit token finden)": {
+      "main": [
+        [
+          {
+            "node": "Notion (mail aktivieren)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Discord (Meldung Neue Anmeldung)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion (mail aktivieren)": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields (grenzeInTagen)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion (alle Einträge nicht aktiviert nach ...)": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields (grenzeInTagen)": {
+      "main": [
+        [
+          {
+            "node": "Notion (alle Einträge nicht aktiviert nach ...)",
             "type": "main",
             "index": 0
           }
@@ -108,8 +179,8 @@
       "type": "n8n-nodes-base.notionTrigger",
       "typeVersion": 1,
       "position": [
-        0,
-        -20
+        -740,
+        -80
       ],
       "id": "c2f61ccb-8404-4038-8599-af22bc635238",
       "name": "Notion Trigger (Neuer Datensatz)",
@@ -176,8 +247,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        220,
-        -20
+        -460,
+        -80
       ],
       "id": "ef1d85f2-ddd4-4d92-ab76-edca3b5a137a",
       "name": "Switch (0:unbestätigt | 1:abgemeldet)"
@@ -199,77 +270,89 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        440,
-        -20
+        -160,
+        -80
       ],
       "id": "79cd22b0-8a03-41a8-9385-828478b41a91",
       "name": "Edit Fields (create new_token)"
     },
     {
       "parameters": {
+        "batchSize": 10,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        80,
+        200
+      ],
+      "id": "2d966cb7-428f-4722-9f5e-2952662841bb",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "update",
+        "pageId": {
+          "__rl": true,
+          "value": "={{ $('Switch (0:unbestätigt | 1:abgemeldet)').item.json.id }}",
+          "mode": "id"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "token|rich_text",
+              "textContent": "={{ $json.new_token }}"
+            },
+            {
+              "key": "Notizen|rich_text",
+              "textContent": "Der Benutzer muss nun den Authentifizierungslink in der Mail bestätigen."
+            },
+            {
+              "key": "Letzter Versand|date",
+              "date": "={{ new Date(Date.now() + 0 * 60 * 60 * 1000).toISOString() }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        80,
+        -80
+      ],
+      "id": "ada5633e-7e97-49f1-8117-6e12c6f9943f",
+      "name": "Notion (token u.a. in notion speichern)",
+      "credentials": {
+        "notionApi": {
+          "id": "yDYyBY9jyV4cRvEx",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
         "sendTo": "={{ $('Switch (0:unbestätigt | 1:abgemeldet)').item.json['E-Mail'] }}",
         "subject": "=Bitte bestätige deine E-Mail-Adresse für die E-Mailkommunikation mit mir",
         "emailType": "text",
-        "message": "=Hallo {{ $('Notion Trigger (Neuer Datensatz)').item.json.Name }},\n\nbitte bestätige deine Anmeldung mit einem Klick auf folgenden Link:\n\n👉 https://limitbreak-ventures.app.n8n.cloud/webhook/f95a9617-1ac3-4f79-9fcb-ab8f8aa78cb9?token={{ $json.new_token }}\n\nWenn du dich nicht angemeldet hast, kannst du diese E-Mail ignorieren.\n\nViele Grüße\nSebastian Lothary",
+        "message": "=Hallo {{ $('Notion Trigger (Neuer Datensatz)').item.json.Name }},\n\nbitte bestätige deine Anmeldung mit einem Klick auf folgenden Link:\n\n👉 https://limitbreak-ventures.app.n8n.cloud/webhook/f95a9617-1ac3-4f79-9fcb-ab8f8aa78cb9?token={{ $json.property_token }}\n\nWenn du dich nicht angemeldet hast, kannst du diese E-Mail ignorieren.\n\nViele Grüße\nSebastian Lothary",
         "options": {}
       },
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.1,
       "position": [
-        660,
-        -20
+        280,
+        -80
       ],
       "id": "4a153ad8-09fb-4d46-940d-f3cf8fafda35",
-      "name": "Gmail",
+      "name": "Gmail (mail mit token senden)",
       "webhookId": "9df9d3e7-74b5-43c7-a578-b915bb6da2d3",
       "credentials": {
         "gmailOAuth2": {
           "id": "4RsXJXAxPePCgFVK",
           "name": "Gmail account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "authentication": "webhook",
-        "content": "=❌ Neue Abmeldung (E-Mail): {{ $json['E-Mail'] }}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.discord",
-      "typeVersion": 2,
-      "position": [
-        1180,
-        160
-      ],
-      "id": "21118b02-5ecc-4e40-8afc-e178f92f67fe",
-      "name": "Discord (Abmeldung)",
-      "webhookId": "068f7ad1-81b0-4e7e-8250-78201592975d",
-      "credentials": {
-        "discordWebhookApi": {
-          "id": "CT60mEyq0TvBB1g8",
-          "name": "Discord Webhook account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "authentication": "webhook",
-        "content": "=✅ Neue Anmeldung (E-Mail): {{ $json['E-Mail'] }}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.discord",
-      "typeVersion": 2,
-      "position": [
-        1920,
-        80
-      ],
-      "id": "3a1ebad0-3ebb-4f6d-b50d-69ac65089e29",
-      "name": "Discord (Anmeldung)",
-      "webhookId": "068f7ad1-81b0-4e7e-8250-78201592975d",
-      "credentials": {
-        "discordWebhookApi": {
-          "id": "CT60mEyq0TvBB1g8",
-          "name": "Discord Webhook account"
         }
       }
     },
@@ -299,31 +382,17 @@
       "type": "n8n-nodes-base.notion",
       "typeVersion": 2.2,
       "position": [
-        420,
-        260
+        -520,
+        200
       ],
       "id": "6b21516c-e6a1-4825-b999-331040feba9c",
-      "name": "Notion",
+      "name": "Notion (Alle Einträge mit mailaddy lesen)",
       "credentials": {
         "notionApi": {
           "id": "yDYyBY9jyV4cRvEx",
           "name": "Notion account"
         }
       }
-    },
-    {
-      "parameters": {
-        "batchSize": 10,
-        "options": {}
-      },
-      "type": "n8n-nodes-base.splitInBatches",
-      "typeVersion": 3,
-      "position": [
-        640,
-        260
-      ],
-      "id": "2d966cb7-428f-4722-9f5e-2952662841bb",
-      "name": "Loop Over Items"
     },
     {
       "parameters": {
@@ -337,11 +406,11 @@
       "type": "n8n-nodes-base.notion",
       "typeVersion": 2.2,
       "position": [
-        920,
-        320
+        300,
+        200
       ],
       "id": "abbd049f-520c-4dc9-970b-b2b7007d3a0e",
-      "name": "Notion1",
+      "name": "Notion (archiviere die Seiten)",
       "credentials": {
         "notionApi": {
           "id": "yDYyBY9jyV4cRvEx",
@@ -367,21 +436,325 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        -40,
-        580
+        -780,
+        540
       ],
       "id": "b807a9f4-010f-4421-8b38-e07fb96b0f4a",
-      "name": "Webhook",
+      "name": "Webhook (token geklickt für double-opt-in)",
       "webhookId": "f95a9617-1ac3-4f79-9fcb-ab8f8aa78cb9"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "1ceab5af-d8fd-80df-88c7-f99a2ff9cf82",
+          "mode": "list",
+          "cachedResultName": "SLEmailverteiler",
+          "cachedResultUrl": "https://www.notion.so/1ceab5afd8fd80df88c7f99a2ff9cf82"
+        },
+        "filterType": "manual",
+        "filters": {
+          "conditions": [
+            {
+              "key": "token|rich_text",
+              "condition": "equals",
+              "richTextValue": "={{ $json.query.token }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        -520,
+        520
+      ],
+      "id": "96aba6c1-9498-4cb8-90a4-66aef8906951",
+      "name": "Notion (Seite mit token finden)",
+      "credentials": {
+        "notionApi": {
+          "id": "yDYyBY9jyV4cRvEx",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "update",
+        "pageId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Opt-In bestätigt|checkbox",
+              "checkboxValue": true
+            },
+            {
+              "key": "Status|select",
+              "selectValue": "aktiv"
+            },
+            {
+              "key": "token|rich_text"
+            },
+            {
+              "key": "Notizen|rich_text",
+              "textContent": "=Der Benutzer hat am {{ new Date().toLocaleDateString(\"de-DE\") }} auf den Registrierungslink geklickt."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        -300,
+        520
+      ],
+      "id": "691616ab-232d-41a6-9143-0b73b2005dc5",
+      "name": "Notion (mail aktivieren)",
+      "credentials": {
+        "notionApi": {
+          "id": "yDYyBY9jyV4cRvEx",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "1ceab5af-d8fd-80df-88c7-f99a2ff9cf82",
+          "mode": "list",
+          "cachedResultName": "SLEmailverteiler",
+          "cachedResultUrl": "https://www.notion.so/1ceab5afd8fd80df88c7f99a2ff9cf82"
+        },
+        "filterType": "manual",
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "key": "Status|select",
+              "condition": "equals",
+              "selectValue": "unbestätigt"
+            },
+            {
+              "key": "token|rich_text",
+              "condition": "does_not_equal"
+            },
+            {
+              "key": "Opt-In bestätigt|checkbox",
+              "condition": "equals"
+            },
+            {
+              "key": "Letzter Versand|date",
+              "condition": "=before",
+              "date": "={{ new Date(Date.now() - 1000 * 60 * 60 * 24 * $json.grenzeInTagen + 1000 * 60 * 60 * 2).toISOString() }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        200,
+        500
+      ],
+      "id": "cf2b4b12-85ab-4fd7-9435-15a78a93d26c",
+      "name": "Notion (alle Einträge nicht aktiviert nach ...)",
+      "credentials": {
+        "notionApi": {
+          "id": "yDYyBY9jyV4cRvEx",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0a2a5513-e1ce-4a82-8cea-1d5be7f3b2d7",
+              "name": "grenzeInTagen",
+              "value": "14",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -100,
+        520
+      ],
+      "id": "e8c5fd84-dcf8-48b0-b267-4fbe7e251e87",
+      "name": "Edit Fields (grenzeInTagen)"
+    },
+    {
+      "parameters": {
+        "authentication": "webhook",
+        "content": "=❌ Neue Abmeldung (E-Mail): {{ $json['E-Mail'] }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        560,
+        -60
+      ],
+      "id": "21118b02-5ecc-4e40-8afc-e178f92f67fe",
+      "name": "Discord (Meldung Neue Abmeldung)",
+      "webhookId": "068f7ad1-81b0-4e7e-8250-78201592975d",
+      "credentials": {
+        "discordWebhookApi": {
+          "id": "CT60mEyq0TvBB1g8",
+          "name": "Discord Webhook account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "webhook",
+        "content": "=✅ Neue Anmeldung (E-Mail): {{ $json.name }}, {{ $json.property_e_mail }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        560,
+        380
+      ],
+      "id": "3a1ebad0-3ebb-4f6d-b50d-69ac65089e29",
+      "name": "Discord (Meldung Neue Anmeldung)",
+      "webhookId": "068f7ad1-81b0-4e7e-8250-78201592975d",
+      "credentials": {
+        "discordWebhookApi": {
+          "id": "CT60mEyq0TvBB1g8",
+          "name": "Discord Webhook account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Double-opt-in für E-Mailverteiler\nDie neue Page wird auf Status überprüft.",
+        "height": 300,
+        "width": 600,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -900,
+        -200
+      ],
+      "id": "6186f3c7-7f8c-4b01-99d4-cad62a18c09a",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Neue Anmeldung\nStatus 0: unbestätigt\nToken erstellen, speichern und per GMail mit Aktivierungslink zum webhook senden",
+        "height": 300,
+        "width": 780,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -300,
+        -200
+      ],
+      "id": "519dcdcb-9d0f-45cb-9ab2-37f626efcc69",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Info\nNachrichten an den Discord Channel\n#mailregister",
+        "height": 900,
+        "width": 300,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        480,
+        -200
+      ],
+      "id": "66c5c7ec-00bb-4bc1-8a8a-31beb7dbfc5f",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## Neue Abmeldung\nStatus 1: abgemeldet\nAnhand der E-Mailadresse beide Einträge\n(Anmeldung/Abmeldung) suchen und dann\nalle Pages löschen.",
+        "height": 300,
+        "width": 600,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -900,
+        100
+      ],
+      "id": "0066da5b-3e49-4ee1-91df-ff477cdda1a4",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "## Pages archivieren (löschen)\nAlle Pages die gefunden wurden, werden archiviert.\nEs muss durch alle Einträge gelooped werden.",
+        "height": 300,
+        "width": 780,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -300,
+        100
+      ],
+      "id": "03b93429-6420-4a4d-9ce7-9795ce0546da",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "## Aktivierungslink aus der Gmail geklickt\nSeite mit token finden,\nMail in Notion aktivieren,\nnach x Tagen (grenzeInTagen)\nalle nicht aktivierten E-Mails löschen.",
+        "height": 300,
+        "width": 1380
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -900,
+        400
+      ],
+      "id": "57b08990-c3e7-495e-ae87-e3efd1c6304e",
+      "name": "Sticky Note5"
     }
   ],
   "pinData": {},
   "settings": {
     "executionOrder": "v1"
   },
-  "staticData": null,
+  "staticData": {
+    "node:Notion Trigger (Neuer Datensatz)": {
+      "lastTimeChecked": "2025-04-09T02:00:00.000Z",
+      "possibleDuplicates": [
+        "1d0ab5af-d8fd-815e-9ec4-c5bd639216f9"
+      ]
+    }
+  },
   "tags": [],
-  "triggerCount": 0,
-  "updatedAt": "2025-04-09T00:37:39.000Z",
-  "versionId": "6b7e1d81-3e76-4486-afc3-6d402fdf6681"
+  "triggerCount": 2,
+  "updatedAt": "2025-04-09T01:59:35.000Z",
+  "versionId": "9dbc2d69-24c2-49a7-861f-0dce979815ee"
 }
