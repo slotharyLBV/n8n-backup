@@ -611,7 +611,7 @@
       "typeVersion": 2,
       "position": [
         560,
-        -60
+        80
       ],
       "id": "21118b02-5ecc-4e40-8afc-e178f92f67fe",
       "name": "Discord (Meldung Neue Abmeldung)",
@@ -747,14 +747,14 @@
   },
   "staticData": {
     "node:Notion Trigger (Neuer Datensatz)": {
-      "lastTimeChecked": "2025-04-09T02:04:00.000Z",
+      "lastTimeChecked": "2025-04-09T07:38:00.000Z",
       "possibleDuplicates": [
-        "1d0ab5af-d8fd-8165-9d2b-c39ac8b1272c"
+        "1d0ab5af-d8fd-8187-929d-d34b59b6e4db"
       ]
     }
   },
   "tags": [],
   "triggerCount": 2,
-  "updatedAt": "2025-04-09T01:59:35.000Z",
-  "versionId": "9dbc2d69-24c2-49a7-861f-0dce979815ee"
+  "updatedAt": "2025-04-09T07:38:02.000Z",
+  "versionId": "02813a59-9690-4476-9bc9-df02d312f7a8"
 }
