@@ -16,7 +16,7 @@
       "main": [
         [
           {
-            "node": "Loop Over alle Kathegorien",
+            "node": "Google Drive",
             "type": "main",
             "index": 0
           }
@@ -72,7 +72,7 @@
       "main": [
         [
           {
-            "node": "Edit Fields (setze erstellte assistantID)",
+            "node": "HTTP Request (create Vector Store)",
             "type": "main",
             "index": 0
           }
@@ -83,7 +83,7 @@
       "main": [
         [
           {
-            "node": "Edit Fields (setze existierende assistantID)",
+            "node": "HTTP Request (get Vector Store)1",
             "type": "main",
             "index": 0
           }
@@ -112,9 +112,9 @@
       "main": [
         [
           {
-            "node": "Merge (assistantID setzen)",
+            "node": "HTTP Request (set Vector Store to Assistant)",
             "type": "main",
-            "index": 1
+            "index": 0
           }
         ]
       ]
@@ -124,6 +124,50 @@
         [
           {
             "node": "OpenAI2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request (create Vector Store)": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields (setze erstellte assistantID)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request (get Vector Store)1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields (setze existierende assistantID)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request (set Vector Store to Assistant)": {
+      "main": [
+        [
+          {
+            "node": "Merge (assistantID setzen)",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Google Drive": {
+      "main": [
+        [
+          {
+            "node": "If (Assistent exist)",
             "type": "main",
             "index": 0
           }
@@ -164,8 +208,8 @@
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 1.8,
       "position": [
-        1660,
-        60
+        2060,
+        140
       ],
       "id": "631d6812-357e-43c7-85ab-fd76e3eed882",
       "name": "OpenAI2",
@@ -174,7 +218,8 @@
           "id": "xSvlcZNPoASPwcvk",
           "name": "OpenAi account"
         }
-      }
+      },
+      "disabled": true
     },
     {
       "parameters": {
@@ -195,7 +240,13 @@
             {
               "id": "4a7bf95b-7eb5-4410-8b39-b5e51d9db1b3",
               "name": "CCP_assistentPrefix",
-              "value": "CCP_brainstormer_",
+              "value": "CCP_brainstormer_assistant_",
+              "type": "string"
+            },
+            {
+              "id": "53571b92-d787-4c70-9d89-bca650a2f05b",
+              "name": "CCP_assistentVectorStorePrefix",
+              "value": "CCP_brainstormer_assistant_VectorStore_",
               "type": "string"
             }
           ]
@@ -370,6 +421,12 @@
               "name": "assistantID",
               "value": "={{ $('OpenAI (Liste Assistenten lesen)').item.json.id }}",
               "type": "string"
+            },
+            {
+              "id": "00c99075-0c71-49dc-b85d-9a9e3edac5c5",
+              "name": "vectorStoreID",
+              "value": "={{ $json.tool_resources.file_search.vector_store_ids[0] }}",
+              "type": "string"
             }
           ]
         },
@@ -378,8 +435,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1140,
-        -200
+        1480,
+        -180
       ],
       "id": "bd44254f-4de0-467a-9393-96006ec3da2b",
       "name": "Edit Fields (setze existierende assistantID)"
@@ -393,6 +450,12 @@
               "name": "assistantID",
               "value": "={{ $json.id }}",
               "type": "string"
+            },
+            {
+              "id": "fb998290-376a-4388-bf87-40fef2a0fac0",
+              "name": "vectorStoreID",
+              "value": "={{ $json.id }}",
+              "type": "string"
             }
           ]
         },
@@ -401,8 +464,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1140,
-        -20
+        1500,
+        80
       ],
       "id": "f9094f8e-62ce-4f4a-9d62-05349a5bbb91",
       "name": "Edit Fields (setze erstellte assistantID)"
@@ -412,11 +475,137 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.1,
       "position": [
-        1420,
-        -160
+        2000,
+        -120
       ],
       "id": "7fa6c8bf-792a-4a9e-95c7-d48433c0f6c5",
       "name": "Merge (assistantID setzen)"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/vector_stores",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"name\": \"{{ $('Variablen setzen').item.json.CCP_assistentVectorStorePrefix + $('Notion (ziehe alle Kategorien die aktiv sind)').item.json.property_assistant_expert_name}}\",\n  \"expires_after\": {\n    \"anchor\": \"last_active_at\",\n    \"days\": 365\n  },\n  \"metadata\": {\n    \"category\": \"{{ $('Notion (ziehe alle Kategorien die aktiv sind)').item.json.property_name }}\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1200,
+        120
+      ],
+      "id": "1c3ecab3-58de-430f-b94f-0f0b07b992eb",
+      "name": "HTTP Request (create Vector Store)",
+      "credentials": {
+        "openAiApi": {
+          "id": "xSvlcZNPoASPwcvk",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://api.openai.com/v1/assistants/{{ $('OpenAI (Liste Assistenten lesen)').item.json.id }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "OpenAI-Beta",
+              "value": "assistants=v2"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1220,
+        -180
+      ],
+      "id": "5d1adf62-8ed4-4563-9dae-5d7933226a21",
+      "name": "HTTP Request (get Vector Store)1",
+      "credentials": {
+        "openAiApi": {
+          "id": "xSvlcZNPoASPwcvk",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.openai.com/v1/assistants/{{ $('OpenAI (erstelle Assisten)').item.json.id }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "OpenAI-Beta",
+              "value": "assistants=v2"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"tool_resources\": {\n    \"file_search\": {\n      \"vector_store_ids\": [\"{{ $json.vectorStoreID }}\"]\n    }\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1800,
+        60
+      ],
+      "id": "6fc4605f-036f-44db-a4f3-e6d20d04f31b",
+      "name": "HTTP Request (set Vector Store to Assistant)",
+      "credentials": {
+        "openAiApi": {
+          "id": "xSvlcZNPoASPwcvk",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "createFromText",
+        "content": "lol",
+        "name": "aa.txt",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1zfN4t1S-slTriYVCtHU0b1EdqkOol6O3",
+          "mode": "list",
+          "cachedResultName": "08 Vector Store Data (Raw Ideas Backup)",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1zfN4t1S-slTriYVCtHU0b1EdqkOol6O3"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2460,
+        160
+      ],
+      "id": "fe35504d-fe3c-4896-8a8b-913c2ccbe2bc",
+      "name": "Google Drive",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "CXndfmTP2HOpy9lJ",
+          "name": "Google Drive account"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -426,6 +615,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-04-09T14:07:31.000Z",
-  "versionId": "cd93a3a9-5abb-416d-a268-4fd2d63dd9a7"
+  "updatedAt": "2025-04-10T21:50:54.000Z",
+  "versionId": "595ce367-4163-4575-ac8c-b337473dd1e4"
 }
