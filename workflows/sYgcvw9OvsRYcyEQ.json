@@ -178,7 +178,7 @@
       "main": [
         [
           {
-            "node": "Loop Over alle Kathegorien",
+            "node": "Code",
             "type": "main",
             "index": 0
           }
@@ -223,6 +223,46 @@
         [
           {
             "node": "OpenAI (Hole Ideen)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Loop Over alle Kathegorien",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Notion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
             "type": "main",
             "index": 0
           }
@@ -769,6 +809,98 @@
       "id": "2f66d2c5-1249-45f9-b883-5b8923afc337",
       "name": "Merge (assistantID und vectorID)",
       "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "jsCode": "const jsonString = $('OpenAI (Hole Ideen)').first().json.output;\nconst ideas = JSON.parse(jsonString);\nconst category = $('Notion (ziehe alle Kategorien die aktiv sind)').item.json.name; // ← oder wie das Feld genau bei dir heißt\n\nreturn ideas.map(idea => ({\n  json: {\n    Titel: idea.title,\n    Beschreibung: idea.description,\n    Relevanz: idea.relevance,\n    Problem: idea.problemSolved,\n    InScope: idea.inScope,\n    OutOfScope: idea.outOfScope,\n    Keywords: idea.keywords.join(\", \"),\n    Status: \"Raw Idea\",\n    Kategorie: $('Notion (ziehe alle Kategorien die aktiv sind)').item.id\n  }\n}));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3940,
+        120
+      ],
+      "id": "281c2858-e3c0-42b0-8c7f-2bb8eb1707c1",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        4160,
+        120
+      ],
+      "id": "7ce70da9-52b9-43dd-9eac-667b4ad4f57e",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "1ceab5af-d8fd-80e6-9004-c0667d1a0204",
+          "mode": "list",
+          "cachedResultName": "SLContent",
+          "cachedResultUrl": "https://www.notion.so/1ceab5afd8fd80e69004c0667d1a0204"
+        },
+        "title": "={{ $json.title }}",
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Description|rich_text",
+              "textContent": "={{ $json.description }}"
+            },
+            {
+              "key": "Relevance|rich_text",
+              "textContent": "={{ $json.relevance }}"
+            },
+            {
+              "key": "Problem|rich_text",
+              "textContent": "={{ $json.problemSolved }}"
+            },
+            {
+              "key": "In-Scope|rich_text",
+              "textContent": "={{ $json.inScope }}"
+            },
+            {
+              "key": "Out-Of-Scope|rich_text",
+              "textContent": "={{ $json.outOfScope }}"
+            },
+            {
+              "key": "Keywords|rich_text",
+              "textContent": "={{ $json.keywords }}"
+            },
+            {
+              "key": "Status|status",
+              "statusValue": "Raw Idea"
+            },
+            {
+              "key": "Category|relation",
+              "relationValue": [
+                "={{ $json.Kategorie }}"
+              ]
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        4420,
+        180
+      ],
+      "id": "9feb800f-12a7-4f8b-b747-de8bd307f103",
+      "name": "Notion",
+      "credentials": {
+        "notionApi": {
+          "id": "yDYyBY9jyV4cRvEx",
+          "name": "Notion account"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -778,6 +910,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-04-11T00:34:47.000Z",
-  "versionId": "88c61200-b0d0-48fe-9796-41c7f8e58535"
+  "updatedAt": "2025-04-11T09:57:49.000Z",
+  "versionId": "76840b6e-cc4f-454e-9453-a6d851938331"
 }
