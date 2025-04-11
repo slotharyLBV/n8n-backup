@@ -141,17 +141,6 @@
         ]
       ]
     },
-    "Code (transform JSON String to JSON Array)": {
-      "main": [
-        [
-          {
-            "node": "Edit Fields (Dateiname zusammenbauen)",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "HTTP Request (upload file)": {
       "main": [
         [
@@ -178,9 +167,9 @@
       "main": [
         [
           {
-            "node": "Code (build idea object)",
+            "node": "Merge",
             "type": "main",
-            "index": 0
+            "index": 1
           }
         ]
       ]
@@ -196,22 +185,11 @@
         ]
       ]
     },
-    "Edit Fields (Dateiname zusammenbauen)": {
-      "main": [
-        [
-          {
-            "node": "Code (erstelle aus dem Inhalt eine Binärdatei)",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "OpenAI (Hole Ideen)": {
       "main": [
         [
           {
-            "node": "Code (transform JSON String to JSON Array)",
+            "node": "Edit Fields (save output as array)",
             "type": "main",
             "index": 0
           }
@@ -229,22 +207,11 @@
         ]
       ]
     },
-    "Code (build idea object)": {
-      "main": [
-        [
-          {
-            "node": "Loop Over Items (idea object)",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Loop Over Items (idea object)": {
       "main": [
         [
           {
-            "node": "Loop Over alle Kathegorien",
+            "node": "Merge",
             "type": "main",
             "index": 0
           }
@@ -263,6 +230,55 @@
         [
           {
             "node": "Loop Over Items (idea object)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields (save output as array)": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Code (create Markdown)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Loop Over alle Kathegorien",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items (idea object)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code (create Markdown)": {
+      "main": [
+        [
+          {
+            "node": "Code (erstelle aus dem Inhalt eine Binärdatei)",
             "type": "main",
             "index": 0
           }
@@ -324,7 +340,7 @@
       "typeVersion": 3.4,
       "position": [
         -40,
-        -105
+        -100
       ],
       "id": "943af620-87bb-4174-adcf-4412cae4f6eb",
       "name": "Variablen setzen",
@@ -339,12 +355,13 @@
       "typeVersion": 1.8,
       "position": [
         180,
-        -105
+        -100
       ],
       "id": "f5a7b80a-f35e-48c0-a467-3cca2a078e00",
       "name": "OpenAI (Liste Assistenten lesen)",
-      "executeOnce": true,
+      "executeOnce": false,
       "retryOnFail": true,
+      "alwaysOutputData": true,
       "credentials": {
         "openAiApi": {
           "id": "xSvlcZNPoASPwcvk",
@@ -390,7 +407,7 @@
       "typeVersion": 2.2,
       "position": [
         400,
-        -105
+        -100
       ],
       "id": "8767771f-5664-48b1-b79a-eaba757523e3",
       "name": "Notion (ziehe alle Kategorien die aktiv sind)",
@@ -431,14 +448,14 @@
         },
         "name": "={{ $('Variablen setzen').item.json.CCP_assistentPrefix + $('Notion (ziehe alle Kategorien die aktiv sind)').item.json.property_assistant_expert_name}}",
         "description": "=Idea Brainstorming Assistant für die Kategorie: {{ $json.name }}",
-        "instructions": "=Du bist ein kreativer und strategischer Brainstorming-Assistent. \nDeine Aufgabe ist es, neue, originelle und relevante Content-Ideen für die Kategorie \"{{ $json.name }}\" zu generieren. Die Beschreibung für die Kategorie ist \"{{ $json.property_beschreibung }}\".\n\nZielgruppe: {{ $('Variablen setzen').item.json.CCP_Zielgruppe }}\n\nPrimärer Ausspielungskanal: YouTube  \nContent-Länge: ca. 10 Minuten, maximal jedoch 20 Minuten.  \nSekundäre Kanäle (für spätere Anpassung): TikTok, Instagram, LinkedIn, Podcast-Plattformen\n\nDu hast Zugriff auf externe Wissensquellen (Vektordatenbank). Die Inhalte stammen aus verschiedenen Dateien.  \nVerhalte dich abhängig vom Dateinamen folgendermaßen:\n\n1. Wenn die Datei mit **\"usedIdeas_{{ $('Loop Over alle Kathegorien').item.json.property_assistant_expert_name }}\"** beginnt:\nAlle Ideen in den Dateien, deren Name mit \"usedIdeas_{{ $('Loop Over alle Kathegorien').item.json.property_assistant_expert_name }}\" beginnt, gelten als bereits verwendet.  \nDu darfst KEINE Inhalte generieren, die auch nur im Ansatz diesen ähneln.  \nDas betrifft Wortwahl, Formulierungen, Struktur, Themenkern oder Titelidee.  \nWenn du unsicher bist, ob eine Idee bereits vorhanden war – verzichte auf sie.\n\n2. Wenn die Datei mit **\"inspiration_\"** beginnt:  \n→ Diese Datei enthält Inhalte (z. B. von erfolgreichen YouTube-Kanälen oder Artikeln), die dir zur kreativen Inspiration dienen sollen.  \nDu darfst daraus Ideen ableiten, **aber sie müssen erweitert, angepasst oder neu interpretiert** werden – niemals 1:1 übernommen.\n\nBeziehe dieses Wissen aktiv in deine Überlegungen ein und trenne intern strikt zwischen diesen Quellen.\n\nDenke die Idee primär als Videokonzept für YouTube:\n- Ist das Thema visuell erzählbar?\n- Gibt es starke visuelle Hooks oder Emotionen?\n- Lässt sich daraus eine ansprechende Storyline oder Struktur bauen?\n\nKriterien:\n- Relevanz für die Zielgruppe\n- Potenzial für Engagement\n- Noch nicht behandelte Themen (Vermeide Redundanz)\n- Kreativität, aber realistisch umsetzbar\n\nGeneriere genau **{{ $('Variablen setzen').item.json.CCP_ideaCountPerCategory }}** Ideen pro Anfrage.\n\n🟡 Gib deine Antwort **ausschließlich** im folgenden JSON-Array zurück.  \n⚠️ Keine Kommentare, keine erklärenden Sätze davor oder danach. Nur reines, gültiges JSON.\n\nVerwende exakt diese Struktur:\n\n[\n  {\n    \"title\": \"Beispiel-Idee\",\n    \"description\": \"Kurzbeschreibung der Idee (1–2 Sätze).\",\n    \"relevance\": \"Warum das Thema relevant ist (1 Satz).\",\n    \"problemSolved\": \"Welches Problem wird gelöst (1 Satz).\",\n    \"inScope\": \"Was umfasst das Thema (1 Satz).\",\n    \"outOfScope\": \"Was ist nicht Bestandteil (1 Satz).\",\n    \"keywords\": [\"Begriff1\", \"Begriff2\", \"Begriff3\", \"Begriff4\", \"Begriff5\", \"Begriff6\", \"Begriff7\", \"Begriff8\", \"Begriff9\", \"Begriff10\"]\n  },\n  ...\n]",
+        "instructions": "=Du bist ein kreativer und strategischer Brainstorming-Assistent.  \nDeine Aufgabe ist es, neue, originelle und relevante Content-Ideen für die Kategorie \"{{ $json.name }}\" zu generieren. Die Beschreibung für die Kategorie ist \"{{ $json.property_beschreibung }}\".\n\nZielgruppe: {{ $('Variablen setzen').item.json.CCP_Zielgruppe }}\n\nPrimärer Ausspielungskanal: YouTube  \nContent-Länge: ca. 10 Minuten, maximal jedoch 20 Minuten.  \nSekundäre Kanäle (für spätere Anpassung): TikTok, Instagram, LinkedIn, Podcast-Plattformen\n\nDu hast Zugriff auf externe Wissensquellen (Vektordatenbank). Die Inhalte stammen aus verschiedenen Dateien.  \nVerhalte dich abhängig vom Dateinamen folgendermaßen:\n\n1. Wenn die Datei mit **\"usedIdeas_{{ $('Loop Over alle Kathegorien').item.json.property_assistant_expert_name }}\"** beginnt:  \n→ Diese Inhalte gelten als bereits verwendet.  \nDu darfst **KEINE Inhalte generieren, die diesen auch nur im Ansatz ähneln** (Wortwahl, Formulierungen, Struktur, Themenkern oder Titelidee).  \nWenn du unsicher bist, ob eine Idee bereits vorhanden war – verzichte auf sie.\n\n2. Wenn die Datei mit **\"inspiration_\"** beginnt:  \n→ Diese Inhalte dienen dir zur **kreativen Inspiration** (z. B. YouTube-Videos, Artikel etc.).  \nDu darfst daraus Ideen ableiten, **aber sie müssen erweitert, angepasst oder neu interpretiert** werden – niemals 1:1 übernommen.\n\nBeziehe dieses Wissen aktiv in deine Überlegungen ein und trenne intern strikt zwischen diesen Quellen.\n\n---\n\n### Denke die Idee primär als Videokonzept für YouTube:\n- Ist das Thema visuell erzählbar?\n- Gibt es starke visuelle Hooks oder Emotionen?\n- Lässt sich daraus eine ansprechende Storyline oder Struktur bauen?\n\n---\n\n### Kriterien:\n- Relevanz für die Zielgruppe\n- Potenzial für Engagement\n- Noch nicht behandelte Themen (Vermeide Redundanz)\n- Kreativität, aber realistisch umsetzbar\n\n---\n\n### Generiere exakt **{{ $('Variablen setzen').item.json.CCP_ideaCountPerCategory }}** Ideen pro Anfrage.\n\n---\n\n🟡 **Gib deine Antwort ausschließlich als reines, gültiges JSON-Array zurück.**  \n⚠️ **Keine Kommentare, keine erklärenden Sätze davor oder danach, kein Markdown, kein „output“-Wrapper.**\n\nNutze exakt diese Struktur:\n\n```json\n[\n  {\n    \"title\": \"Beispiel-Idee\",\n    \"description\": \"Kurzbeschreibung der Idee (1–2 Sätze).\",\n    \"relevance\": \"Warum das Thema relevant ist (1 Satz).\",\n    \"problemSolved\": \"Welches Problem wird gelöst (1 Satz).\",\n    \"inScope\": \"Was umfasst das Thema (1 Satz).\",\n    \"outOfScope\": \"Was ist nicht Bestandteil (1 Satz).\",\n    \"keywords\": [\"Begriff1\", \"Begriff2\", \"Begriff3\", \"Begriff4\", \"Begriff5\", \"Begriff6\", \"Begriff7\", \"Begriff8\", \"Begriff9\", \"Begriff10\"]\n  }\n]",
         "knowledgeRetrieval": "={{ false }}",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 1.8,
       "position": [
-        1060,
+        1500,
         -80
       ],
       "id": "4165f68c-8dbf-49ad-9ca7-5ff2c82061d9",
@@ -514,7 +531,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1720,
+        2160,
         -280
       ],
       "id": "bd44254f-4de0-467a-9393-96006ec3da2b",
@@ -549,7 +566,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1720,
+        2160,
         -80
       ],
       "id": "f9094f8e-62ce-4f4a-9d62-05349a5bbb91",
@@ -569,7 +586,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1280,
+        1720,
         -80
       ],
       "id": "1c3ecab3-58de-430f-b94f-0f0b07b992eb",
@@ -601,7 +618,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1500,
+        1940,
         -280
       ],
       "id": "5d1adf62-8ed4-4563-9dae-5d7933226a21",
@@ -637,7 +654,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1500,
+        1940,
         -80
       ],
       "id": "6fc4605f-036f-44db-a4f3-e6d20d04f31b",
@@ -649,21 +666,6 @@
           "name": "OpenAi account"
         }
       }
-    },
-    {
-      "parameters": {
-        "jsCode": "// Hole den JSON-String aus der Antwort des Assistant\nconst ideasRaw = $input.first().json.output;\n\n// Parsen des Strings in ein Array\nlet ideas;\ntry {\n  ideas = JSON.parse(ideasRaw);\n} catch (e) {\n  throw new Error('Fehler beim Parsen von Assistant-Ausgabe: ' + e.message);\n}\n\nconst categoryName = 'agile'; // Du kannst das später auch dynamisch machen\nconst now = new Date();\nconst timestamp = now.toLocaleString('sv-SE', { timeZone: 'Europe/Berlin' }).replace(/[-: ]/g, '').slice(0, 14);\n\nconst textOutput = ideas.map(idea => {\n  return `### ${idea.title}\n\n${idea.description}\n\nRelevanz: ${idea.relevance}  \nProblem gelöst: ${idea.problemSolved}  \nIn Scope: ${idea.inScope}  \nOut of Scope: ${idea.outOfScope}  \nKeywords: ${idea.keywords.join(', ')}\n\n---`;\n}).join('\\n\\n');\n\n// Rückgabe für nächste Nodes (z. B. Google Drive Upload)\nreturn [\n  {\n    json: {\n      text: textOutput,\n      filename: `data_${categoryName}_${timestamp}.txt`\n    }\n  }\n];"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        2536,
-        -180
-      ],
-      "id": "f4978550-0d4a-4043-b1c9-2c5717c6a081",
-      "name": "Code (transform JSON String to JSON Array)",
-      "executeOnce": false,
-      "retryOnFail": true
     },
     {
       "parameters": {
@@ -691,8 +693,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        3196,
-        -180
+        4400,
+        -20
       ],
       "id": "4a23e80f-54ff-44c8-99bd-a881c870d39a",
       "name": "HTTP Request (upload file)",
@@ -718,8 +720,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        3416,
-        -180
+        4620,
+        -20
       ],
       "id": "fb6ab2ac-8b83-4243-a473-e6f983b61691",
       "name": "HTTP Request (injekt file to Vector Store)",
@@ -744,8 +746,8 @@
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 1.8,
       "position": [
-        3640,
-        40
+        4840,
+        -20
       ],
       "id": "5fc177e7-40c5-4a4f-a19f-7b1d220ca7d8",
       "name": "OpenAI (delete file from storage)",
@@ -754,43 +756,21 @@
           "id": "xSvlcZNPoASPwcvk",
           "name": "OpenAi account"
         }
-      }
+      },
+      "disabled": true
     },
     {
       "parameters": {
-        "jsCode": "const content = $('Code (transform JSON String to JSON Array)').first().json.text;\nconst fileName = $input.first().json.fileName;\n\nreturn [\n  {\n    binary: {\n      data: {\n        data: Buffer.from(content, 'utf8').toString('base64'),\n        mimeType: 'text/plain',\n        fileName,\n      },\n    },\n  },\n];"
+        "jsCode": "const content = $input.first().json.text;\nconst fileName = $('Edit Fields (save output as array)').first().json.fileName;\n\nreturn [\n  {\n    binary: {\n      data: {\n        data: Buffer.from(content, 'utf8').toString('base64'),\n        mimeType: 'text/plain',\n        fileName,\n      },\n    },\n  },\n];"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2976,
-        -180
+        3820,
+        -20
       ],
       "id": "c56c8df4-c050-4fa0-bea2-4c5c1274d9bb",
       "name": "Code (erstelle aus dem Inhalt eine Binärdatei)"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "8f794c34-70f1-4f24-9316-457b082c8b03",
-              "name": "fileName",
-              "value": "=usedIdeas_{{ $('Loop Over alle Kathegorien').item.json.property_assistant_expert_name }}_{{ new Date().toLocaleString('sv-SE', { timeZone: 'Europe/Berlin' }).replace(/[- :]/g, '') }}.txt",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        2756,
-        -180
-      ],
-      "id": "f6562a07-326c-4b9f-8dfa-78e48bbdd223",
-      "name": "Edit Fields (Dateiname zusammenbauen)"
     },
     {
       "parameters": {
@@ -807,7 +787,7 @@
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 1.8,
       "position": [
-        2160,
+        2600,
         -180
       ],
       "id": "631d6812-357e-43c7-85ab-fd76e3eed882",
@@ -826,7 +806,7 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.1,
       "position": [
-        1940,
+        2380,
         -180
       ],
       "id": "2f66d2c5-1249-45f9-b883-5b8923afc337",
@@ -835,26 +815,13 @@
     },
     {
       "parameters": {
-        "jsCode": "const jsonString = $('OpenAI (Hole Ideen)').first().json.output;\n\n// 1. Erstes Parsen: von String zu Array mit Escaping\nconst parsedOnce = JSON.parse(jsonString);\n\n// 2. Falls das Ergebnis selbst noch ein String ist → nochmal parsen\nconst ideas = typeof parsedOnce === 'string' ? JSON.parse(parsedOnce) : parsedOnce;\n\n// Debug optional\n// return { debug: ideas };\n\nreturn ideas.map(idea => ({\n  Titel: idea.title,\n  Beschreibung: idea.description,\n  Relevanz: idea.relevance,\n  Problem: idea.problemSolved,\n  InScope: idea.inScope,\n  OutOfScope: idea.outOfScope,\n  Keywords: idea.keywords.join(', '),\n  Status: 'Raw Idea',\n  Kategorie: $('Merge (assistantID und vectorID)').first().json.cathegoryId\n}));"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        3940,
-        120
-      ],
-      "id": "281c2858-e3c0-42b0-8c7f-2bb8eb1707c1",
-      "name": "Code (build idea object)"
-    },
-    {
-      "parameters": {
         "options": {}
       },
       "type": "n8n-nodes-base.splitInBatches",
       "typeVersion": 3,
       "position": [
-        4160,
-        120
+        4600,
+        -560
       ],
       "id": "7ce70da9-52b9-43dd-9eac-667b4ad4f57e",
       "name": "Loop Over Items (idea object)"
@@ -869,41 +836,41 @@
           "cachedResultName": "SLContent",
           "cachedResultUrl": "https://www.notion.so/1ceab5afd8fd80e69004c0667d1a0204"
         },
-        "title": "={{ $json.Titel }}",
+        "title": "={{ $json.title }}",
         "propertiesUi": {
           "propertyValues": [
             {
               "key": "Description|rich_text",
-              "textContent": "={{ $json.Beschreibung }}"
+              "textContent": "={{ $json.description }}"
             },
             {
               "key": "Relevance|rich_text",
-              "textContent": "={{ $json.Relevanz }}"
+              "textContent": "={{ $json.relevance }}"
             },
             {
               "key": "Problem|rich_text",
-              "textContent": "={{ $json.Problem }}"
+              "textContent": "={{ $json.problemSolved }}"
             },
             {
               "key": "In-Scope|rich_text",
-              "textContent": "={{ $json.InScope }}"
+              "textContent": "={{ $json.inScope }}"
             },
             {
               "key": "Out-Of-Scope|rich_text",
-              "textContent": "={{ $json.OutOfScope }}"
+              "textContent": "={{ $json.outOfScope }}"
             },
             {
               "key": "Keywords|rich_text",
-              "textContent": "={{ $json.Keywords }}"
+              "textContent": "={{ $json.keywords?.join(', ') }}"
             },
             {
               "key": "Status|status",
-              "statusValue": "={{ $json.Status }}"
+              "statusValue": "=Raw Idea"
             },
             {
               "key": "Category|relation",
               "relationValue": [
-                "={{ $json.Kategorie }}"
+                "={{ $json.cathegoryId }}"
               ]
             }
           ]
@@ -913,8 +880,8 @@
       "type": "n8n-nodes-base.notion",
       "typeVersion": 2.2,
       "position": [
-        4420,
-        180
+        4740,
+        -300
       ],
       "id": "9feb800f-12a7-4f8b-b747-de8bd307f103",
       "name": "Notion (post ideas to notion)",
@@ -924,6 +891,72 @@
           "name": "Notion account"
         }
       }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7df8f066-70fa-49eb-9dbe-cab2c4803e9b",
+              "name": "outputJason",
+              "value": "={{ JSON.parse($json.output) }}",
+              "type": "string"
+            },
+            {
+              "id": "0d14d25d-2487-4124-91a4-05617e798d98",
+              "name": "fileName",
+              "value": "=usedIdeas_{{ $('Loop Over alle Kathegorien').item.json.property_assistant_expert_name }}_{{ new Date().toLocaleString('sv-SE', { timeZone: 'Europe/Berlin' }).replace(/[- :]/g, '') }}.txt",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2940,
+        -180
+      ],
+      "id": "3c8e7f3c-beac-4c52-9588-9e0b2230bd23",
+      "name": "Edit Fields (save output as array)"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.1,
+      "position": [
+        5180,
+        0
+      ],
+      "id": "9945b82e-dc28-4670-b6c9-0190ee29070b",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $input.first().json.outputJason;\nconst parsed = JSON.parse(raw);\n\n// Kategorie-ID aus vorherigem Merge-Node holen\nconst categoryId = $('Merge (assistantID und vectorID)').first().json.cathegoryId;\n\n// Jedes Item um die Kategorie erweitern\nreturn parsed.map(entry => ({\n  json: {\n    ...entry,\n    cathegoryId: categoryId\n  }\n}));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3740,
+        -240
+      ],
+      "id": "0b2001ed-8916-4f3e-9e9f-f314ad975d7a",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Hole den JSON-String aus der Antwort des Assistant\nconst ideasRaw = $input.first().json.outputJason;\n\n// Parsen des Strings in ein Array\nlet ideas;\ntry {\n  ideas = JSON.parse(ideasRaw);\n} catch (e) {\n  throw new Error('Fehler beim Parsen von Assistant-Ausgabe: ' + e.message);\n}\n\nconst categoryName = 'agile'; // Du kannst das später auch dynamisch machen\nconst now = new Date();\nconst timestamp = now.toLocaleString('sv-SE', { timeZone: 'Europe/Berlin' }).replace(/[-: ]/g, '').slice(0, 14);\n\nconst textOutput = ideas.map(idea => {\n  return `### ${idea.title}\n\n${idea.description}\n\nRelevanz: ${idea.relevance}  \nProblem gelöst: ${idea.problemSolved}  \nIn Scope: ${idea.inScope}  \nOut of Scope: ${idea.outOfScope}  \nKeywords: ${idea.keywords.join(', ')}\n\n---`;\n}).join('\\n\\n');\n\n// Rückgabe für nächste Nodes (z. B. Google Drive Upload)\nreturn [\n  {\n    json: {\n      text: textOutput,\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3280,
+        -40
+      ],
+      "id": "67fe3905-28d0-4acd-b816-0eef40a14fc8",
+      "name": "Code (create Markdown)"
     }
   ],
   "pinData": {},
@@ -933,6 +966,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-04-11T11:36:33.000Z",
-  "versionId": "c0ce87ac-d029-4952-8aa9-97e56b6b7394"
+  "updatedAt": "2025-04-11T13:55:32.000Z",
+  "versionId": "61d0bb27-f19e-416f-a7dc-2cf43911454c"
 }
