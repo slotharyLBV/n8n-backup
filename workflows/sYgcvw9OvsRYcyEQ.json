@@ -178,7 +178,7 @@
       "main": [
         [
           {
-            "node": "Code",
+            "node": "Code (build idea object)",
             "type": "main",
             "index": 0
           }
@@ -229,18 +229,18 @@
         ]
       ]
     },
-    "Code": {
+    "Code (build idea object)": {
       "main": [
         [
           {
-            "node": "Loop Over Items",
+            "node": "Loop Over Items (idea object)",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Loop Over Items": {
+    "Loop Over Items (idea object)": {
       "main": [
         [
           {
@@ -251,18 +251,18 @@
         ],
         [
           {
-            "node": "Notion",
+            "node": "Notion (post ideas to notion)",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Notion": {
+    "Notion (post ideas to notion)": {
       "main": [
         [
           {
-            "node": "Loop Over Items",
+            "node": "Loop Over Items (idea object)",
             "type": "main",
             "index": 0
           }
@@ -344,6 +344,7 @@
       "id": "f5a7b80a-f35e-48c0-a467-3cca2a078e00",
       "name": "OpenAI (Liste Assistenten lesen)",
       "executeOnce": true,
+      "retryOnFail": true,
       "credentials": {
         "openAiApi": {
           "id": "xSvlcZNPoASPwcvk",
@@ -362,7 +363,7 @@
           "cachedResultName": "SLCategory",
           "cachedResultUrl": "https://www.notion.so/1ceab5afd8fd8023aa4fd51a41a44be2"
         },
-        "limit": 1,
+        "limit": 3,
         "filterType": "manual",
         "matchType": "allFilters",
         "filters": {
@@ -404,7 +405,9 @@
     },
     {
       "parameters": {
-        "options": {}
+        "options": {
+          "reset": false
+        }
       },
       "type": "n8n-nodes-base.splitInBatches",
       "typeVersion": 3,
@@ -440,6 +443,7 @@
       ],
       "id": "4165f68c-8dbf-49ad-9ca7-5ff2c82061d9",
       "name": "OpenAI (erstelle Assisten)",
+      "retryOnFail": true,
       "credentials": {
         "openAiApi": {
           "id": "xSvlcZNPoASPwcvk",
@@ -496,6 +500,12 @@
               "name": "vectorStoreID",
               "value": "={{ $json.tool_resources.file_search.vector_store_ids[0] }}",
               "type": "string"
+            },
+            {
+              "id": "512323f2-9db4-4d68-b029-6f8e5f3d5992",
+              "name": "cathegoryId",
+              "value": "={{ $('Loop Over alle Kathegorien').item.json.id }}",
+              "type": "string"
             }
           ]
         },
@@ -524,6 +534,12 @@
               "id": "fb998290-376a-4388-bf87-40fef2a0fac0",
               "name": "vectorStoreID",
               "value": "={{ $json.tool_resources.file_search.vector_store_ids[0] }}",
+              "type": "string"
+            },
+            {
+              "id": "498f22bf-b999-4d28-be5d-b0ea28940ebc",
+              "name": "cathegoryId",
+              "value": "={{ $('Loop Over alle Kathegorien').item.json.id }}",
               "type": "string"
             }
           ]
@@ -558,6 +574,7 @@
       ],
       "id": "1c3ecab3-58de-430f-b94f-0f0b07b992eb",
       "name": "HTTP Request (create Vector Store)",
+      "retryOnFail": true,
       "credentials": {
         "openAiApi": {
           "id": "xSvlcZNPoASPwcvk",
@@ -589,6 +606,7 @@
       ],
       "id": "5d1adf62-8ed4-4563-9dae-5d7933226a21",
       "name": "HTTP Request (get Vector Store)1",
+      "retryOnFail": true,
       "credentials": {
         "openAiApi": {
           "id": "xSvlcZNPoASPwcvk",
@@ -624,6 +642,7 @@
       ],
       "id": "6fc4605f-036f-44db-a4f3-e6d20d04f31b",
       "name": "HTTP Request (set Vector Store to Assistant)",
+      "retryOnFail": true,
       "credentials": {
         "openAiApi": {
           "id": "xSvlcZNPoASPwcvk",
@@ -643,7 +662,8 @@
       ],
       "id": "f4978550-0d4a-4043-b1c9-2c5717c6a081",
       "name": "Code (transform JSON String to JSON Array)",
-      "executeOnce": false
+      "executeOnce": false,
+      "retryOnFail": true
     },
     {
       "parameters": {
@@ -676,6 +696,7 @@
       ],
       "id": "4a23e80f-54ff-44c8-99bd-a881c870d39a",
       "name": "HTTP Request (upload file)",
+      "retryOnFail": true,
       "credentials": {
         "openAiApi": {
           "id": "xSvlcZNPoASPwcvk",
@@ -702,6 +723,7 @@
       ],
       "id": "fb6ab2ac-8b83-4243-a473-e6f983b61691",
       "name": "HTTP Request (injekt file to Vector Store)",
+      "retryOnFail": true,
       "credentials": {
         "openAiApi": {
           "id": "xSvlcZNPoASPwcvk",
@@ -790,7 +812,8 @@
       ],
       "id": "631d6812-357e-43c7-85ab-fd76e3eed882",
       "name": "OpenAI (Hole Ideen)",
-      "executeOnce": true,
+      "executeOnce": false,
+      "retryOnFail": true,
       "credentials": {
         "openAiApi": {
           "id": "xSvlcZNPoASPwcvk",
@@ -812,7 +835,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const jsonString = $('OpenAI (Hole Ideen)').first().json.output;\nconst ideas = JSON.parse(jsonString);\nconst category = $('Notion (ziehe alle Kategorien die aktiv sind)').item.json.name; // ← oder wie das Feld genau bei dir heißt\n\nreturn ideas.map(idea => ({\n  json: {\n    Titel: idea.title,\n    Beschreibung: idea.description,\n    Relevanz: idea.relevance,\n    Problem: idea.problemSolved,\n    InScope: idea.inScope,\n    OutOfScope: idea.outOfScope,\n    Keywords: idea.keywords.join(\", \"),\n    Status: \"Raw Idea\",\n    Kategorie: $('Notion (ziehe alle Kategorien die aktiv sind)').item.id\n  }\n}));"
+        "jsCode": "const jsonString = $('OpenAI (Hole Ideen)').first().json.output;\n\n// 1. Erstes Parsen: von String zu Array mit Escaping\nconst parsedOnce = JSON.parse(jsonString);\n\n// 2. Falls das Ergebnis selbst noch ein String ist → nochmal parsen\nconst ideas = typeof parsedOnce === 'string' ? JSON.parse(parsedOnce) : parsedOnce;\n\n// Debug optional\n// return { debug: ideas };\n\nreturn ideas.map(idea => ({\n  Titel: idea.title,\n  Beschreibung: idea.description,\n  Relevanz: idea.relevance,\n  Problem: idea.problemSolved,\n  InScope: idea.inScope,\n  OutOfScope: idea.outOfScope,\n  Keywords: idea.keywords.join(', '),\n  Status: 'Raw Idea',\n  Kategorie: $('Merge (assistantID und vectorID)').first().json.cathegoryId\n}));"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -821,7 +844,7 @@
         120
       ],
       "id": "281c2858-e3c0-42b0-8c7f-2bb8eb1707c1",
-      "name": "Code"
+      "name": "Code (build idea object)"
     },
     {
       "parameters": {
@@ -834,7 +857,7 @@
         120
       ],
       "id": "7ce70da9-52b9-43dd-9eac-667b4ad4f57e",
-      "name": "Loop Over Items"
+      "name": "Loop Over Items (idea object)"
     },
     {
       "parameters": {
@@ -846,36 +869,36 @@
           "cachedResultName": "SLContent",
           "cachedResultUrl": "https://www.notion.so/1ceab5afd8fd80e69004c0667d1a0204"
         },
-        "title": "={{ $json.title }}",
+        "title": "={{ $json.Titel }}",
         "propertiesUi": {
           "propertyValues": [
             {
               "key": "Description|rich_text",
-              "textContent": "={{ $json.description }}"
+              "textContent": "={{ $json.Beschreibung }}"
             },
             {
               "key": "Relevance|rich_text",
-              "textContent": "={{ $json.relevance }}"
+              "textContent": "={{ $json.Relevanz }}"
             },
             {
               "key": "Problem|rich_text",
-              "textContent": "={{ $json.problemSolved }}"
+              "textContent": "={{ $json.Problem }}"
             },
             {
               "key": "In-Scope|rich_text",
-              "textContent": "={{ $json.inScope }}"
+              "textContent": "={{ $json.InScope }}"
             },
             {
               "key": "Out-Of-Scope|rich_text",
-              "textContent": "={{ $json.outOfScope }}"
+              "textContent": "={{ $json.OutOfScope }}"
             },
             {
               "key": "Keywords|rich_text",
-              "textContent": "={{ $json.keywords }}"
+              "textContent": "={{ $json.Keywords }}"
             },
             {
               "key": "Status|status",
-              "statusValue": "Raw Idea"
+              "statusValue": "={{ $json.Status }}"
             },
             {
               "key": "Category|relation",
@@ -894,7 +917,7 @@
         180
       ],
       "id": "9feb800f-12a7-4f8b-b747-de8bd307f103",
-      "name": "Notion",
+      "name": "Notion (post ideas to notion)",
       "credentials": {
         "notionApi": {
           "id": "yDYyBY9jyV4cRvEx",
@@ -910,6 +933,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-04-11T09:57:49.000Z",
-  "versionId": "76840b6e-cc4f-454e-9453-a6d851938331"
+  "updatedAt": "2025-04-11T11:36:33.000Z",
+  "versionId": "c0ce87ac-d029-4952-8aa9-97e56b6b7394"
 }
