@@ -836,32 +836,32 @@
           "cachedResultName": "SLContent",
           "cachedResultUrl": "https://www.notion.so/1ceab5afd8fd80e69004c0667d1a0204"
         },
-        "title": "={{ $json.title }}",
+        "title": "={{ $json.property_title }}",
         "propertiesUi": {
           "propertyValues": [
             {
               "key": "Description|rich_text",
-              "textContent": "={{ $json.description }}"
+              "textContent": "={{ $json.property_description }}"
             },
             {
               "key": "Relevance|rich_text",
-              "textContent": "={{ $json.relevance }}"
+              "textContent": "={{ $json.property_relevance }}"
             },
             {
               "key": "Problem|rich_text",
-              "textContent": "={{ $json.problemSolved }}"
+              "textContent": "={{ $json.property_problem }}"
             },
             {
               "key": "In-Scope|rich_text",
-              "textContent": "={{ $json.inScope }}"
+              "textContent": "={{ $json.property_in_scope }}"
             },
             {
               "key": "Out-Of-Scope|rich_text",
-              "textContent": "={{ $json.outOfScope }}"
+              "textContent": "={{ $json.property_out_of_scope }}"
             },
             {
               "key": "Keywords|rich_text",
-              "textContent": "={{ $json.keywords?.join(', ') }}"
+              "textContent": "={{ $json.property_keywords }}"
             },
             {
               "key": "Status|status",
@@ -870,7 +870,7 @@
             {
               "key": "Category|relation",
               "relationValue": [
-                "={{ $json.cathegoryId }}"
+                "={{ $json.property_category }}"
               ]
             }
           ]
@@ -907,6 +907,12 @@
               "name": "fileName",
               "value": "=usedIdeas_{{ $('Loop Over alle Kathegorien').item.json.property_assistant_expert_name }}_{{ new Date().toLocaleString('sv-SE', { timeZone: 'Europe/Berlin' }).replace(/[- :]/g, '') }}.txt",
               "type": "string"
+            },
+            {
+              "id": "e55c6a96-c728-444a-adef-80156c68a0ee",
+              "name": "cathegoryId",
+              "value": "={{ $('Merge (assistantID und vectorID)').item.json.cathegoryId }}",
+              "type": "string"
             }
           ]
         },
@@ -934,7 +940,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const raw = $input.first().json.outputJason;\nconst parsed = JSON.parse(raw);\n\n// Kategorie-ID aus vorherigem Merge-Node holen\nconst categoryId = $('Merge (assistantID und vectorID)').first().json.cathegoryId;\n\n// Jedes Item um die Kategorie erweitern\nreturn parsed.map(entry => ({\n  json: {\n    ...entry,\n    cathegoryId: categoryId\n  }\n}));"
+        "jsCode": "const raw = $input.first().json.outputJason;\nconst parsed = JSON.parse(raw);\n\nreturn parsed.map(entry => ({\n  json: {\n    property_title: entry.title,\n    property_description: entry.description,\n    property_relevance: entry.relevance,\n    property_problem: entry.problemSolved,\n    property_in_scope: entry.inScope,\n    property_out_of_scope: entry.outOfScope,\n    property_keywords: Array.isArray(entry.keywords) ? entry.keywords.join(', ') : entry.keywords,\n    property_status: 'Raw Idea',\n    property_category: [$input.first().json.cathegoryId],\n    property_id: '',\n    id: '',\n    name: '',\n    url: '',\n    property_affiliate_verbindung: '',\n    property_quarter: '',\n    property_channel_platforms: '',\n    property_content_folder: '',\n    property_ranking_und_priorisation: '',\n    property_member_publication: '',\n    property_thumbnail: '',\n    property_public_publication: ''\n  }\n}));"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -966,6 +972,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-04-11T13:55:32.000Z",
-  "versionId": "61d0bb27-f19e-416f-a7dc-2cf43911454c"
+  "updatedAt": "2025-04-11T14:47:28.000Z",
+  "versionId": "89e76359-6506-4e86-a624-594f8ef90422"
 }
