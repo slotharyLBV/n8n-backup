@@ -12,17 +12,6 @@
         ]
       ]
     },
-    "OpenAI2": {
-      "main": [
-        [
-          {
-            "node": "Code (transform JSON String to JSON Array)",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Variablen setzen": {
       "main": [
         [
@@ -101,7 +90,7 @@
       "main": [
         [
           {
-            "node": "Merge",
+            "node": "Merge (assistantID und vectorID)",
             "type": "main",
             "index": 0
           }
@@ -112,9 +101,9 @@
       "main": [
         [
           {
-            "node": "HTTP Request (set Vector Store to Assistant)",
+            "node": "Merge (assistantID und vectorID)",
             "type": "main",
-            "index": 0
+            "index": 1
           }
         ]
       ]
@@ -123,7 +112,7 @@
       "main": [
         [
           {
-            "node": "Edit Fields (setze erstellte assistantID)",
+            "node": "HTTP Request (set Vector Store to Assistant)",
             "type": "main",
             "index": 0
           }
@@ -145,9 +134,9 @@
       "main": [
         [
           {
-            "node": "Merge",
+            "node": "Edit Fields (setze erstellte assistantID)",
             "type": "main",
-            "index": 1
+            "index": 0
           }
         ]
       ]
@@ -156,29 +145,7 @@
       "main": [
         [
           {
-            "node": "Edit Fields",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Edit Fields": {
-      "main": [
-        [
-          {
-            "node": "Code",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Code": {
-      "main": [
-        [
-          {
-            "node": "HTTP Request (upload file)",
+            "node": "Edit Fields (Dateiname zusammenbauen)",
             "type": "main",
             "index": 0
           }
@@ -189,6 +156,28 @@
       "main": [
         [
           {
+            "node": "HTTP Request (injekt file to Vector Store)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request (injekt file to Vector Store)": {
+      "main": [
+        [
+          {
+            "node": "OpenAI (delete file from storage)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI (delete file from storage)": {
+      "main": [
+        [
+          {
             "node": "Loop Over alle Kathegorien",
             "type": "main",
             "index": 0
@@ -196,22 +185,44 @@
         ]
       ]
     },
-    "Merge": {
+    "Code (erstelle aus dem Inhalt eine Binärdatei)": {
       "main": [
         [
           {
-            "node": "Code1",
+            "node": "HTTP Request (upload file)",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Code1": {
+    "Edit Fields (Dateiname zusammenbauen)": {
       "main": [
         [
           {
-            "node": "OpenAI2",
+            "node": "Code (erstelle aus dem Inhalt eine Binärdatei)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI (Hole Ideen)": {
+      "main": [
+        [
+          {
+            "node": "Code (transform JSON String to JSON Array)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge (assistantID und vectorID)": {
+      "main": [
+        [
+          {
+            "node": "OpenAI (Hole Ideen)",
             "type": "main",
             "index": 0
           }
@@ -232,38 +243,10 @@
       "typeVersion": 1,
       "position": [
         -260,
-        -280
+        -105
       ],
       "id": "ce3ca2c4-bdca-4b08-a14e-ecdcf3c2b14a",
       "name": "When clicking ‘Test workflow’"
-    },
-    {
-      "parameters": {
-        "resource": "assistant",
-        "assistantId": {
-          "__rl": true,
-          "value": "={{ $json.assistantID }}",
-          "mode": "id"
-        },
-        "prompt": "define",
-        "text": "=Bitte generiere {{ $('Variablen setzen').item.json.CCP_ideaCountPerCategory }} Ideen.",
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.openAi",
-      "typeVersion": 1.8,
-      "position": [
-        2060,
-        160
-      ],
-      "id": "631d6812-357e-43c7-85ab-fd76e3eed882",
-      "name": "OpenAI2",
-      "executeOnce": true,
-      "credentials": {
-        "openAiApi": {
-          "id": "xSvlcZNPoASPwcvk",
-          "name": "OpenAi account"
-        }
-      }
     },
     {
       "parameters": {
@@ -300,8 +283,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -20,
-        -280
+        -40,
+        -105
       ],
       "id": "943af620-87bb-4174-adcf-4412cae4f6eb",
       "name": "Variablen setzen",
@@ -315,8 +298,8 @@
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 1.8,
       "position": [
-        220,
-        -280
+        180,
+        -105
       ],
       "id": "f5a7b80a-f35e-48c0-a467-3cca2a078e00",
       "name": "OpenAI (Liste Assistenten lesen)",
@@ -365,8 +348,8 @@
       "type": "n8n-nodes-base.notion",
       "typeVersion": 2.2,
       "position": [
-        440,
-        -280
+        400,
+        -105
       ],
       "id": "8767771f-5664-48b1-b79a-eaba757523e3",
       "name": "Notion (ziehe alle Kategorien die aktiv sind)",
@@ -386,8 +369,8 @@
       "type": "n8n-nodes-base.splitInBatches",
       "typeVersion": 3,
       "position": [
-        680,
-        -280
+        620,
+        -105
       ],
       "id": "76036b97-d59e-494e-9b4f-f5fa2742a93a",
       "name": "Loop Over alle Kathegorien",
@@ -412,8 +395,8 @@
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 1.8,
       "position": [
-        920,
-        60
+        1060,
+        -80
       ],
       "id": "4165f68c-8dbf-49ad-9ca7-5ff2c82061d9",
       "name": "OpenAI (erstelle Assisten)",
@@ -452,8 +435,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        880,
-        -160
+        840,
+        -180
       ],
       "id": "b756d3af-22f6-4825-b3a2-6506075b3dbc",
       "name": "If (Assistent exist)"
@@ -481,8 +464,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1480,
-        -180
+        1720,
+        -280
       ],
       "id": "bd44254f-4de0-467a-9393-96006ec3da2b",
       "name": "Edit Fields (setze existierende assistantID)"
@@ -500,7 +483,7 @@
             {
               "id": "fb998290-376a-4388-bf87-40fef2a0fac0",
               "name": "vectorStoreID",
-              "value": "={{ $json.id }}",
+              "value": "={{ $json.tool_resources.file_search.vector_store_ids[0] }}",
               "type": "string"
             }
           ]
@@ -510,8 +493,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1500,
-        80
+        1720,
+        -80
       ],
       "id": "f9094f8e-62ce-4f4a-9d62-05349a5bbb91",
       "name": "Edit Fields (setze erstellte assistantID)"
@@ -530,8 +513,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1200,
-        120
+        1280,
+        -80
       ],
       "id": "1c3ecab3-58de-430f-b94f-0f0b07b992eb",
       "name": "HTTP Request (create Vector Store)",
@@ -561,8 +544,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1220,
-        -180
+        1500,
+        -280
       ],
       "id": "5d1adf62-8ed4-4563-9dae-5d7933226a21",
       "name": "HTTP Request (get Vector Store)1",
@@ -590,14 +573,14 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"tool_resources\": {\n    \"file_search\": {\n      \"vector_store_ids\": [\"{{ $json.vectorStoreID }}\"]\n    }\n  }\n}",
+        "jsonBody": "={\n  \"tool_resources\": {\n    \"file_search\": {\n      \"vector_store_ids\": [\"{{ $json.id }}\"]\n    }\n  }\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1800,
-        60
+        1500,
+        -80
       ],
       "id": "6fc4605f-036f-44db-a4f3-e6d20d04f31b",
       "name": "HTTP Request (set Vector Store to Assistant)",
@@ -615,48 +598,12 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2380,
-        160
+        2536,
+        -180
       ],
       "id": "f4978550-0d4a-4043-b1c9-2c5717c6a081",
       "name": "Code (transform JSON String to JSON Array)",
       "executeOnce": false
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "8f794c34-70f1-4f24-9316-457b082c8b03",
-              "name": "fileName",
-              "value": "=usedIdeas_{{ $('Loop Over alle Kathegorien').item.json.property_assistant_expert_name }}_{{ new Date().toLocaleString('sv-SE', { timeZone: 'Europe/Berlin' }).replace(/[- :]/g, '') }}.txt",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        2600,
-        160
-      ],
-      "id": "f6562a07-326c-4b9f-8dfa-78e48bbdd223",
-      "name": "Edit Fields"
-    },
-    {
-      "parameters": {
-        "jsCode": "const content = $('Code (transform JSON String to JSON Array)').first().json.text;\nconst fileName = $input.first().json.fileName;\n\nreturn [\n  {\n    binary: {\n      data: {\n        data: Buffer.from(content, 'utf8').toString('base64'),\n        mimeType: 'text/plain',\n        fileName,\n      },\n    },\n  },\n];"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        2760,
-        160
-      ],
-      "id": "c56c8df4-c050-4fa0-bea2-4c5c1274d9bb",
-      "name": "Code"
     },
     {
       "parameters": {
@@ -684,11 +631,126 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        2920,
-        160
+        3196,
+        -180
       ],
       "id": "4a23e80f-54ff-44c8-99bd-a881c870d39a",
       "name": "HTTP Request (upload file)",
+      "credentials": {
+        "openAiApi": {
+          "id": "xSvlcZNPoASPwcvk",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.openai.com/v1/vector_stores/{{ $('Merge (assistantID und vectorID)').item.json.vectorStoreID }}/files",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"file_id\": \"{{ $json.id }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3416,
+        -180
+      ],
+      "id": "fb6ab2ac-8b83-4243-a473-e6f983b61691",
+      "name": "HTTP Request (injekt file to Vector Store)",
+      "credentials": {
+        "openAiApi": {
+          "id": "xSvlcZNPoASPwcvk",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "deleteFile",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $('HTTP Request (upload file)').item.json.id }}",
+          "mode": "id"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        3640,
+        40
+      ],
+      "id": "5fc177e7-40c5-4a4f-a19f-7b1d220ca7d8",
+      "name": "OpenAI (delete file from storage)",
+      "credentials": {
+        "openAiApi": {
+          "id": "xSvlcZNPoASPwcvk",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const content = $('Code (transform JSON String to JSON Array)').first().json.text;\nconst fileName = $input.first().json.fileName;\n\nreturn [\n  {\n    binary: {\n      data: {\n        data: Buffer.from(content, 'utf8').toString('base64'),\n        mimeType: 'text/plain',\n        fileName,\n      },\n    },\n  },\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2976,
+        -180
+      ],
+      "id": "c56c8df4-c050-4fa0-bea2-4c5c1274d9bb",
+      "name": "Code (erstelle aus dem Inhalt eine Binärdatei)"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8f794c34-70f1-4f24-9316-457b082c8b03",
+              "name": "fileName",
+              "value": "=usedIdeas_{{ $('Loop Over alle Kathegorien').item.json.property_assistant_expert_name }}_{{ new Date().toLocaleString('sv-SE', { timeZone: 'Europe/Berlin' }).replace(/[- :]/g, '') }}.txt",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2756,
+        -180
+      ],
+      "id": "f6562a07-326c-4b9f-8dfa-78e48bbdd223",
+      "name": "Edit Fields (Dateiname zusammenbauen)"
+    },
+    {
+      "parameters": {
+        "resource": "assistant",
+        "assistantId": {
+          "__rl": true,
+          "value": "={{ $json.assistantID }}",
+          "mode": "id"
+        },
+        "prompt": "define",
+        "text": "=Bitte generiere {{ $('Variablen setzen').item.json.CCP_ideaCountPerCategory }} Ideen.",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        2160,
+        -180
+      ],
+      "id": "631d6812-357e-43c7-85ab-fd76e3eed882",
+      "name": "OpenAI (Hole Ideen)",
+      "executeOnce": true,
       "credentials": {
         "openAiApi": {
           "id": "xSvlcZNPoASPwcvk",
@@ -701,25 +763,12 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.1,
       "position": [
-        2260,
-        -240
+        1940,
+        -180
       ],
       "id": "2f66d2c5-1249-45f9-b883-5b8923afc337",
-      "name": "Merge",
+      "name": "Merge (assistantID und vectorID)",
       "alwaysOutputData": false
-    },
-    {
-      "parameters": {
-        "jsCode": "const assistantCreated = $('Edit Fields (setze erstellte assistantID)').first()?.json || {};\nconst assistantExisting = $('Edit Fields (setze existierende assistantID)').first()?.json || {};\n\nconst assistantID = assistantExisting.assistantID || assistantCreated.assistantID || assistantCreated.id;\nconst vectorStoreID = assistantExisting.vectorStoreID || assistantCreated.vectorStoreID || assistantCreated.tool_resources?.file_search?.vector_store_ids?.[0];\n\nreturn {\n  assistantID,\n  vectorStoreID\n};"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        2540,
-        -260
-      ],
-      "id": "90ec6108-66df-4504-868d-7efb7c0ec0c9",
-      "name": "Code1"
     }
   ],
   "pinData": {},
@@ -729,6 +778,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-04-10T23:53:56.000Z",
-  "versionId": "7c05db83-0645-40d5-a9be-f0d02e66c52e"
+  "updatedAt": "2025-04-11T00:34:47.000Z",
+  "versionId": "88c61200-b0d0-48fe-9796-41c7f8e58535"
 }
