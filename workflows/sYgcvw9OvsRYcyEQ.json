@@ -16,7 +16,7 @@
       "main": [
         [
           {
-            "node": "Google Drive",
+            "node": "Code (transform JSON String to JSON Array)",
             "type": "main",
             "index": 0
           }
@@ -101,7 +101,7 @@
       "main": [
         [
           {
-            "node": "Merge (assistantID setzen)",
+            "node": "Merge",
             "type": "main",
             "index": 0
           }
@@ -113,17 +113,6 @@
         [
           {
             "node": "HTTP Request (set Vector Store to Assistant)",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Merge (assistantID setzen)": {
-      "main": [
-        [
-          {
-            "node": "OpenAI2",
             "type": "main",
             "index": 0
           }
@@ -156,18 +145,73 @@
       "main": [
         [
           {
-            "node": "Merge (assistantID setzen)",
+            "node": "Merge",
             "type": "main",
             "index": 1
           }
         ]
       ]
     },
-    "Google Drive": {
+    "Code (transform JSON String to JSON Array)": {
       "main": [
         [
           {
-            "node": "If (Assistent exist)",
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request (upload file)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request (upload file)": {
+      "main": [
+        [
+          {
+            "node": "Loop Over alle Kathegorien",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "OpenAI2",
             "type": "main",
             "index": 0
           }
@@ -209,17 +253,17 @@
       "typeVersion": 1.8,
       "position": [
         2060,
-        140
+        160
       ],
       "id": "631d6812-357e-43c7-85ab-fd76e3eed882",
       "name": "OpenAI2",
+      "executeOnce": true,
       "credentials": {
         "openAiApi": {
           "id": "xSvlcZNPoASPwcvk",
           "name": "OpenAi account"
         }
-      },
-      "disabled": true
+      }
     },
     {
       "parameters": {
@@ -260,7 +304,8 @@
         -280
       ],
       "id": "943af620-87bb-4174-adcf-4412cae4f6eb",
-      "name": "Variablen setzen"
+      "name": "Variablen setzen",
+      "executeOnce": true
     },
     {
       "parameters": {
@@ -345,7 +390,8 @@
         -280
       ],
       "id": "76036b97-d59e-494e-9b4f-f5fa2742a93a",
-      "name": "Loop Over alle Kathegorien"
+      "name": "Loop Over alle Kathegorien",
+      "executeOnce": false
     },
     {
       "parameters": {
@@ -448,7 +494,7 @@
             {
               "id": "f9b5ccc9-c7b4-42c6-87f5-b82e16b45a13",
               "name": "assistantID",
-              "value": "={{ $json.id }}",
+              "value": "={{ $('OpenAI (erstelle Assisten)').item.json.id }}",
               "type": "string"
             },
             {
@@ -469,17 +515,6 @@
       ],
       "id": "f9094f8e-62ce-4f4a-9d62-05349a5bbb91",
       "name": "Edit Fields (setze erstellte assistantID)"
-    },
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.merge",
-      "typeVersion": 3.1,
-      "position": [
-        2000,
-        -120
-      ],
-      "id": "7fa6c8bf-792a-4a9e-95c7-d48433c0f6c5",
-      "name": "Merge (assistantID setzen)"
     },
     {
       "parameters": {
@@ -575,37 +610,116 @@
     },
     {
       "parameters": {
-        "operation": "createFromText",
-        "content": "lol",
-        "name": "aa.txt",
-        "driveId": {
-          "__rl": true,
-          "mode": "list",
-          "value": "My Drive"
-        },
-        "folderId": {
-          "__rl": true,
-          "value": "1zfN4t1S-slTriYVCtHU0b1EdqkOol6O3",
-          "mode": "list",
-          "cachedResultName": "08 Vector Store Data (Raw Ideas Backup)",
-          "cachedResultUrl": "https://drive.google.com/drive/folders/1zfN4t1S-slTriYVCtHU0b1EdqkOol6O3"
+        "jsCode": "// Hole den JSON-String aus der Antwort des Assistant\nconst ideasRaw = $input.first().json.output;\n\n// Parsen des Strings in ein Array\nlet ideas;\ntry {\n  ideas = JSON.parse(ideasRaw);\n} catch (e) {\n  throw new Error('Fehler beim Parsen von Assistant-Ausgabe: ' + e.message);\n}\n\nconst categoryName = 'agile'; // Du kannst das später auch dynamisch machen\nconst now = new Date();\nconst timestamp = now.toLocaleString('sv-SE', { timeZone: 'Europe/Berlin' }).replace(/[-: ]/g, '').slice(0, 14);\n\nconst textOutput = ideas.map(idea => {\n  return `### ${idea.title}\n\n${idea.description}\n\nRelevanz: ${idea.relevance}  \nProblem gelöst: ${idea.problemSolved}  \nIn Scope: ${idea.inScope}  \nOut of Scope: ${idea.outOfScope}  \nKeywords: ${idea.keywords.join(', ')}\n\n---`;\n}).join('\\n\\n');\n\n// Rückgabe für nächste Nodes (z. B. Google Drive Upload)\nreturn [\n  {\n    json: {\n      text: textOutput,\n      filename: `data_${categoryName}_${timestamp}.txt`\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2380,
+        160
+      ],
+      "id": "f4978550-0d4a-4043-b1c9-2c5717c6a081",
+      "name": "Code (transform JSON String to JSON Array)",
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8f794c34-70f1-4f24-9316-457b082c8b03",
+              "name": "fileName",
+              "value": "=usedIdeas_{{ $('Loop Over alle Kathegorien').item.json.property_assistant_expert_name }}_{{ new Date().toLocaleString('sv-SE', { timeZone: 'Europe/Berlin' }).replace(/[- :]/g, '') }}.txt",
+              "type": "string"
+            }
+          ]
         },
         "options": {}
       },
-      "type": "n8n-nodes-base.googleDrive",
-      "typeVersion": 3,
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
       "position": [
-        2460,
+        2600,
         160
       ],
-      "id": "fe35504d-fe3c-4896-8a8b-913c2ccbe2bc",
-      "name": "Google Drive",
+      "id": "f6562a07-326c-4b9f-8dfa-78e48bbdd223",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "jsCode": "const content = $('Code (transform JSON String to JSON Array)').first().json.text;\nconst fileName = $input.first().json.fileName;\n\nreturn [\n  {\n    binary: {\n      data: {\n        data: Buffer.from(content, 'utf8').toString('base64'),\n        mimeType: 'text/plain',\n        fileName,\n      },\n    },\n  },\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2760,
+        160
+      ],
+      "id": "c56c8df4-c050-4fa0-bea2-4c5c1274d9bb",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.openai.com/v1/files",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "parameterType": "formBinaryData",
+              "name": "=file",
+              "inputDataFieldName": "=data"
+            },
+            {
+              "name": "purpose",
+              "value": "assistants"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2920,
+        160
+      ],
+      "id": "4a23e80f-54ff-44c8-99bd-a881c870d39a",
+      "name": "HTTP Request (upload file)",
       "credentials": {
-        "googleDriveOAuth2Api": {
-          "id": "CXndfmTP2HOpy9lJ",
-          "name": "Google Drive account"
+        "openAiApi": {
+          "id": "xSvlcZNPoASPwcvk",
+          "name": "OpenAi account"
         }
       }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.1,
+      "position": [
+        2260,
+        -240
+      ],
+      "id": "2f66d2c5-1249-45f9-b883-5b8923afc337",
+      "name": "Merge",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "jsCode": "const assistantCreated = $('Edit Fields (setze erstellte assistantID)').first()?.json || {};\nconst assistantExisting = $('Edit Fields (setze existierende assistantID)').first()?.json || {};\n\nconst assistantID = assistantExisting.assistantID || assistantCreated.assistantID || assistantCreated.id;\nconst vectorStoreID = assistantExisting.vectorStoreID || assistantCreated.vectorStoreID || assistantCreated.tool_resources?.file_search?.vector_store_ids?.[0];\n\nreturn {\n  assistantID,\n  vectorStoreID\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2540,
+        -260
+      ],
+      "id": "90ec6108-66df-4504-868d-7efb7c0ec0c9",
+      "name": "Code1"
     }
   ],
   "pinData": {},
@@ -615,6 +729,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-04-10T21:50:54.000Z",
-  "versionId": "595ce367-4163-4575-ac8c-b337473dd1e4"
+  "updatedAt": "2025-04-10T23:53:56.000Z",
+  "versionId": "7c05db83-0645-40d5-a9be-f0d02e66c52e"
 }
