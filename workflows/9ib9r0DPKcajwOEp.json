@@ -1,0 +1,977 @@
+{
+  "active": false,
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Variablen setzen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Variablen setzen": {
+      "main": [
+        [
+          {
+            "node": "OpenAI (Liste Assistenten lesen)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI (Liste Assistenten lesen)": {
+      "main": [
+        [
+          {
+            "node": "Notion (ziehe alle Kategorien die aktiv sind)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion (ziehe alle Kategorien die aktiv sind)": {
+      "main": [
+        [
+          {
+            "node": "Loop Over alle Kathegorien",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over alle Kathegorien": {
+      "main": [
+        [],
+        [
+          {
+            "node": "If (Assistent exist)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI (erstelle Assisten)": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request (create Vector Store)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If (Assistent exist)": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request (get Vector Store)1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "OpenAI (erstelle Assisten)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields (setze existierende assistantID)": {
+      "main": [
+        [
+          {
+            "node": "Merge (assistantID und vectorID)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields (setze erstellte assistantID)": {
+      "main": [
+        [
+          {
+            "node": "Merge (assistantID und vectorID)",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "HTTP Request (create Vector Store)": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request (set Vector Store to Assistant)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request (get Vector Store)1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields (setze existierende assistantID)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request (set Vector Store to Assistant)": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields (setze erstellte assistantID)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request (upload file)": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request (injekt file to Vector Store)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request (injekt file to Vector Store)": {
+      "main": [
+        [
+          {
+            "node": "OpenAI (delete file from storage)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI (delete file from storage)": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Code (erstelle aus dem Inhalt eine Binärdatei)": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request (upload file)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI (Hole Ideen)": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields (save output as array)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge (assistantID und vectorID)": {
+      "main": [
+        [
+          {
+            "node": "OpenAI (Hole Ideen)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items (idea object)": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Notion (post ideas to notion)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion (post ideas to notion)": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items (idea object)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields (save output as array)": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Code (create Markdown)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Loop Over alle Kathegorien",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items (idea object)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code (create Markdown)": {
+      "main": [
+        [
+          {
+            "node": "Code (erstelle aus dem Inhalt eine Binärdatei)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-04-12T20:39:48.385Z",
+  "id": "9ib9r0DPKcajwOEp",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Content Creator Process (CCP) save",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -260,
+        -105
+      ],
+      "id": "02bae3e0-2338-4266-857d-6e7934c90f25",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "75a089bd-6f61-4dd5-bea3-3ef691d1876a",
+              "name": "CCP_Zielgruppe",
+              "value": "Studierende, Berufseinsteiger, junge Erwachsene.",
+              "type": "string"
+            },
+            {
+              "id": "b3c48eea-3009-4b4f-a36b-d72432745dda",
+              "name": "CCP_ideaCountPerCategory",
+              "value": "3",
+              "type": "string"
+            },
+            {
+              "id": "4a7bf95b-7eb5-4410-8b39-b5e51d9db1b3",
+              "name": "CCP_assistentPrefix",
+              "value": "CCP_brainstormer_assistant_",
+              "type": "string"
+            },
+            {
+              "id": "53571b92-d787-4c70-9d89-bca650a2f05b",
+              "name": "CCP_assistentVectorStorePrefix",
+              "value": "CCP_brainstormer_assistant_VectorStore_",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -40,
+        -100
+      ],
+      "id": "e41b6f24-3dc3-448e-bc88-a9b9f6aed43d",
+      "name": "Variablen setzen",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "resource": "assistant",
+        "operation": "list"
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        180,
+        -100
+      ],
+      "id": "40fd73cb-1407-4671-9b03-f3d4c5d9bb54",
+      "name": "OpenAI (Liste Assistenten lesen)",
+      "executeOnce": false,
+      "retryOnFail": true,
+      "alwaysOutputData": true,
+      "credentials": {
+        "openAiApi": {
+          "id": "xSvlcZNPoASPwcvk",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "1ceab5af-d8fd-8023-aa4f-d51a41a44be2",
+          "mode": "list",
+          "cachedResultName": "SLCategory",
+          "cachedResultUrl": "https://www.notion.so/1ceab5afd8fd8023aa4fd51a41a44be2"
+        },
+        "limit": 3,
+        "filterType": "manual",
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "key": "Status|status",
+              "condition": "equals",
+              "statusValue": "Active"
+            }
+          ]
+        },
+        "options": {
+          "sort": {
+            "sortValue": [
+              {
+                "key": "Name|title",
+                "direction": "ascending"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        400,
+        -100
+      ],
+      "id": "32ea0e70-7720-4dfe-9f2c-28f7712a8ff2",
+      "name": "Notion (ziehe alle Kategorien die aktiv sind)",
+      "alwaysOutputData": false,
+      "executeOnce": true,
+      "credentials": {
+        "notionApi": {
+          "id": "yDYyBY9jyV4cRvEx",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "reset": false
+        }
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        620,
+        -105
+      ],
+      "id": "85848118-b05b-4816-8e0d-522242cd5eee",
+      "name": "Loop Over alle Kathegorien",
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "resource": "assistant",
+        "operation": "create",
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "name": "={{ $('Variablen setzen').item.json.CCP_assistentPrefix + $('Notion (ziehe alle Kategorien die aktiv sind)').item.json.property_assistant_expert_name}}",
+        "description": "=Idea Brainstorming Assistant für die Kategorie: {{ $json.name }}",
+        "instructions": "=Du bist ein kreativer und strategischer Brainstorming-Assistent.  \nDeine Aufgabe ist es, neue, originelle und relevante Content-Ideen für die Kategorie \"{{ $json.name }}\" zu generieren. Die Beschreibung für die Kategorie ist \"{{ $json.property_beschreibung }}\".\n\nZielgruppe: {{ $('Variablen setzen').item.json.CCP_Zielgruppe }}\n\nPrimärer Ausspielungskanal: YouTube  \nContent-Länge: ca. 10 Minuten, maximal jedoch 20 Minuten.  \nSekundäre Kanäle (für spätere Anpassung): TikTok, Instagram, LinkedIn, Podcast-Plattformen\n\nDu hast Zugriff auf externe Wissensquellen (Vektordatenbank). Die Inhalte stammen aus verschiedenen Dateien.  \nVerhalte dich abhängig vom Dateinamen folgendermaßen:\n\n1. Wenn die Datei mit **\"usedIdeas_{{ $('Loop Over alle Kathegorien').item.json.property_assistant_expert_name }}\"** beginnt:  \n→ Diese Inhalte gelten als bereits verwendet.  \nDu darfst **KEINE Inhalte generieren, die diesen auch nur im Ansatz ähneln** (Wortwahl, Formulierungen, Struktur, Themenkern oder Titelidee).  \nWenn du unsicher bist, ob eine Idee bereits vorhanden war – verzichte auf sie.\n\n2. Wenn die Datei mit **\"inspiration_\"** beginnt:  \n→ Diese Inhalte dienen dir zur **kreativen Inspiration** (z. B. YouTube-Videos, Artikel etc.).  \nDu darfst daraus Ideen ableiten, **aber sie müssen erweitert, angepasst oder neu interpretiert** werden – niemals 1:1 übernommen.\n\nBeziehe dieses Wissen aktiv in deine Überlegungen ein und trenne intern strikt zwischen diesen Quellen.\n\n---\n\n### Denke die Idee primär als Videokonzept für YouTube:\n- Ist das Thema visuell erzählbar?\n- Gibt es starke visuelle Hooks oder Emotionen?\n- Lässt sich daraus eine ansprechende Storyline oder Struktur bauen?\n\n---\n\n### Kriterien:\n- Relevanz für die Zielgruppe\n- Potenzial für Engagement\n- Noch nicht behandelte Themen (Vermeide Redundanz)\n- Kreativität, aber realistisch umsetzbar\n\n---\n\n### Generiere exakt **{{ $('Variablen setzen').item.json.CCP_ideaCountPerCategory }}** Ideen pro Anfrage.\n\n---\n\n🟡 **Gib deine Antwort ausschließlich als reines, gültiges JSON-Array zurück.**  \n⚠️ **Keine Kommentare, keine erklärenden Sätze davor oder danach, kein Markdown, kein „output“-Wrapper.**\n\nNutze exakt diese Struktur:\n\n```json\n[\n  {\n    \"title\": \"Beispiel-Idee\",\n    \"description\": \"Kurzbeschreibung der Idee (1–2 Sätze).\",\n    \"relevance\": \"Warum das Thema relevant ist (1 Satz).\",\n    \"problemSolved\": \"Welches Problem wird gelöst (1 Satz).\",\n    \"inScope\": \"Was umfasst das Thema (1 Satz).\",\n    \"outOfScope\": \"Was ist nicht Bestandteil (1 Satz).\",\n    \"keywords\": [\"Begriff1\", \"Begriff2\", \"Begriff3\", \"Begriff4\", \"Begriff5\", \"Begriff6\", \"Begriff7\", \"Begriff8\", \"Begriff9\", \"Begriff10\"]\n  }\n]",
+        "knowledgeRetrieval": "={{ false }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        1500,
+        -80
+      ],
+      "id": "7fc0476f-9d02-4b37-b09e-716ca226d94f",
+      "name": "OpenAI (erstelle Assisten)",
+      "retryOnFail": true,
+      "credentials": {
+        "openAiApi": {
+          "id": "xSvlcZNPoASPwcvk",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "634381ab-dc10-4bd0-a78f-02ec44867a70",
+              "leftValue": "={{$('Variablen setzen').item.json.CCP_assistentPrefix + $json.property_assistant_expert_name }}",
+              "rightValue": "={{ $('OpenAI (Liste Assistenten lesen)').item.json.name }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": "=",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        840,
+        -180
+      ],
+      "id": "ffdfa048-ef7b-44ea-9079-18cc804f3e5d",
+      "name": "If (Assistent exist)"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fc3f6b87-287d-4d1a-9b07-39f861739325",
+              "name": "assistantID",
+              "value": "={{ $('OpenAI (Liste Assistenten lesen)').item.json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "00c99075-0c71-49dc-b85d-9a9e3edac5c5",
+              "name": "vectorStoreID",
+              "value": "={{ $json.tool_resources.file_search.vector_store_ids[0] }}",
+              "type": "string"
+            },
+            {
+              "id": "512323f2-9db4-4d68-b029-6f8e5f3d5992",
+              "name": "cathegoryId",
+              "value": "={{ $('Loop Over alle Kathegorien').item.json.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2160,
+        -280
+      ],
+      "id": "8043d4e7-0062-4349-aca3-c9963abd0119",
+      "name": "Edit Fields (setze existierende assistantID)"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f9b5ccc9-c7b4-42c6-87f5-b82e16b45a13",
+              "name": "assistantID",
+              "value": "={{ $('OpenAI (erstelle Assisten)').item.json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "fb998290-376a-4388-bf87-40fef2a0fac0",
+              "name": "vectorStoreID",
+              "value": "={{ $json.tool_resources.file_search.vector_store_ids[0] }}",
+              "type": "string"
+            },
+            {
+              "id": "498f22bf-b999-4d28-be5d-b0ea28940ebc",
+              "name": "cathegoryId",
+              "value": "={{ $('Loop Over alle Kathegorien').item.json.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2160,
+        -80
+      ],
+      "id": "d7d447ef-dd97-47b6-ac18-e82c084a4910",
+      "name": "Edit Fields (setze erstellte assistantID)"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/vector_stores",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"name\": \"{{ $('Variablen setzen').item.json.CCP_assistentVectorStorePrefix + $('Notion (ziehe alle Kategorien die aktiv sind)').item.json.property_assistant_expert_name}}\",\n  \"expires_after\": {\n    \"anchor\": \"last_active_at\",\n    \"days\": 365\n  },\n  \"metadata\": {\n    \"category\": \"{{ $('Notion (ziehe alle Kategorien die aktiv sind)').item.json.property_name }}\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1720,
+        -80
+      ],
+      "id": "269ae66e-c9d1-45ae-ab66-265efa0b1161",
+      "name": "HTTP Request (create Vector Store)",
+      "retryOnFail": true,
+      "credentials": {
+        "openAiApi": {
+          "id": "xSvlcZNPoASPwcvk",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://api.openai.com/v1/assistants/{{ $('OpenAI (Liste Assistenten lesen)').item.json.id }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "OpenAI-Beta",
+              "value": "assistants=v2"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1940,
+        -280
+      ],
+      "id": "5f811ce0-322c-4b01-baa7-22cb15b9383a",
+      "name": "HTTP Request (get Vector Store)1",
+      "retryOnFail": true,
+      "credentials": {
+        "openAiApi": {
+          "id": "xSvlcZNPoASPwcvk",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.openai.com/v1/assistants/{{ $('OpenAI (erstelle Assisten)').item.json.id }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "OpenAI-Beta",
+              "value": "assistants=v2"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"tool_resources\": {\n    \"file_search\": {\n      \"vector_store_ids\": [\"{{ $json.id }}\"]\n    }\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1940,
+        -80
+      ],
+      "id": "7e22a3d6-dcd2-482c-916b-7328c1707697",
+      "name": "HTTP Request (set Vector Store to Assistant)",
+      "retryOnFail": true,
+      "credentials": {
+        "openAiApi": {
+          "id": "xSvlcZNPoASPwcvk",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.openai.com/v1/files",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "parameterType": "formBinaryData",
+              "name": "=file",
+              "inputDataFieldName": "=data"
+            },
+            {
+              "name": "purpose",
+              "value": "assistants"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        4400,
+        -20
+      ],
+      "id": "09870bb9-6360-4836-b25a-5d78f0a66707",
+      "name": "HTTP Request (upload file)",
+      "retryOnFail": true,
+      "credentials": {
+        "openAiApi": {
+          "id": "xSvlcZNPoASPwcvk",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.openai.com/v1/vector_stores/{{ $('Merge (assistantID und vectorID)').item.json.vectorStoreID }}/files",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"file_id\": \"{{ $json.id }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        4620,
+        -20
+      ],
+      "id": "d038e5af-5900-42e7-948c-6b1468ca0e0e",
+      "name": "HTTP Request (injekt file to Vector Store)",
+      "retryOnFail": true,
+      "credentials": {
+        "openAiApi": {
+          "id": "xSvlcZNPoASPwcvk",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "deleteFile",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $('HTTP Request (upload file)').item.json.id }}",
+          "mode": "id"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        4840,
+        -20
+      ],
+      "id": "90421938-00bb-48b7-8fbe-dc15f9eef36f",
+      "name": "OpenAI (delete file from storage)",
+      "credentials": {
+        "openAiApi": {
+          "id": "xSvlcZNPoASPwcvk",
+          "name": "OpenAi account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const content = $input.first().json.text;\nconst fileName = $('Edit Fields (save output as array)').first().json.fileName;\n\nreturn [\n  {\n    binary: {\n      data: {\n        data: Buffer.from(content, 'utf8').toString('base64'),\n        mimeType: 'text/plain',\n        fileName,\n      },\n    },\n  },\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3820,
+        -20
+      ],
+      "id": "6abd07af-e0ea-4b3e-86a1-8457acd4cda6",
+      "name": "Code (erstelle aus dem Inhalt eine Binärdatei)"
+    },
+    {
+      "parameters": {
+        "resource": "assistant",
+        "assistantId": {
+          "__rl": true,
+          "value": "={{ $json.assistantID }}",
+          "mode": "id"
+        },
+        "prompt": "define",
+        "text": "=Bitte generiere {{ $('Variablen setzen').item.json.CCP_ideaCountPerCategory }} Ideen.",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        2600,
+        -180
+      ],
+      "id": "4243f547-0917-427a-aba3-ebb9713097a4",
+      "name": "OpenAI (Hole Ideen)",
+      "executeOnce": false,
+      "retryOnFail": true,
+      "credentials": {
+        "openAiApi": {
+          "id": "xSvlcZNPoASPwcvk",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.1,
+      "position": [
+        2380,
+        -180
+      ],
+      "id": "a3e439fc-2bf1-4a82-8dbe-e1da9f884fa2",
+      "name": "Merge (assistantID und vectorID)",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        4600,
+        -560
+      ],
+      "id": "bf3c4d4d-f51a-4d11-be5e-6413cbc4ed82",
+      "name": "Loop Over Items (idea object)"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "1ceab5af-d8fd-80e6-9004-c0667d1a0204",
+          "mode": "list",
+          "cachedResultName": "SLContent",
+          "cachedResultUrl": "https://www.notion.so/1ceab5afd8fd80e69004c0667d1a0204"
+        },
+        "title": "={{ $json.property_title }}",
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Description|rich_text",
+              "textContent": "={{ $json.property_description }}"
+            },
+            {
+              "key": "Relevance|rich_text",
+              "textContent": "={{ $json.property_relevance }}"
+            },
+            {
+              "key": "Problem|rich_text",
+              "textContent": "={{ $json.property_problem }}"
+            },
+            {
+              "key": "In-Scope|rich_text",
+              "textContent": "={{ $json.property_in_scope }}"
+            },
+            {
+              "key": "Out-Of-Scope|rich_text",
+              "textContent": "={{ $json.property_out_of_scope }}"
+            },
+            {
+              "key": "Keywords|rich_text",
+              "textContent": "={{ $json.property_keywords }}"
+            },
+            {
+              "key": "Status|status",
+              "statusValue": "=Raw Idea"
+            },
+            {
+              "key": "Category|relation",
+              "relationValue": [
+                "={{ $json.property_category }}"
+              ]
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        4740,
+        -300
+      ],
+      "id": "d8d2f4ce-6b46-4e4d-bdf1-b673191e14cf",
+      "name": "Notion (post ideas to notion)",
+      "credentials": {
+        "notionApi": {
+          "id": "yDYyBY9jyV4cRvEx",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7df8f066-70fa-49eb-9dbe-cab2c4803e9b",
+              "name": "outputJason",
+              "value": "={{ JSON.parse($json.output) }}",
+              "type": "string"
+            },
+            {
+              "id": "0d14d25d-2487-4124-91a4-05617e798d98",
+              "name": "fileName",
+              "value": "=usedIdeas_{{ $('Loop Over alle Kathegorien').item.json.property_assistant_expert_name }}_{{ new Date().toLocaleString('sv-SE', { timeZone: 'Europe/Berlin' }).replace(/[- :]/g, '') }}.txt",
+              "type": "string"
+            },
+            {
+              "id": "e55c6a96-c728-444a-adef-80156c68a0ee",
+              "name": "cathegoryId",
+              "value": "={{ $('Merge (assistantID und vectorID)').item.json.cathegoryId }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2940,
+        -180
+      ],
+      "id": "331814b3-d014-4e29-951d-f71c24335b4a",
+      "name": "Edit Fields (save output as array)"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.1,
+      "position": [
+        5180,
+        0
+      ],
+      "id": "d7d1e9c8-a9e9-4dcb-9bbd-1047402bbf17",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $input.first().json.outputJason;\nconst parsed = JSON.parse(raw);\n\nreturn parsed.map(entry => ({\n  json: {\n    property_title: entry.title,\n    property_description: entry.description,\n    property_relevance: entry.relevance,\n    property_problem: entry.problemSolved,\n    property_in_scope: entry.inScope,\n    property_out_of_scope: entry.outOfScope,\n    property_keywords: Array.isArray(entry.keywords) ? entry.keywords.join(', ') : entry.keywords,\n    property_status: 'Raw Idea',\n    property_category: [$input.first().json.cathegoryId],\n    property_id: '',\n    id: '',\n    name: '',\n    url: '',\n    property_affiliate_verbindung: '',\n    property_quarter: '',\n    property_channel_platforms: '',\n    property_content_folder: '',\n    property_ranking_und_priorisation: '',\n    property_member_publication: '',\n    property_thumbnail: '',\n    property_public_publication: ''\n  }\n}));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3740,
+        -240
+      ],
+      "id": "9ff810d6-1edd-4c2c-8cb9-a41ea54fd8ed",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Hole den JSON-String aus der Antwort des Assistant\nconst ideasRaw = $input.first().json.outputJason;\n\n// Parsen des Strings in ein Array\nlet ideas;\ntry {\n  ideas = JSON.parse(ideasRaw);\n} catch (e) {\n  throw new Error('Fehler beim Parsen von Assistant-Ausgabe: ' + e.message);\n}\n\nconst categoryName = 'agile'; // Du kannst das später auch dynamisch machen\nconst now = new Date();\nconst timestamp = now.toLocaleString('sv-SE', { timeZone: 'Europe/Berlin' }).replace(/[-: ]/g, '').slice(0, 14);\n\nconst textOutput = ideas.map(idea => {\n  return `### ${idea.title}\n\n${idea.description}\n\nRelevanz: ${idea.relevance}  \nProblem gelöst: ${idea.problemSolved}  \nIn Scope: ${idea.inScope}  \nOut of Scope: ${idea.outOfScope}  \nKeywords: ${idea.keywords.join(', ')}\n\n---`;\n}).join('\\n\\n');\n\n// Rückgabe für nächste Nodes (z. B. Google Drive Upload)\nreturn [\n  {\n    json: {\n      text: textOutput,\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3280,
+        -40
+      ],
+      "id": "a6522d64-aa35-4449-a1d2-2bada49afc09",
+      "name": "Code (create Markdown)"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-04-12T20:39:48.385Z",
+  "versionId": "e8ee01d0-363a-4314-9c04-08a568c75278"
+}
