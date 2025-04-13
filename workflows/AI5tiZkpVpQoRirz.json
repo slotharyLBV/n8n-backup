@@ -1,17 +1,6 @@
 {
   "active": false,
   "connections": {
-    "OpenAI (Liste Assistenten lesen)": {
-      "main": [
-        [
-          {
-            "node": "Notion (ziehe alle Kategorien die aktiv sind)",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Notion (ziehe alle Kategorien die aktiv sind)": {
       "main": [
         [
@@ -28,7 +17,7 @@
         [],
         [
           {
-            "node": "If (Assistent exist)",
+            "node": "OpenAI (erstelle Assisten)",
             "type": "main",
             "index": 0
           }
@@ -46,34 +35,11 @@
         ]
       ]
     },
-    "If (Assistent exist)": {
-      "main": [
-        [],
-        [
-          {
-            "node": "OpenAI (erstelle Assisten)",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Edit Fields (setze erstellte assistantID)": {
-      "main": [
-        [
-          {
-            "node": "Loop Over alle Kathegorien",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "HTTP Request (create Vector Store)": {
       "main": [
         [
           {
-            "node": "HTTP Request (set Vector Store to Assistant)",
+            "node": "Notion",
             "type": "main",
             "index": 0
           }
@@ -84,7 +50,7 @@
       "main": [
         [
           {
-            "node": "Edit Fields (setze erstellte assistantID)",
+            "node": "Loop Over alle Kathegorien",
             "type": "main",
             "index": 0
           }
@@ -95,7 +61,18 @@
       "main": [
         [
           {
-            "node": "OpenAI (Liste Assistenten lesen)",
+            "node": "Notion (ziehe alle Kategorien die aktiv sind)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request (set Vector Store to Assistant)",
             "type": "main",
             "index": 0
           }
@@ -108,31 +85,8 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "name": "Content Creator Process (CCP) Sync OpenAI Assistent",
+  "name": "Sync OpenAI Assistent und erstelle bei Bedarf Assistent und Vector Store",
   "nodes": [
-    {
-      "parameters": {
-        "resource": "assistant",
-        "operation": "list"
-      },
-      "type": "@n8n/n8n-nodes-langchain.openAi",
-      "typeVersion": 1.8,
-      "position": [
-        20,
-        -100
-      ],
-      "id": "92974e57-1ac0-48eb-87a6-945f00d141ad",
-      "name": "OpenAI (Liste Assistenten lesen)",
-      "executeOnce": false,
-      "retryOnFail": true,
-      "alwaysOutputData": true,
-      "credentials": {
-        "openAiApi": {
-          "id": "xSvlcZNPoASPwcvk",
-          "name": "OpenAi account"
-        }
-      }
-    },
     {
       "parameters": {
         "resource": "databasePage",
@@ -144,7 +98,7 @@
           "cachedResultName": "SLCategory",
           "cachedResultUrl": "https://www.notion.so/1ceab5afd8fd8023aa4fd51a41a44be2"
         },
-        "limit": 3,
+        "returnAll": true,
         "filterType": "manual",
         "matchType": "allFilters",
         "filters": {
@@ -153,6 +107,14 @@
               "key": "Status|status",
               "condition": "equals",
               "statusValue": "Active"
+            },
+            {
+              "key": "Assistend ID|rich_text",
+              "condition": "is_empty"
+            },
+            {
+              "key": "Vectore Store ID|rich_text",
+              "condition": "is_empty"
             }
           ]
         },
@@ -170,7 +132,7 @@
       "type": "n8n-nodes-base.notion",
       "typeVersion": 2.2,
       "position": [
-        260,
+        0,
         -100
       ],
       "id": "0fed066e-049d-4dc9-855a-967f0065add2",
@@ -193,7 +155,7 @@
       "type": "n8n-nodes-base.splitInBatches",
       "typeVersion": 3,
       "position": [
-        620,
+        300,
         -100
       ],
       "id": "83558979-1c41-4474-8249-dd6b6c7daf9b",
@@ -210,7 +172,7 @@
           "mode": "list",
           "cachedResultName": "GPT-4O-MINI"
         },
-        "name": "={{ $vars.CCP_assistentPrefix + $('Notion (ziehe alle Kategorien die aktiv sind)').item.json.property_assistant_expert_name}}",
+        "name": "={{ $vars.CCP_assistentPrefix + $json.property_chat_gpt_experte_name}}",
         "description": "=Idea Brainstorming Assistant für die Kategorie: {{ $json.name }}",
         "instructions": "=Du bist ein kreativer und strategischer Brainstorming-Assistent.  \nDeine Aufgabe ist es, neue, originelle und relevante Content-Ideen für die Kategorie \"{{ $json.name }}\" zu generieren. Die Beschreibung für die Kategorie ist \"{{ $json.property_beschreibung }}\".\n\nZielgruppe: $vars.CCP_Zielgruppe\n\nPrimärer Ausspielungskanal: YouTube  \nContent-Länge: ca. 10 Minuten, maximal jedoch 20 Minuten.  \nSekundäre Kanäle (für spätere Anpassung): TikTok, Instagram, LinkedIn, Podcast-Plattformen\n\nDu hast Zugriff auf externe Wissensquellen (Vektordatenbank). Die Inhalte stammen aus verschiedenen Dateien.  \nVerhalte dich abhängig vom Dateinamen folgendermaßen:\n\n1. Wenn die Datei mit **\"usedIdeas_{{ $('Loop Over alle Kathegorien').item.json.property_assistant_expert_name }}\"** beginnt:  \n→ Diese Inhalte gelten als bereits verwendet.  \nDu darfst **KEINE Inhalte generieren, die diesen auch nur im Ansatz ähneln** (Wortwahl, Formulierungen, Struktur, Themenkern oder Titelidee).  \nWenn du unsicher bist, ob eine Idee bereits vorhanden war – verzichte auf sie.\n\n2. Wenn die Datei mit **\"inspiration_\"** beginnt:  \n→ Diese Inhalte dienen dir zur **kreativen Inspiration** (z. B. YouTube-Videos, Artikel etc.).  \nDu darfst daraus Ideen ableiten, **aber sie müssen erweitert, angepasst oder neu interpretiert** werden – niemals 1:1 übernommen.\n\nBeziehe dieses Wissen aktiv in deine Überlegungen ein und trenne intern strikt zwischen diesen Quellen.\n\n---\n\n### Denke die Idee primär als Videokonzept für YouTube:\n- Ist das Thema visuell erzählbar?\n- Gibt es starke visuelle Hooks oder Emotionen?\n- Lässt sich daraus eine ansprechende Storyline oder Struktur bauen?\n\n---\n\n### Kriterien:\n- Relevanz für die Zielgruppe\n- Potenzial für Engagement\n- Noch nicht behandelte Themen (Vermeide Redundanz)\n- Kreativität, aber realistisch umsetzbar\n\n---\n\n### Generiere exakt **{{$vars.CCP_ideaCountPerCategory}}** Ideen pro Anfrage.\n\n---\n\n🟡 **Gib deine Antwort ausschließlich als reines, gültiges JSON-Array zurück.**  \n⚠️ **Keine Kommentare, keine erklärenden Sätze davor oder danach, kein Markdown, kein „output“-Wrapper.**\n\nNutze exakt diese Struktur:\n\n```json\n[\n  {\n    \"title\": \"Beispiel-Idee\",\n    \"description\": \"Kurzbeschreibung der Idee (1–2 Sätze).\",\n    \"relevance\": \"Warum das Thema relevant ist (1 Satz).\",\n    \"problemSolved\": \"Welches Problem wird gelöst (1 Satz).\",\n    \"inScope\": \"Was umfasst das Thema (1 Satz).\",\n    \"outOfScope\": \"Was ist nicht Bestandteil (1 Satz).\",\n    \"keywords\": [\"Begriff1\", \"Begriff2\", \"Begriff3\", \"Begriff4\", \"Begriff5\", \"Begriff6\", \"Begriff7\", \"Begriff8\", \"Begriff9\", \"Begriff10\"]\n  }\n]",
         "knowledgeRetrieval": "={{ false }}",
@@ -219,8 +181,8 @@
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 1.8,
       "position": [
-        1100,
-        -80
+        580,
+        -100
       ],
       "id": "acf42d30-5c0c-4bc1-9e69-fbfca6949403",
       "name": "OpenAI (erstelle Assisten)",
@@ -234,89 +196,20 @@
     },
     {
       "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 2
-          },
-          "conditions": [
-            {
-              "id": "634381ab-dc10-4bd0-a78f-02ec44867a70",
-              "leftValue": "={{ $vars.CCP_assistentPrefix + $json.property_assistant_expert_name }}",
-              "rightValue": "={{ $('OpenAI (Liste Assistenten lesen)').item.json.name }}",
-              "operator": {
-                "type": "string",
-                "operation": "equals"
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "looseTypeValidation": "=",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.2,
-      "position": [
-        860,
-        -80
-      ],
-      "id": "13855c91-8ca7-426b-b000-118f028c5b5b",
-      "name": "If (Assistent exist)"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "f9b5ccc9-c7b4-42c6-87f5-b82e16b45a13",
-              "name": "assistantID",
-              "value": "={{ $('OpenAI (erstelle Assisten)').item.json.id }}",
-              "type": "string"
-            },
-            {
-              "id": "fb998290-376a-4388-bf87-40fef2a0fac0",
-              "name": "vectorStoreID",
-              "value": "={{ $json.tool_resources.file_search.vector_store_ids[0] }}",
-              "type": "string"
-            },
-            {
-              "id": "498f22bf-b999-4d28-be5d-b0ea28940ebc",
-              "name": "cathegoryId",
-              "value": "={{ $('Loop Over alle Kathegorien').item.json.id }}",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        1760,
-        -80
-      ],
-      "id": "30d10752-e3a6-4b1c-8fc3-d9bc864b762a",
-      "name": "Edit Fields (setze erstellte assistantID)"
-    },
-    {
-      "parameters": {
         "method": "POST",
         "url": "https://api.openai.com/v1/vector_stores",
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "openAiApi",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"name\": \"{{ $vars.CCP_assistentVectorStorePrefix + $('Notion (ziehe alle Kategorien die aktiv sind)').item.json.property_assistant_expert_name}}\",\n  \"expires_after\": {\n    \"anchor\": \"last_active_at\",\n    \"days\": 365\n  },\n  \"metadata\": {\n    \"category\": \"{{ $('Notion (ziehe alle Kategorien die aktiv sind)').item.json.property_name }}\"\n  }\n}",
+        "jsonBody": "={\n  \"name\": \"{{ $vars.CCP_assistentVectorStorePrefix + $('Loop Over alle Kathegorien').item.json.property_chat_gpt_experte_name }}\",\n  \"expires_after\": {\n    \"anchor\": \"last_active_at\",\n    \"days\": 365\n  },\n  \"metadata\": {\n    \"category\": \"{{ $('Loop Over alle Kathegorien').item.json.property_chat_gpt_experte_name }}\"\n  }\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1320,
-        -80
+        800,
+        -100
       ],
       "id": "68e61cd8-a6ea-4f57-bdd1-54e13c250f56",
       "name": "HTTP Request (create Vector Store)",
@@ -345,14 +238,14 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"tool_resources\": {\n    \"file_search\": {\n      \"vector_store_ids\": [\"{{ $json.id }}\"]\n    }\n  }\n}",
+        "jsonBody": "={\n  \"tool_resources\": {\n    \"file_search\": {\n      \"vector_store_ids\": [\"{{ $('HTTP Request (create Vector Store)').item.json.id }}\"]\n    }\n  }\n}\n",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1540,
-        -80
+        1280,
+        -100
       ],
       "id": "c063e0fa-2f0d-4415-a9d2-d286d7d1954d",
       "name": "HTTP Request (set Vector Store to Assistant)",
@@ -370,10 +263,48 @@
       "typeVersion": 1,
       "position": [
         -260,
-        -105
+        -100
       ],
       "id": "9426659f-9fb3-44e1-a46a-5b2c93694468",
       "name": "Erstelle alle Assistenten von aktiven Kategorien"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "update",
+        "pageId": {
+          "__rl": true,
+          "value": "={{ $('Loop Over alle Kathegorien').item.json.id }}",
+          "mode": "id"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Assistend ID|rich_text",
+              "textContent": "={{ $('OpenAI (erstelle Assisten)').item.json.id }}"
+            },
+            {
+              "key": "Vectore Store ID|rich_text",
+              "textContent": "={{ $json.id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        1040,
+        -100
+      ],
+      "id": "a8579c7b-8c40-4d94-91a6-cc7292c5b91b",
+      "name": "Notion",
+      "credentials": {
+        "notionApi": {
+          "id": "yDYyBY9jyV4cRvEx",
+          "name": "Notion account"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -383,6 +314,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-04-12T20:56:50.000Z",
-  "versionId": "c7441799-0518-47e7-8e56-8d909d3bd18f"
+  "updatedAt": "2025-04-12T23:53:49.000Z",
+  "versionId": "78206bb3-83d5-4d76-9994-af3d8c1d8b44"
 }
