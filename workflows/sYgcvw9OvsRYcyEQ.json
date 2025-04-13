@@ -1,40 +1,6 @@
 {
-  "active": false,
+  "active": true,
   "connections": {
-    "When clicking ‘Test workflow’": {
-      "main": [
-        [
-          {
-            "node": "Notion",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Notion (ziehe alle Kategorien die aktiv sind)": {
-      "main": [
-        [
-          {
-            "node": "Loop Over alle Kathegorien",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Loop Over alle Kathegorien": {
-      "main": [
-        [],
-        [
-          {
-            "node": "OpenAI (Hole Ideen)",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "HTTP Request (upload file)": {
       "main": [
         [
@@ -50,20 +16,9 @@
       "main": [
         [
           {
-            "node": "OpenAI (delete file from storage)",
+            "node": "Loop Over active Kategories",
             "type": "main",
             "index": 0
-          }
-        ]
-      ]
-    },
-    "OpenAI (delete file from storage)": {
-      "main": [
-        [
-          {
-            "node": "Merge",
-            "type": "main",
-            "index": 1
           }
         ]
       ]
@@ -73,84 +28,6 @@
         [
           {
             "node": "HTTP Request (upload file)",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "OpenAI (Hole Ideen)": {
-      "main": [
-        [
-          {
-            "node": "Edit Fields (save output as array)",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Loop Over Items (idea object)": {
-      "main": [
-        [
-          {
-            "node": "Merge",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Notion (post ideas to notion)",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Notion (post ideas to notion)": {
-      "main": [
-        [
-          {
-            "node": "Loop Over Items (idea object)",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Edit Fields (save output as array)": {
-      "main": [
-        [
-          {
-            "node": "Code",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Code (create Markdown)",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Merge": {
-      "main": [
-        [
-          {
-            "node": "Loop Over alle Kathegorien",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Code": {
-      "main": [
-        [
-          {
-            "node": "Loop Over Items (idea object)",
             "type": "main",
             "index": 0
           }
@@ -168,79 +45,85 @@
         ]
       ]
     },
-    "Notion": {
+    "Notion (get all active Kategories)": {
       "main": [
         [
           {
-            "node": "Loop Over Items",
+            "node": "Loop Over active Kategories",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Loop Over Items": {
+    "Loop Over active Kategories": {
       "main": [
         [],
         [
           {
-            "node": "OpenAI1",
+            "node": "OpenAI (Frage den Expert Assistenten)",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "OpenAI": {
-      "main": [
-        []
-      ]
-    },
-    "Loop Over Items1": {
+    "OpenAI (Frage den Expert Assistenten)": {
       "main": [
         [
           {
-            "node": "Loop Over Items",
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code (Json in flache Hierarchie transformieren)": {
+      "main": [
+        [
+          {
+            "node": "Notion (Raw Idea in Notion speichern)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion (Raw Idea in Notion speichern)": {
+      "main": [
+        [
+          {
+            "node": "Code (create Markdown)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Code (Json in flache Hierarchie transformieren)",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "Notion1",
+            "node": "OpenAI (Frage den Expert Assistenten)",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Notion1": {
+    "Schedule Trigger": {
       "main": [
         [
           {
-            "node": "Loop Over Items1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Code1": {
-      "main": [
-        [
-          {
-            "node": "Loop Over Items1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "OpenAI1": {
-      "main": [
-        [
-          {
-            "node": "Code1",
+            "node": "Notion (get all active Kategories)",
             "type": "main",
             "index": 0
           }
@@ -253,86 +136,8 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "name": "Content Creator Process (CCP)",
+  "name": "Raw Idea generator",
   "nodes": [
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.manualTrigger",
-      "typeVersion": 1,
-      "position": [
-        -200,
-        360
-      ],
-      "id": "ce3ca2c4-bdca-4b08-a14e-ecdcf3c2b14a",
-      "name": "When clicking ‘Test workflow’"
-    },
-    {
-      "parameters": {
-        "resource": "databasePage",
-        "operation": "getAll",
-        "databaseId": {
-          "__rl": true,
-          "value": "1ceab5af-d8fd-8023-aa4f-d51a41a44be2",
-          "mode": "list",
-          "cachedResultName": "SLCategory",
-          "cachedResultUrl": "https://www.notion.so/1ceab5afd8fd8023aa4fd51a41a44be2"
-        },
-        "limit": 3,
-        "filterType": "manual",
-        "matchType": "allFilters",
-        "filters": {
-          "conditions": [
-            {
-              "key": "Status|status",
-              "condition": "equals",
-              "statusValue": "Active"
-            }
-          ]
-        },
-        "options": {
-          "sort": {
-            "sortValue": [
-              {
-                "key": "Name|title",
-                "direction": "ascending"
-              }
-            ]
-          }
-        }
-      },
-      "type": "n8n-nodes-base.notion",
-      "typeVersion": 2.2,
-      "position": [
-        20,
-        -100
-      ],
-      "id": "8767771f-5664-48b1-b79a-eaba757523e3",
-      "name": "Notion (ziehe alle Kategorien die aktiv sind)",
-      "alwaysOutputData": false,
-      "executeOnce": true,
-      "credentials": {
-        "notionApi": {
-          "id": "yDYyBY9jyV4cRvEx",
-          "name": "Notion account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "options": {
-          "reset": false
-        }
-      },
-      "type": "n8n-nodes-base.splitInBatches",
-      "typeVersion": 3,
-      "position": [
-        300,
-        -100
-      ],
-      "id": "76036b97-d59e-494e-9b4f-f5fa2742a93a",
-      "name": "Loop Over alle Kathegorien",
-      "executeOnce": false
-    },
     {
       "parameters": {
         "method": "POST",
@@ -359,8 +164,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        2460,
-        80
+        -300,
+        -3200
       ],
       "id": "4a23e80f-54ff-44c8-99bd-a881c870d39a",
       "name": "HTTP Request (upload file)",
@@ -375,7 +180,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "=https://api.openai.com/v1/vector_stores/{{ $('Loop Over alle Kathegorien').item.json.property_vectore_store_id }}/files",
+        "url": "=https://api.openai.com/v1/vector_stores/{{ $('Loop Over active Kategories').first().json.property_vectore_store_id }}/files",
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "openAiApi",
         "sendBody": true,
@@ -386,8 +191,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        2680,
-        80
+        -100,
+        -3200
       ],
       "id": "fb6ab2ac-8b83-4243-a473-e6f983b61691",
       "name": "HTTP Request (injekt file to Vector Store)",
@@ -401,219 +206,26 @@
     },
     {
       "parameters": {
-        "resource": "file",
-        "operation": "deleteFile",
-        "fileId": {
-          "__rl": true,
-          "value": "={{ $('HTTP Request (upload file)').item.json.id }}",
-          "mode": "id"
-        }
-      },
-      "type": "@n8n/n8n-nodes-langchain.openAi",
-      "typeVersion": 1.8,
-      "position": [
-        2900,
-        80
-      ],
-      "id": "5fc177e7-40c5-4a4f-a19f-7b1d220ca7d8",
-      "name": "OpenAI (delete file from storage)",
-      "credentials": {
-        "openAiApi": {
-          "id": "xSvlcZNPoASPwcvk",
-          "name": "OpenAi account"
-        }
-      },
-      "disabled": true
-    },
-    {
-      "parameters": {
-        "jsCode": "const content = $input.first().json.text;\nconst fileName = $('Edit Fields (save output as array)').first().json.fileName;\n\nreturn [\n  {\n    binary: {\n      data: {\n        data: Buffer.from(content, 'utf8').toString('base64'),\n        mimeType: 'text/plain',\n        fileName,\n      },\n    },\n  },\n];"
+        "jsCode": "const content = $input.first().json.text;\nconst fileName = $input.first().json.filename;\n\nreturn [\n  {\n    binary: {\n      data: {\n        data: Buffer.from(content, 'utf8').toString('base64'),\n        mimeType: 'text/plain',\n        fileName,\n      },\n    },\n  },\n];"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1880,
-        80
+        -500,
+        -3200
       ],
       "id": "c56c8df4-c050-4fa0-bea2-4c5c1274d9bb",
       "name": "Code (erstelle aus dem Inhalt eine Binärdatei)"
     },
     {
       "parameters": {
-        "resource": "assistant",
-        "assistantId": {
-          "__rl": true,
-          "value": "={{ $json.property_assistend_id }}",
-          "mode": "id"
-        },
-        "prompt": "define",
-        "text": "=Bitte generiere {{ $vars.CCP_ideaCountPerCategory }} Ideen.",
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.openAi",
-      "typeVersion": 1.8,
-      "position": [
-        560,
-        -80
-      ],
-      "id": "631d6812-357e-43c7-85ab-fd76e3eed882",
-      "name": "OpenAI (Hole Ideen)",
-      "executeOnce": false,
-      "retryOnFail": true,
-      "credentials": {
-        "openAiApi": {
-          "id": "xSvlcZNPoASPwcvk",
-          "name": "OpenAi account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "type": "n8n-nodes-base.splitInBatches",
-      "typeVersion": 3,
-      "position": [
-        2660,
-        -460
-      ],
-      "id": "7ce70da9-52b9-43dd-9eac-667b4ad4f57e",
-      "name": "Loop Over Items (idea object)"
-    },
-    {
-      "parameters": {
-        "resource": "databasePage",
-        "databaseId": {
-          "__rl": true,
-          "value": "1ceab5af-d8fd-80e6-9004-c0667d1a0204",
-          "mode": "list",
-          "cachedResultName": "SLContent",
-          "cachedResultUrl": "https://www.notion.so/1ceab5afd8fd80e69004c0667d1a0204"
-        },
-        "title": "={{ $json.property_title }}",
-        "propertiesUi": {
-          "propertyValues": [
-            {
-              "key": "Description|rich_text",
-              "textContent": "={{ $json.property_description }}"
-            },
-            {
-              "key": "Relevance|rich_text",
-              "textContent": "={{ $json.property_relevance }}"
-            },
-            {
-              "key": "Problem|rich_text",
-              "textContent": "={{ $json.property_problem }}"
-            },
-            {
-              "key": "In-Scope|rich_text",
-              "textContent": "={{ $json.property_in_scope }}"
-            },
-            {
-              "key": "Out-Of-Scope|rich_text",
-              "textContent": "={{ $json.property_out_of_scope }}"
-            },
-            {
-              "key": "Keywords|rich_text",
-              "textContent": "={{ $json.property_keywords }}"
-            },
-            {
-              "key": "Status|status",
-              "statusValue": "=Raw Idea"
-            },
-            {
-              "key": "Category|relation",
-              "relationValue": [
-                "={{ $json.property_category }}"
-              ]
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.notion",
-      "typeVersion": 2.2,
-      "position": [
-        2800,
-        -200
-      ],
-      "id": "9feb800f-12a7-4f8b-b747-de8bd307f103",
-      "name": "Notion (post ideas to notion)",
-      "credentials": {
-        "notionApi": {
-          "id": "yDYyBY9jyV4cRvEx",
-          "name": "Notion account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "7df8f066-70fa-49eb-9dbe-cab2c4803e9b",
-              "name": "outputJason",
-              "value": "={{ JSON.parse($json.output) }}",
-              "type": "string"
-            },
-            {
-              "id": "0d14d25d-2487-4124-91a4-05617e798d98",
-              "name": "fileName",
-              "value": "=usedIdeas_{{ $('Loop Over alle Kathegorien').item.json.property_chat_gpt_experte_name }}_{{ new Date().toLocaleString('sv-SE', { timeZone: 'Europe/Berlin' }).replace(/[- :]/g, '') }}.txt",
-              "type": "string"
-            },
-            {
-              "id": "e55c6a96-c728-444a-adef-80156c68a0ee",
-              "name": "cathegoryId",
-              "value": "={{ $('Loop Over alle Kathegorien').item.json.id }}",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        1000,
-        -80
-      ],
-      "id": "3c8e7f3c-beac-4c52-9588-9e0b2230bd23",
-      "name": "Edit Fields (save output as array)"
-    },
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.merge",
-      "typeVersion": 3.1,
-      "position": [
-        3240,
-        100
-      ],
-      "id": "9945b82e-dc28-4670-b6c9-0190ee29070b",
-      "name": "Merge"
-    },
-    {
-      "parameters": {
-        "jsCode": "const raw = $input.first().json.outputJason;\nconst parsed = JSON.parse(raw);\n\nreturn parsed.map(entry => ({\n  json: {\n    property_title: entry.title,\n    property_description: entry.description,\n    property_relevance: entry.relevance,\n    property_problem: entry.problemSolved,\n    property_in_scope: entry.inScope,\n    property_out_of_scope: entry.outOfScope,\n    property_keywords: Array.isArray(entry.keywords) ? entry.keywords.join(', ') : entry.keywords,\n    property_status: 'Raw Idea',\n    property_category: [$input.first().json.cathegoryId],\n    property_id: '',\n    id: '',\n    name: '',\n    url: '',\n    property_affiliate_verbindung: '',\n    property_quarter: '',\n    property_channel_platforms: '',\n    property_content_folder: '',\n    property_ranking_und_priorisation: '',\n    property_member_publication: '',\n    property_thumbnail: '',\n    property_public_publication: ''\n  }\n}));"
+        "jsCode": "// Hole den JSON-String aus der Antwort des Assistant\nconst ideasRaw = $('OpenAI (Frage den Expert Assistenten)').first().json.output;\n\n// Parsen des Strings in ein Array\nlet ideas;\ntry {\n  ideas = JSON.parse(ideasRaw);\n} catch (e) {\n  throw new Error('Fehler beim Parsen von Assistant-Ausgabe: ' + e.message);\n}\n\n// Kategorie aus vorherigem Node\nconst categoryName = $('Notion (get all active Kategories)').first().json.property_chat_gpt_experte_name || 'UnknownCategory';\n\n// Timestamp\nconst now = new Date();\nconst timestamp = now.toLocaleString('sv-SE', { timeZone: 'Europe/Berlin' }).replace(/[-: ]/g, '').slice(0, 14);\n\n// Markdown erzeugen\nconst textOutput = ideas.map(idea => {\n  return `### ${idea.title}\n\n${idea.description}\n\nRelevanz: ${idea.relevance}  \nProblem gelöst: ${idea.problemSolved}  \nIn Scope: ${idea.inScope}  \nOut of Scope: ${idea.outOfScope}  \nKeywords: ${Array.isArray(idea.keywords) ? idea.keywords.join(', ') : ''}\n\n---`;\n}).join('\\n\\n');\n\n// Rückgabe für nächste Nodes (z. B. Google Drive Upload)\nreturn [\n  {\n    json: {\n      text: textOutput,\n      filename: `usedIdeas_${categoryName}_${timestamp}.md`\n    }\n  }\n];"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1800,
-        -140
-      ],
-      "id": "0b2001ed-8916-4f3e-9e9f-f314ad975d7a",
-      "name": "Code"
-    },
-    {
-      "parameters": {
-        "jsCode": "// Hole den JSON-String aus der Antwort des Assistant\nconst ideasRaw = $input.first().json.outputJason;\n\n// Parsen des Strings in ein Array\nlet ideas;\ntry {\n  ideas = JSON.parse(ideasRaw);\n} catch (e) {\n  throw new Error('Fehler beim Parsen von Assistant-Ausgabe: ' + e.message);\n}\n\nconst categoryName = 'agile'; // Du kannst das später auch dynamisch machen\nconst now = new Date();\nconst timestamp = now.toLocaleString('sv-SE', { timeZone: 'Europe/Berlin' }).replace(/[-: ]/g, '').slice(0, 14);\n\nconst textOutput = ideas.map(idea => {\n  return `### ${idea.title}\n\n${idea.description}\n\nRelevanz: ${idea.relevance}  \nProblem gelöst: ${idea.problemSolved}  \nIn Scope: ${idea.inScope}  \nOut of Scope: ${idea.outOfScope}  \nKeywords: ${idea.keywords.join(', ')}\n\n---`;\n}).join('\\n\\n');\n\n// Rückgabe für nächste Nodes (z. B. Google Drive Upload)\nreturn [\n  {\n    json: {\n      text: textOutput,\n    }\n  }\n];"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        1340,
-        60
+        -700,
+        -3200
       ],
       "id": "67fe3905-28d0-4acd-b816-0eef40a14fc8",
       "name": "Code (create Markdown)"
@@ -629,7 +241,7 @@
           "cachedResultName": "Kategorien",
           "cachedResultUrl": "https://www.notion.so/1ceab5afd8fd8023aa4fd51a41a44be2"
         },
-        "limit": 3,
+        "returnAll": true,
         "filterType": "manual",
         "filters": {
           "conditions": [
@@ -645,7 +257,7 @@
             "sortValue": [
               {
                 "key": "ChatGPT Experte Name|rich_text",
-                "direction": "descending"
+                "direction": "ascending"
               }
             ]
           }
@@ -654,11 +266,11 @@
       "type": "n8n-nodes-base.notion",
       "typeVersion": 2.2,
       "position": [
-        60,
-        360
+        -2180,
+        -3220
       ],
       "id": "8b0cbe6a-d6d3-4a9e-98b6-90f99a11e96c",
-      "name": "Notion",
+      "name": "Notion (get all active Kategories)",
       "credentials": {
         "notionApi": {
           "id": "yDYyBY9jyV4cRvEx",
@@ -673,18 +285,18 @@
       "type": "n8n-nodes-base.splitInBatches",
       "typeVersion": 3,
       "position": [
-        280,
-        360
+        -1960,
+        -3220
       ],
       "id": "3b2fe4ae-bea2-4bd3-84fa-94abcf983b94",
-      "name": "Loop Over Items"
+      "name": "Loop Over active Kategories"
     },
     {
       "parameters": {
         "resource": "assistant",
         "assistantId": {
           "__rl": true,
-          "value": "={{ $('Loop Over Items').item.json.property_assistend_id }}",
+          "value": "={{ $('Loop Over active Kategories').item.json.property_assistend_id }}",
           "mode": "id"
         },
         "prompt": "define",
@@ -694,11 +306,11 @@
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 1.8,
       "position": [
-        140,
-        820
+        -1700,
+        -3200
       ],
       "id": "ba2f46db-f710-49ba-9a2e-159e51f1d6d4",
-      "name": "OpenAI",
+      "name": "OpenAI (Frage den Expert Assistenten)",
       "credentials": {
         "openAiApi": {
           "id": "xSvlcZNPoASPwcvk",
@@ -708,16 +320,16 @@
     },
     {
       "parameters": {
-        "options": {}
+        "jsCode": "const raw = $input.first().json.output;\n\n// Entfernt den Markdown-Wrapper (```json ... ```)\nconst cleaned = raw\n  .replace(/^```json\\s*/, '')   // Entfernt ```json + optionalen Zeilenumbruch\n  .replace(/```$/, '')          // Entfernt das letzte ``` am Ende\n  .trim();                      // Entfernt überflüssige Leerzeichen\n\nlet parsed;\ntry {\n  parsed = JSON.parse(cleaned);\n} catch (e) {\n  throw new Error(\"Fehler beim Parsen: \" + e.message);\n}\n\n// Gib jedes Objekt einzeln zurück\nreturn parsed.map(entry => ({ json: entry }));"
       },
-      "type": "n8n-nodes-base.splitInBatches",
-      "typeVersion": 3,
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
       "position": [
-        1580,
-        380
+        -1080,
+        -3200
       ],
-      "id": "749be088-bd5f-46be-8e69-49c8d5436136",
-      "name": "Loop Over Items1"
+      "id": "ef8f7ead-16ba-431d-97f1-61eb891cea9f",
+      "name": "Code (Json in flache Hierarchie transformieren)"
     },
     {
       "parameters": {
@@ -755,7 +367,7 @@
             {
               "key": "Category|relation",
               "relationValue": [
-                "={{ $('Notion').item.json.id }}"
+                "={{ $('Notion (get all active Kategories)').item.json.id }}"
               ]
             },
             {
@@ -773,11 +385,11 @@
       "type": "n8n-nodes-base.notion",
       "typeVersion": 2.2,
       "position": [
-        1780,
-        540
+        -900,
+        -3200
       ],
       "id": "b4e21975-8f6c-4cb8-93ea-71d49f0d4a9b",
-      "name": "Notion1",
+      "name": "Notion (Raw Idea in Notion speichern)",
       "credentials": {
         "notionApi": {
           "id": "yDYyBY9jyV4cRvEx",
@@ -787,58 +399,69 @@
     },
     {
       "parameters": {
-        "jsCode": "return JSON.parse($input.first().json.message.content);"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        900,
-        380
-      ],
-      "id": "ef8f7ead-16ba-431d-97f1-61eb891cea9f",
-      "name": "Code1"
-    },
-    {
-      "parameters": {
-        "modelId": {
-          "__rl": true,
-          "value": "gpt-4o-mini",
-          "mode": "list",
-          "cachedResultName": "GPT-4O-MINI"
-        },
-        "messages": {
-          "values": [
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
             {
-              "content": "=Du bist ein kreativer und strategischer Brainstorming-Assistent.  \nDeine Aufgabe ist es, neue, originelle und relevante Content-Ideen für die Kategorie \"Tools\" zu generieren. Die Beschreibung für die Kategorie ist \"Nützliche Software, Apps, Plattformen für Produktivität\n\".\n\nZielgruppe: $vars.CCP_Zielgruppe\n\nPrimärer Ausspielungskanal: YouTube  \nContent-Länge: ca. 10 Minuten, maximal jedoch 20 Minuten.  \nSekundäre Kanäle (für spätere Anpassung): TikTok, Instagram, LinkedIn, Podcast-Plattformen\n\nDu hast Zugriff auf externe Wissensquellen (Vektordatenbank). Die Inhalte stammen aus verschiedenen Dateien.  \nVerhalte dich abhängig vom Dateinamen folgendermaßen:\n\n1. Wenn die Datei mit **\"usedIdeas_\"** beginnt:  \n→ Diese Inhalte gelten als bereits verwendet.  \nDu darfst **KEINE Inhalte generieren, die diesen auch nur im Ansatz ähneln** (Wortwahl, Formulierungen, Struktur, Themenkern oder Titelidee).  \nWenn du unsicher bist, ob eine Idee bereits vorhanden war – verzichte auf sie.\n\n2. Wenn die Datei mit **\"inspiration_\"** beginnt:  \n→ Diese Inhalte dienen dir zur **kreativen Inspiration** (z. B. YouTube-Videos, Artikel etc.).  \nDu darfst daraus Ideen ableiten, **aber sie müssen erweitert, angepasst oder neu interpretiert** werden – niemals 1:1 übernommen.\n\nBeziehe dieses Wissen aktiv in deine Überlegungen ein und trenne intern strikt zwischen diesen Quellen.\n\n---\n\n### Denke die Idee primär als Videokonzept für YouTube:\n- Ist das Thema visuell erzählbar?\n- Gibt es starke visuelle Hooks oder Emotionen?\n- Lässt sich daraus eine ansprechende Storyline oder Struktur bauen?\n\n---\n\n### Kriterien:\n- Relevanz für die Zielgruppe\n- Potenzial für Engagement\n- Noch nicht behandelte Themen (Vermeide Redundanz)\n- Kreativität, aber realistisch umsetzbar\n\n---\n\n### Generiere exakt **3** Ideen pro Anfrage, wie der Benutzer möchte.\n\n---\n\n🟡 **Gib deine Antwort ausschließlich als reines, gültiges JSON-Array zurück.**  \n⚠️ **Keine Kommentare, keine erklärenden Sätze davor oder danach, kein Markdown, kein „output“-Wrapper.**\n\nNutze exakt diese Struktur:\n\n```json\n[\n  {\n    \"title\": \"Beispiel-Idee\",\n    \"description\": \"Kurzbeschreibung der Idee (1–2 Sätze).\",\n    \"relevance\": \"Warum das Thema relevant ist (1 Satz).\",\n    \"problemSolved\": \"Welches Problem wird gelöst (1 Satz).\",\n    \"inScope\": \"Was umfasst das Thema (1 Satz).\",\n    \"outOfScope\": \"Was ist nicht Bestandteil (1 Satz).\",\n    \"keywords\": [\"Begriff1\", \"Begriff2\", \"Begriff3\", \"Begriff4\", \"Begriff5\", \"Begriff6\", \"Begriff7\", \"Begriff8\", \"Begriff9\", \"Begriff10\"]\n  }\n]",
-              "role": "assistant"
+              "id": "33aa1c6c-a449-426c-b6a1-558eb9da9e53",
+              "leftValue": "={{ $json.output }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
             }
-          ]
+          ],
+          "combinator": "and"
         },
         "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.openAi",
-      "typeVersion": 1.8,
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
       "position": [
-        540,
-        380
+        -1340,
+        -3200
       ],
-      "id": "b902ba17-3be8-40a3-b1f2-6a30a1d83792",
-      "name": "OpenAI1",
-      "credentials": {
-        "openAiApi": {
-          "id": "xSvlcZNPoASPwcvk",
-          "name": "OpenAi account"
+      "id": "51de935c-2b8c-4155-9fc7-66bf16486022",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 10
+            }
+          ]
         }
-      }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -2340,
+        -3220
+      ],
+      "id": "992c0a59-7857-4e41-9ebf-18c3238ed551",
+      "name": "Schedule Trigger"
     }
   ],
   "pinData": {},
   "settings": {
     "executionOrder": "v1"
   },
-  "staticData": null,
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
   "tags": [],
-  "triggerCount": 0,
-  "updatedAt": "2025-04-13T01:51:23.000Z",
-  "versionId": "92d26e4c-0198-4440-951b-a974ad436ebe"
+  "triggerCount": 1,
+  "updatedAt": "2025-04-13T03:58:05.000Z",
+  "versionId": "e26e04ae-fa0c-4718-8cf8-d62c214f40bf"
 }
