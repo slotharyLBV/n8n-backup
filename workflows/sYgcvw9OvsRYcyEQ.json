@@ -38,7 +38,7 @@
       "main": [
         [
           {
-            "node": "Code (erstelle aus dem Inhalt eine Binärdatei)",
+            "node": "If3",
             "type": "main",
             "index": 0
           }
@@ -83,7 +83,7 @@
       "main": [
         [
           {
-            "node": "Notion (Raw Idea in Notion speichern)",
+            "node": "If1",
             "type": "main",
             "index": 0
           }
@@ -129,6 +129,42 @@
           }
         ]
       ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Notion (Raw Idea in Notion speichern)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Loop Over active Kategories",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If3": {
+      "main": [
+        [
+          {
+            "node": "Code (erstelle aus dem Inhalt eine Binärdatei)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Loop Over active Kategories",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2025-04-09T09:05:27.139Z",
@@ -164,7 +200,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -300,
+        140,
         -3200
       ],
       "id": "4a23e80f-54ff-44c8-99bd-a881c870d39a",
@@ -191,7 +227,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -100,
+        340,
         -3200
       ],
       "id": "fb6ab2ac-8b83-4243-a473-e6f983b61691",
@@ -211,7 +247,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -500,
+        -60,
         -3200
       ],
       "id": "c56c8df4-c050-4fa0-bea2-4c5c1274d9bb",
@@ -219,16 +255,17 @@
     },
     {
       "parameters": {
-        "jsCode": "// Hole den JSON-String aus der Antwort des Assistant\nconst ideasRaw = $('OpenAI (Frage den Expert Assistenten)').first().json.output;\n\n// Parsen des Strings in ein Array\nlet ideas;\ntry {\n  ideas = JSON.parse(ideasRaw);\n} catch (e) {\n  throw new Error('Fehler beim Parsen von Assistant-Ausgabe: ' + e.message);\n}\n\n// Kategorie aus vorherigem Node\nconst categoryName = $('Notion (get all active Kategories)').first().json.property_chat_gpt_experte_name || 'UnknownCategory';\n\n// Timestamp\nconst now = new Date();\nconst timestamp = now.toLocaleString('sv-SE', { timeZone: 'Europe/Berlin' }).replace(/[-: ]/g, '').slice(0, 14);\n\n// Markdown erzeugen\nconst textOutput = ideas.map(idea => {\n  return `### ${idea.title}\n\n${idea.description}\n\nRelevanz: ${idea.relevance}  \nProblem gelöst: ${idea.problemSolved}  \nIn Scope: ${idea.inScope}  \nOut of Scope: ${idea.outOfScope}  \nKeywords: ${Array.isArray(idea.keywords) ? idea.keywords.join(', ') : ''}\n\n---`;\n}).join('\\n\\n');\n\n// Rückgabe für nächste Nodes (z. B. Google Drive Upload)\nreturn [\n  {\n    json: {\n      text: textOutput,\n      filename: `usedIdeas_${categoryName}_${timestamp}.md`\n    }\n  }\n];"
+        "jsCode": "const items = $input.all();\nconst timestamp = new Date().toLocaleString('sv-SE', { timeZone: 'Europe/Berlin' })\n  .replace(/[-: ]/g, '')\n  .slice(0, 14);\n\n// Hole Kategorie-Name sicher aus aktuellem Input\nconst categoryName = $input.first().json.property_name || 'UnknownCategory';\n\n// Markdown erzeugen\nconst textOutput = items.map(item => {\n  const idea = item.json;\n  return `### ${idea.title}\n\n${idea.description}\n\nRelevanz: ${idea.relevance}  \nProblem gelöst: ${idea.problemSolved}  \nIn Scope: ${idea.inScope}  \nOut of Scope: ${idea.outOfScope}  \nKeywords: ${Array.isArray(idea.keywords) ? idea.keywords.join(', ') : ''}\n\n---`;\n}).join('\\n\\n');\n\n// Rückgabe\nreturn [\n  {\n    json: {\n      text: textOutput,\n      filename: `usedIdeas_${categoryName}_${timestamp}.md`\n    }\n  }\n];"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -700,
+        -480,
         -3200
       ],
       "id": "67fe3905-28d0-4acd-b816-0eef40a14fc8",
-      "name": "Code (create Markdown)"
+      "name": "Code (create Markdown)",
+      "alwaysOutputData": true
     },
     {
       "parameters": {
@@ -320,7 +357,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const raw = $input.first().json.output;\n\n// Entfernt den Markdown-Wrapper (```json ... ```)\nconst cleaned = raw\n  .replace(/^```json\\s*/, '')   // Entfernt ```json + optionalen Zeilenumbruch\n  .replace(/```$/, '')          // Entfernt das letzte ``` am Ende\n  .trim();                      // Entfernt überflüssige Leerzeichen\n\nlet parsed;\ntry {\n  parsed = JSON.parse(cleaned);\n} catch (e) {\n  throw new Error(\"Fehler beim Parsen: \" + e.message);\n}\n\n// Gib jedes Objekt einzeln zurück\nreturn parsed.map(entry => ({ json: entry }));"
+        "jsCode": "const raw = $input.first().json.output;\n\n// Entfernt den Markdown-Wrapper (```json ... ```)\nconst cleaned = raw\n  .replace(/^```json\\s*/, '')   // Entfernt ```json + optionalen Zeilenumbruch\n  .replace(/```$/, '')          // Entfernt das letzte ``` am Ende\n  .replace(/'/g, '\"') // ← ersetzt einfache durch doppelte Anführungszeichen\n  .trim();                      // Entfernt überflüssige Leerzeichen\n\nlet parsed;\ntry {\n  parsed = JSON.parse(cleaned);\n} catch (e) {\n  throw new Error(\"Fehler beim Parsen: \" + e.message);\n}\n\n// Gib jedes Objekt einzeln zurück\nreturn parsed.map(entry => ({ json: entry }));"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -329,7 +366,9 @@
         -3200
       ],
       "id": "ef8f7ead-16ba-431d-97f1-61eb891cea9f",
-      "name": "Code (Json in flache Hierarchie transformieren)"
+      "name": "Code (Json in flache Hierarchie transformieren)",
+      "alwaysOutputData": true,
+      "retryOnFail": true
     },
     {
       "parameters": {
@@ -385,7 +424,7 @@
       "type": "n8n-nodes-base.notion",
       "typeVersion": 2.2,
       "position": [
-        -900,
+        -680,
         -3200
       ],
       "id": "b4e21975-8f6c-4cb8-93ea-71d49f0d4a9b",
@@ -449,6 +488,74 @@
       ],
       "id": "992c0a59-7857-4e41-9ebf-18c3238ed551",
       "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "b9dc89b5-864e-43ab-9ee8-acd49b15ac71",
+              "leftValue": "={{$json[\"title\"]}}",
+              "rightValue": 0,
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -860,
+        -3200
+      ],
+      "id": "e8ff2abd-dda8-4977-96d0-226e41281e83",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f98c4c22-5952-4a42-a0a3-94005de84bf6",
+              "leftValue": "={{$json[\"text\"]}}",
+              "rightValue": 0,
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -260,
+        -3200
+      ],
+      "id": "73ee12a1-5a45-42fb-a645-b01462518857",
+      "name": "If3"
     }
   ],
   "pinData": {},
@@ -462,6 +569,6 @@
   },
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-04-13T03:58:05.000Z",
-  "versionId": "e26e04ae-fa0c-4718-8cf8-d62c214f40bf"
+  "updatedAt": "2025-04-13T21:53:58.000Z",
+  "versionId": "83e3aeb7-73d6-41fb-b3a2-e2c09baff7de"
 }
