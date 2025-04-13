@@ -1,22 +1,26 @@
 {
   "active": false,
   "connections": {
-    "OpenAI (Liste Assistenten lesen)": {
-      "main": [
-        [
-          {
-            "node": "If1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Erstelle alle Assistenten von aktiven Kategorien": {
       "main": [
         [
           {
             "node": "HTTP Request (List all Vector Stores)1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request (List all Files)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "OpenAI (Liste Assistenten lesen)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Notion (get All Items)",
             "type": "main",
             "index": 0
           }
@@ -157,6 +161,62 @@
           }
         ]
       ]
+    },
+    "Loop Over Items2": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Notion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion (get All Items)": {
+      "main": [
+        [
+          {
+            "node": "If3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI (Liste Assistenten lesen)": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If3": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2025-04-12T20:57:06.416Z",
@@ -164,31 +224,8 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "name": "Content Creator Process (CCP) delete all OpenAI Assistent and Vector Stores",
+  "name": "delete all OpenAI Data",
   "nodes": [
-    {
-      "parameters": {
-        "resource": "assistant",
-        "operation": "list"
-      },
-      "type": "@n8n/n8n-nodes-langchain.openAi",
-      "typeVersion": 1.8,
-      "position": [
-        -140,
-        -980
-      ],
-      "id": "3785f066-b9ff-4b5a-8c37-1d9083b6dde8",
-      "name": "OpenAI (Liste Assistenten lesen)",
-      "executeOnce": false,
-      "retryOnFail": false,
-      "alwaysOutputData": true,
-      "credentials": {
-        "openAiApi": {
-          "id": "xSvlcZNPoASPwcvk",
-          "name": "OpenAi account"
-        }
-      }
-    },
     {
       "parameters": {},
       "type": "n8n-nodes-base.manualTrigger",
@@ -292,7 +329,7 @@
     },
     {
       "parameters": {
-        "url": "=https://api.openai.com/v1/vector_stores",
+        "url": "=https://api.openai.com/v1/vector_stores?limit=100",
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "openAiApi",
         "sendHeaders": true,
@@ -362,7 +399,7 @@
     },
     {
       "parameters": {
-        "url": "=https://api.openai.com/v1/files?purpose=assistants",
+        "url": "=https://api.openai.com/v1/files?purpose=assistants&limit=100",
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "openAiApi",
         "options": {}
@@ -386,9 +423,9 @@
     },
     {
       "parameters": {
-        "content": "## ALLE Assistenten löschen",
+        "content": "## ALLE Assistenten löschen\nin OpenAI",
         "height": 400,
-        "width": 1080
+        "width": 1060
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
@@ -401,9 +438,9 @@
     },
     {
       "parameters": {
-        "content": "## ALLE Vector Stores löschen",
+        "content": "## ALLE Vector Stores löschen\nin OpenAI",
         "height": 400,
-        "width": 1080
+        "width": 1060
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
@@ -416,9 +453,9 @@
     },
     {
       "parameters": {
-        "content": "## ALLE Files löschen",
+        "content": "## ALLE Files löschen#\nin OpenAI",
         "height": 400,
-        "width": 1080
+        "width": 1060
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
@@ -455,7 +492,7 @@
           "conditions": [
             {
               "id": "c3a544ea-2236-40ed-979e-4f4bf4b1fa80",
-              "leftValue": "={{ Object.keys($input.first().json).length }}",
+              "leftValue": "={{ $input.first().json.data.length }}",
               "rightValue": 0,
               "operator": {
                 "type": "number",
@@ -541,6 +578,169 @@
       ],
       "id": "f303849c-a70a-4b5f-99e3-8fc191d0adbc",
       "name": "If2"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        260,
+        -1420
+      ],
+      "id": "e5a7912b-68ce-474b-b3b6-483116562f39",
+      "name": "Loop Over Items2"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "update",
+        "pageId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Assistend ID|rich_text"
+            },
+            {
+              "key": "Vectore Store ID|rich_text"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        480,
+        -1300
+      ],
+      "id": "e6bc3bd2-b1c5-4ce3-8180-42799dc592a6",
+      "name": "Notion",
+      "credentials": {
+        "notionApi": {
+          "id": "yDYyBY9jyV4cRvEx",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "1ceab5af-d8fd-8023-aa4f-d51a41a44be2",
+          "mode": "list",
+          "cachedResultName": "Kategorien",
+          "cachedResultUrl": "https://www.notion.so/1ceab5afd8fd8023aa4fd51a41a44be2"
+        },
+        "returnAll": true,
+        "filterType": "manual",
+        "filters": {
+          "conditions": [
+            {
+              "key": "Assistend ID|rich_text",
+              "condition": "is_not_empty"
+            },
+            {
+              "key": "Vectore Store ID|rich_text",
+              "condition": "is_not_empty"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        -140,
+        -1360
+      ],
+      "id": "dcbd27ae-f771-4423-9635-b0470bf75d05",
+      "name": "Notion (get All Items)",
+      "credentials": {
+        "notionApi": {
+          "id": "yDYyBY9jyV4cRvEx",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## ALLE Assistenten löschen\nin Notion",
+        "height": 400,
+        "width": 1060,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -200,
+        -1480
+      ],
+      "id": "82220ac2-fbec-4684-b0b1-39d0fcaf66e1",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "resource": "assistant",
+        "operation": "list"
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        -140,
+        -980
+      ],
+      "id": "3785f066-b9ff-4b5a-8c37-1d9083b6dde8",
+      "name": "OpenAI (Liste Assistenten lesen)",
+      "executeOnce": false,
+      "retryOnFail": false,
+      "alwaysOutputData": true,
+      "credentials": {
+        "openAiApi": {
+          "id": "xSvlcZNPoASPwcvk",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c3a544ea-2236-40ed-979e-4f4bf4b1fa80",
+              "leftValue": "={{ Object.keys($input.first().json).length }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        20,
+        -1360
+      ],
+      "id": "e24e7284-d5aa-4cce-b625-d118b1a66a83",
+      "name": "If3"
     }
   ],
   "pinData": {},
@@ -550,6 +750,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-04-12T21:57:02.000Z",
-  "versionId": "40fbcfe7-1473-414a-8dbc-ec531ceddae7"
+  "updatedAt": "2025-04-12T23:49:57.000Z",
+  "versionId": "6fb5cb62-dd06-4c32-a40a-25e9af66739c"
 }
