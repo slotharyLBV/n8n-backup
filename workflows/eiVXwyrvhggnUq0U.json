@@ -122,7 +122,7 @@
       "main": [
         [
           {
-            "node": "Edit Fields (grenzeInTagen)",
+            "node": "Notion (alle Einträge nicht aktiviert nach ...)",
             "type": "main",
             "index": 0
           }
@@ -134,17 +134,6 @@
         [
           {
             "node": "Loop Over Items",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Edit Fields (grenzeInTagen)": {
-      "main": [
-        [
-          {
-            "node": "Notion (alle Einträge nicht aktiviert nach ...)",
             "type": "main",
             "index": 0
           }
@@ -172,7 +161,7 @@
           "__rl": true,
           "value": "1ceab5af-d8fd-80df-88c7-f99a2ff9cf82",
           "mode": "list",
-          "cachedResultName": "SLEmailverteiler",
+          "cachedResultName": "Emailverteiler",
           "cachedResultUrl": "https://www.notion.so/1ceab5afd8fd80df88c7f99a2ff9cf82"
         }
       },
@@ -302,7 +291,7 @@
         "propertiesUi": {
           "propertyValues": [
             {
-              "key": "token|rich_text",
+              "key": "Token|rich_text",
               "textContent": "={{ $json.new_token }}"
             },
             {
@@ -364,7 +353,7 @@
           "__rl": true,
           "value": "1ceab5af-d8fd-80df-88c7-f99a2ff9cf82",
           "mode": "list",
-          "cachedResultName": "SLEmailverteiler",
+          "cachedResultName": "Emailverteiler",
           "cachedResultUrl": "https://www.notion.so/1ceab5afd8fd80df88c7f99a2ff9cf82"
         },
         "filterType": "manual",
@@ -451,14 +440,15 @@
           "__rl": true,
           "value": "1ceab5af-d8fd-80df-88c7-f99a2ff9cf82",
           "mode": "list",
-          "cachedResultName": "SLEmailverteiler",
+          "cachedResultName": "Emailverteiler",
           "cachedResultUrl": "https://www.notion.so/1ceab5afd8fd80df88c7f99a2ff9cf82"
         },
+        "returnAll": true,
         "filterType": "manual",
         "filters": {
           "conditions": [
             {
-              "key": "token|rich_text",
+              "key": "Token|rich_text",
               "condition": "equals",
               "richTextValue": "={{ $json.query.token }}"
             }
@@ -493,15 +483,15 @@
         "propertiesUi": {
           "propertyValues": [
             {
-              "key": "Opt-In bestätigt|checkbox",
-              "checkboxValue": true
+              "key": "Token|rich_text"
             },
             {
               "key": "Status|select",
               "selectValue": "aktiv"
             },
             {
-              "key": "token|rich_text"
+              "key": "Opt-In bestätigt|checkbox",
+              "checkboxValue": true
             },
             {
               "key": "Notizen|rich_text",
@@ -514,7 +504,7 @@
       "type": "n8n-nodes-base.notion",
       "typeVersion": 2.2,
       "position": [
-        -300,
+        -280,
         520
       ],
       "id": "691616ab-232d-41a6-9143-0b73b2005dc5",
@@ -547,7 +537,7 @@
               "selectValue": "unbestätigt"
             },
             {
-              "key": "token|rich_text",
+              "key": "Token|rich_text",
               "condition": "does_not_equal"
             },
             {
@@ -557,7 +547,7 @@
             {
               "key": "Letzter Versand|date",
               "condition": "=before",
-              "date": "={{ new Date(Date.now() - 1000 * 60 * 60 * 24 * $json.grenzeInTagen + 1000 * 60 * 60 * 2).toISOString() }}"
+              "date": "={{ new Date(Date.now() - 1000 * 60 * 60 * 24 * $vars.CCP_OptInGrenzeInTagen + 1000 * 60 * 60 * 2).toISOString() }}"
             }
           ]
         },
@@ -577,29 +567,6 @@
           "name": "Notion account"
         }
       }
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "0a2a5513-e1ce-4a82-8cea-1d5be7f3b2d7",
-              "name": "grenzeInTagen",
-              "value": "14",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -100,
-        520
-      ],
-      "id": "e8c5fd84-dcf8-48b0-b267-4fbe7e251e87",
-      "name": "Edit Fields (grenzeInTagen)"
     },
     {
       "parameters": {
@@ -747,14 +714,14 @@
   },
   "staticData": {
     "node:Notion Trigger (Neuer Datensatz)": {
-      "lastTimeChecked": "2025-04-12T20:48:00.000Z",
+      "lastTimeChecked": "2025-04-12T23:10:00.000Z",
       "possibleDuplicates": [
-        "1d1ab5af-d8fd-816e-8ed3-d848a2139acd"
+        "1d3ab5af-d8fd-810c-8baf-d3243537cf7c"
       ]
     }
   },
   "tags": [],
   "triggerCount": 2,
-  "updatedAt": "2025-04-09T07:38:02.000Z",
-  "versionId": "02813a59-9690-4476-9bc9-df02d312f7a8"
+  "updatedAt": "2025-04-12T23:08:28.000Z",
+  "versionId": "6f7cc6e3-ab44-4337-bd66-5bea5d35ac5b"
 }
