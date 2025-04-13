@@ -133,7 +133,7 @@
       "main": [
         [
           {
-            "node": "Loop Over Items1",
+            "node": "Split Out1",
             "type": "main",
             "index": 0
           }
@@ -212,6 +212,17 @@
         [
           {
             "node": "Loop Over Items2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
             "type": "main",
             "index": 0
           }
@@ -367,7 +378,7 @@
       "type": "n8n-nodes-base.splitInBatches",
       "typeVersion": 3,
       "position": [
-        320,
+        500,
         -220
       ],
       "id": "5dc62c84-d9e0-4e87-aedc-840ee9913323",
@@ -376,7 +387,7 @@
     {
       "parameters": {
         "method": "DELETE",
-        "url": "=https://api.openai.com/v1/files/{{ $json.data[0].id }}",
+        "url": "=https://api.openai.com/v1/files/{{ $('Split Out1').item.json.id }}",
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "openAiApi",
         "options": {}
@@ -384,7 +395,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        480,
+        700,
         -100
       ],
       "id": "2ad4a433-e057-4af4-8c48-9db5fd398ce4",
@@ -741,6 +752,20 @@
       ],
       "id": "e24e7284-d5aa-4cce-b625-d118b1a66a83",
       "name": "If3"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        300,
+        -200
+      ],
+      "id": "e79979b5-69e9-461a-b9b8-54cb8f173487",
+      "name": "Split Out1"
     }
   ],
   "pinData": {},
@@ -750,6 +775,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-04-12T23:49:57.000Z",
-  "versionId": "6fb5cb62-dd06-4c32-a40a-25e9af66739c"
+  "updatedAt": "2025-04-13T21:27:48.000Z",
+  "versionId": "46e1524e-521e-4a58-8a7f-486a8ba6f03c"
 }
