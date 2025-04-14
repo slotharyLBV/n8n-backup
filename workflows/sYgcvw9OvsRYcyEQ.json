@@ -265,7 +265,8 @@
       ],
       "id": "67fe3905-28d0-4acd-b816-0eef40a14fc8",
       "name": "Code (create Markdown)",
-      "alwaysOutputData": true
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
     },
     {
       "parameters": {
@@ -357,7 +358,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const raw = $input.first().json.output;\n\n// Entfernt den Markdown-Wrapper (```json ... ```)\nconst cleaned = raw\n  .replace(/^```json\\s*/, '')   // Entfernt ```json + optionalen Zeilenumbruch\n  .replace(/```$/, '')          // Entfernt das letzte ``` am Ende\n  .replace(/'/g, '\"') // ← ersetzt einfache durch doppelte Anführungszeichen\n  .trim();                      // Entfernt überflüssige Leerzeichen\n\nlet parsed;\ntry {\n  parsed = JSON.parse(cleaned);\n} catch (e) {\n  throw new Error(\"Fehler beim Parsen: \" + e.message);\n}\n\n// Gib jedes Objekt einzeln zurück\nreturn parsed.map(entry => ({ json: entry }));"
+        "jsCode": "const raw = $input.first().json.output;\n\n// Entfernt den Markdown-Wrapper (```json ... ```)\nconst cleaned = raw\n  .replace(/^```json\\s*/, '')   // Entfernt ```json + optionalen Zeilenumbruch\n  .replace(/```$/, '')          // Entfernt das letzte ``` am Ende\n    .trim();                      // Entfernt überflüssige Leerzeichen\n\nlet parsed;\ntry {\n  parsed = JSON.parse(cleaned);\n} catch (e) {\n  // Gib ein Dummy-Objekt zurück, damit das nächste IF sauber prüfen kann\n  return [{ json: { fehler: true } }];\n}\n\n// Gib jedes Objekt einzeln zurück\nreturn parsed.map(entry => ({ json: entry }));"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -368,7 +369,8 @@
       "id": "ef8f7ead-16ba-431d-97f1-61eb891cea9f",
       "name": "Code (Json in flache Hierarchie transformieren)",
       "alwaysOutputData": true,
-      "retryOnFail": true
+      "retryOnFail": true,
+      "onError": "continueRegularOutput"
     },
     {
       "parameters": {
@@ -569,6 +571,6 @@
   },
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-04-13T21:53:58.000Z",
-  "versionId": "83e3aeb7-73d6-41fb-b3a2-e2c09baff7de"
+  "updatedAt": "2025-04-13T22:08:22.000Z",
+  "versionId": "b02f6249-c5e5-430d-ace8-15ecd0222d54"
 }
