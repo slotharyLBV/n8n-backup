@@ -1,0 +1,780 @@
+{
+  "active": false,
+  "connections": {
+    "Erstelle alle Assistenten von aktiven Kategorien": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request (List all Vector Stores)1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request (List all Files)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "OpenAI (Liste Assistenten lesen)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Notion (get All Items)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over all Assistant": {
+      "main": [
+        [],
+        [
+          {
+            "node": "OpenAI (delete Assisten)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI (delete Assisten)": {
+      "main": [
+        [
+          {
+            "node": "Loop Over all Assistant",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "HTTP Request (delete all Vector Stores)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request (delete all Vector Stores)": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request (List all Vector Stores)1": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [],
+        [
+          {
+            "node": "HTTP Request (delete all Vector Stores)1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request (delete all Vector Stores)1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request (List all Files)": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Split Out1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over all Assistant",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items2": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Notion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion (get All Items)": {
+      "main": [
+        [
+          {
+            "node": "If3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI (Liste Assistenten lesen)": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If3": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-04-14T13:33:27.656Z",
+  "id": "W1FsrW8bpoXk9NA5",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "delete all OpenAI Data",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -660,
+        -400
+      ],
+      "id": "221b1f5b-db72-41a4-b3f1-23c0aebb0176",
+      "name": "Erstelle alle Assistenten von aktiven Kategorien"
+    },
+    {
+      "parameters": {
+        "options": {
+          "reset": false
+        }
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        280,
+        -980
+      ],
+      "id": "bc0a9013-12a6-487c-94e9-b1c5cf60b5c9",
+      "name": "Loop Over all Assistant",
+      "executeOnce": false,
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "resource": "assistant",
+        "operation": "deleteAssistant",
+        "assistantId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        480,
+        -900
+      ],
+      "id": "20cf1009-e6b3-4b98-9609-b799e293e17c",
+      "name": "OpenAI (delete Assisten)",
+      "retryOnFail": true,
+      "credentials": {
+        "openAiApi": {
+          "id": "u2KUZtdryI1kUCLm",
+          "name": "OpenAi account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        480,
+        -580
+      ],
+      "id": "ae864c3f-6a78-4304-8d24-93f2bcfc76ac",
+      "name": "Loop Over Items",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "method": "DELETE",
+        "url": "=https://api.openai.com/v1/vector_stores/{{ $json.id }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "OpenAI-Beta",
+              "value": "assistants=v2"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        700,
+        -500
+      ],
+      "id": "26d52832-6431-4c40-9c63-4bb09d72fbca",
+      "name": "HTTP Request (delete all Vector Stores)",
+      "retryOnFail": true,
+      "credentials": {
+        "openAiApi": {
+          "id": "u2KUZtdryI1kUCLm",
+          "name": "OpenAi account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://api.openai.com/v1/vector_stores?limit=100",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "OpenAI-Beta",
+              "value": "assistants=v2"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -140,
+        -580
+      ],
+      "id": "8fe9411a-05e7-47a4-8ece-a87db1d9cc0b",
+      "name": "HTTP Request (List all Vector Stores)1",
+      "retryOnFail": false,
+      "maxTries": null,
+      "credentials": {
+        "openAiApi": {
+          "id": "u2KUZtdryI1kUCLm",
+          "name": "OpenAi account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        500,
+        -220
+      ],
+      "id": "b1b285b7-0db5-4ecb-85fb-c8123da83084",
+      "name": "Loop Over Items1"
+    },
+    {
+      "parameters": {
+        "method": "DELETE",
+        "url": "=https://api.openai.com/v1/files/{{ $('Split Out1').item.json.id }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        700,
+        -100
+      ],
+      "id": "7ecdca35-feec-4fab-9cfd-bebd9caba01a",
+      "name": "HTTP Request (delete all Vector Stores)1",
+      "retryOnFail": true,
+      "credentials": {
+        "openAiApi": {
+          "id": "u2KUZtdryI1kUCLm",
+          "name": "OpenAi account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://api.openai.com/v1/files?purpose=assistants&limit=100",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -120,
+        -180
+      ],
+      "id": "aac9265b-697a-441e-ade7-919680b1252d",
+      "name": "HTTP Request (List all Files)",
+      "retryOnFail": true,
+      "alwaysOutputData": true,
+      "credentials": {
+        "openAiApi": {
+          "id": "u2KUZtdryI1kUCLm",
+          "name": "OpenAi account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## ALLE Assistenten löschen\nin OpenAI",
+        "height": 400,
+        "width": 1060
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -200,
+        -1080
+      ],
+      "id": "26ad922b-5ba1-4890-9249-dfc9de162bda",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## ALLE Vector Stores löschen\nin OpenAI",
+        "height": 400,
+        "width": 1060
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -200,
+        -680
+      ],
+      "id": "724adde4-583c-471d-9f5d-e7f1b1ec2c89",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## ALLE Files löschen#\nin OpenAI",
+        "height": 400,
+        "width": 1060
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -200,
+        -280
+      ],
+      "id": "46487a40-5356-4793-8676-30c70094715c",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        280,
+        -600
+      ],
+      "id": "a844e559-f2a0-4463-bb5f-c42324d9847a",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c3a544ea-2236-40ed-979e-4f4bf4b1fa80",
+              "leftValue": "={{ $input.first().json.data.length }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        60,
+        -180
+      ],
+      "id": "e2266523-c0a9-49bd-941c-088f2bfae638",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c3a544ea-2236-40ed-979e-4f4bf4b1fa80",
+              "leftValue": "={{ Object.keys($input.first().json).length }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        40,
+        -980
+      ],
+      "id": "2c9ad4bd-4be2-435e-bcea-1e39d18b9799",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c3a544ea-2236-40ed-979e-4f4bf4b1fa80",
+              "leftValue": "={{ Object.keys($input.first().json).length }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        40,
+        -580
+      ],
+      "id": "c3032c55-ced8-4246-bda1-0cfdf6777ab9",
+      "name": "If2"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        260,
+        -1420
+      ],
+      "id": "b342a706-dd87-46d9-9804-f787f6afcc59",
+      "name": "Loop Over Items2"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "update",
+        "pageId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Assistend ID|rich_text"
+            },
+            {
+              "key": "Vectore Store ID|rich_text"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        480,
+        -1300
+      ],
+      "id": "67ab8c5f-24a2-402f-8b08-b1a8da3f5f77",
+      "name": "Notion",
+      "credentials": {
+        "notionApi": {
+          "id": "zcMkS7fiCpPyLp07",
+          "name": "Notion account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "1d5ab5af-d8fd-805f-bb50-cf7162f7c464",
+          "mode": "list",
+          "cachedResultName": "Kategorien",
+          "cachedResultUrl": "https://www.notion.so/1d5ab5afd8fd805fbb50cf7162f7c464"
+        },
+        "returnAll": true,
+        "filterType": "manual",
+        "filters": {
+          "conditions": [
+            {
+              "key": "Assistend ID|rich_text",
+              "condition": "is_not_empty"
+            },
+            {
+              "key": "Vectore Store ID|rich_text",
+              "condition": "is_not_empty"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        -140,
+        -1360
+      ],
+      "id": "532278bb-4999-4d1c-b4a3-e7eba0643aab",
+      "name": "Notion (get All Items)",
+      "credentials": {
+        "notionApi": {
+          "id": "zcMkS7fiCpPyLp07",
+          "name": "Notion account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## ALLE Assistenten löschen\nin Notion",
+        "height": 400,
+        "width": 1060,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -200,
+        -1480
+      ],
+      "id": "922313e2-5f8a-4c73-92e5-ab1f29a4fb70",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "resource": "assistant",
+        "operation": "list"
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        -140,
+        -980
+      ],
+      "id": "6e573b4e-84c5-4c4e-965a-c6612687f3f5",
+      "name": "OpenAI (Liste Assistenten lesen)",
+      "executeOnce": false,
+      "retryOnFail": false,
+      "alwaysOutputData": true,
+      "credentials": {
+        "openAiApi": {
+          "id": "u2KUZtdryI1kUCLm",
+          "name": "OpenAi account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c3a544ea-2236-40ed-979e-4f4bf4b1fa80",
+              "leftValue": "={{ Object.keys($input.first().json).length }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        20,
+        -1360
+      ],
+      "id": "bdf0fb13-6b1d-48d4-820e-e72ce6ffe896",
+      "name": "If3"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        300,
+        -200
+      ],
+      "id": "8c803976-0ecb-48ee-8623-875eaaf073e2",
+      "name": "Split Out1"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-04-14T13:57:36.000Z",
+  "versionId": "5836d910-b15f-45fb-ab5c-69959efbbe16"
+}
