@@ -1,0 +1,567 @@
+{
+  "active": false,
+  "connections": {
+    "HTTP Request (upload file)": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request (injekt file to Vector Store)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request (injekt file to Vector Store)": {
+      "main": [
+        [
+          {
+            "node": "Loop Over active Kategories",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code (erstelle aus dem Inhalt eine Binärdatei)": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request (upload file)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code (create Markdown)": {
+      "main": [
+        [
+          {
+            "node": "If3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion (get all active Kategories)": {
+      "main": [
+        [
+          {
+            "node": "Loop Over active Kategories",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over active Kategories": {
+      "main": [
+        [],
+        [
+          {
+            "node": "OpenAI (Frage den Expert Assistenten)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI (Frage den Expert Assistenten)": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code (Json in flache Hierarchie transformieren)": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion (Raw Idea in Notion speichern)": {
+      "main": [
+        [
+          {
+            "node": "Code (create Markdown)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Code (Json in flache Hierarchie transformieren)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "OpenAI (Frage den Expert Assistenten)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Notion (get all active Kategories)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Notion (Raw Idea in Notion speichern)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Loop Over active Kategories",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If3": {
+      "main": [
+        [
+          {
+            "node": "Code (erstelle aus dem Inhalt eine Binärdatei)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Loop Over active Kategories",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-04-14T18:37:25.406Z",
+  "id": "ZRavix3CKtdDlvG6",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Raw Idea generator",
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.openai.com/v1/files",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "parameterType": "formBinaryData",
+              "name": "=file",
+              "inputDataFieldName": "=data"
+            },
+            {
+              "name": "purpose",
+              "value": "assistants"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        140,
+        -3200
+      ],
+      "id": "0e5d650b-a487-4cce-85cd-0175b1b9680b",
+      "name": "HTTP Request (upload file)",
+      "retryOnFail": true,
+      "credentials": {
+        "openAiApi": {
+          "id": "u2KUZtdryI1kUCLm",
+          "name": "OpenAi account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.openai.com/v1/vector_stores/{{ $('Loop Over active Kategories').first().json.property_vectore_store_id }}/files",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"file_id\": \"{{ $json.id }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        340,
+        -3200
+      ],
+      "id": "385996a6-fc1f-4069-9c93-caf6f90e61bb",
+      "name": "HTTP Request (injekt file to Vector Store)",
+      "retryOnFail": true,
+      "credentials": {
+        "openAiApi": {
+          "id": "u2KUZtdryI1kUCLm",
+          "name": "OpenAi account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const content = $input.first().json.text;\nconst fileName = $input.first().json.filename;\n\nreturn [\n  {\n    binary: {\n      data: {\n        data: Buffer.from(content, 'utf8').toString('base64'),\n        mimeType: 'text/plain',\n        fileName,\n      },\n    },\n  },\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -60,
+        -3200
+      ],
+      "id": "5b677657-2371-4739-b06a-6cb1528968e6",
+      "name": "Code (erstelle aus dem Inhalt eine Binärdatei)"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nconst timestamp = new Date().toLocaleString('sv-SE', { timeZone: 'Europe/Berlin' })\n  .replace(/[-: ]/g, '')\n  .slice(0, 14);\n\n// Hole Kategorie-Name sicher aus aktuellem Input\nconst categoryName = $input.first().json.property_name || 'UnknownCategory';\n\n// Markdown erzeugen\nconst textOutput = items.map(item => {\n  const idea = item.json;\n  return `### ${idea.title}\n\n${idea.title}\n\nLyrics: ${idea.lyrics}  \nStyles: ${idea.styles}  \nKeywords: ${Array.isArray(idea.keywords) ? idea.keywords.join(', ') : ''}\n\n---`;\n}).join('\\n\\n');\n\n// Rückgabe\nreturn [\n  {\n    json: {\n      text: textOutput,\n      filename: `usedIdeas_${categoryName}_${timestamp}.md`\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -480,
+        -3200
+      ],
+      "id": "3ae4143e-6012-4e8f-9b43-3180194e5699",
+      "name": "Code (create Markdown)",
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "1d5ab5af-d8fd-805f-bb50-cf7162f7c464",
+          "mode": "list",
+          "cachedResultName": "Kategorien",
+          "cachedResultUrl": "https://www.notion.so/1d5ab5afd8fd805fbb50cf7162f7c464"
+        },
+        "returnAll": true,
+        "filterType": "manual",
+        "filters": {
+          "conditions": [
+            {
+              "key": "Status|status",
+              "condition": "equals",
+              "statusValue": "Active"
+            }
+          ]
+        },
+        "options": {
+          "sort": {
+            "sortValue": [
+              {
+                "key": "ChatGPT Experte Name|rich_text",
+                "direction": "ascending"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        -2180,
+        -3220
+      ],
+      "id": "64f4d0b3-ecd3-481d-912f-357452c88744",
+      "name": "Notion (get all active Kategories)",
+      "credentials": {
+        "notionApi": {
+          "id": "zcMkS7fiCpPyLp07",
+          "name": "Notion account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -1960,
+        -3220
+      ],
+      "id": "7b798d5d-d286-4ed1-943b-35f02a08d40b",
+      "name": "Loop Over active Kategories"
+    },
+    {
+      "parameters": {
+        "resource": "assistant",
+        "assistantId": {
+          "__rl": true,
+          "value": "={{ $('Loop Over active Kategories').item.json.property_assistend_id }}",
+          "mode": "id"
+        },
+        "prompt": "define",
+        "text": "=give me exact **{{ $vars.CCP_ideaCountPerCategory }}** songs.",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        -1700,
+        -3200
+      ],
+      "id": "4da58c5f-3059-4636-ad7a-09dc1a8cdbbc",
+      "name": "OpenAI (Frage den Expert Assistenten)",
+      "credentials": {
+        "openAiApi": {
+          "id": "u2KUZtdryI1kUCLm",
+          "name": "OpenAi account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $input.first().json.output;\n\n// Entfernt den Markdown-Wrapper (```json ... ```)\nconst cleaned = raw\n  .replace(/^```json\\s*/, '')   // Entfernt ```json + optionalen Zeilenumbruch\n  .replace(/```$/, '')          // Entfernt das letzte ``` am Ende\n    .trim();                      // Entfernt überflüssige Leerzeichen\n\nlet parsed;\ntry {\n  parsed = JSON.parse(cleaned);\n} catch (e) {\n  // Gib ein Dummy-Objekt zurück, damit das nächste IF sauber prüfen kann\n  return [{ json: { fehler: true } }];\n}\n\n// Gib jedes Objekt einzeln zurück\nreturn parsed.map(entry => ({ json: entry }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1080,
+        -3200
+      ],
+      "id": "8ee6bd25-e744-4cca-b36e-79981433f5b0",
+      "name": "Code (Json in flache Hierarchie transformieren)",
+      "alwaysOutputData": true,
+      "retryOnFail": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "1d5ab5af-d8fd-80bd-9541-fff9b0fdb556",
+          "mode": "list",
+          "cachedResultName": "Content_m",
+          "cachedResultUrl": "https://www.notion.so/1d5ab5afd8fd80bd9541fff9b0fdb556"
+        },
+        "title": "={{ $json.title }}",
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Keywords|rich_text",
+              "textContent": "={{ $json.keywords.join(', ') }}"
+            },
+            {
+              "key": "Category|relation",
+              "relationValue": [
+                "={{ $('Notion (get all active Kategories)').item.json.id }}"
+              ]
+            },
+            {
+              "key": "Status|status",
+              "statusValue": "Raw Idea"
+            },
+            {
+              "key": "rank|number"
+            },
+            {
+              "key": "Version Line|rich_text",
+              "textContent": "Radio Edit"
+            },
+            {
+              "key": "Lyrics|rich_text",
+              "textContent": "={{ $json.lyrics.replace(/\\\\n/g, '\\n') }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        -680,
+        -3200
+      ],
+      "id": "5320bf81-b7fa-4e8b-98d1-522b20767da0",
+      "name": "Notion (Raw Idea in Notion speichern)",
+      "credentials": {
+        "notionApi": {
+          "id": "zcMkS7fiCpPyLp07",
+          "name": "Notion account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "33aa1c6c-a449-426c-b6a1-558eb9da9e53",
+              "leftValue": "={{ $json.output }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1340,
+        -3200
+      ],
+      "id": "d142306a-4687-435a-8165-f4d7304db590",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 10
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -2340,
+        -3220
+      ],
+      "id": "2d7a53cf-7969-43d1-b7ad-6d75306115ac",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "b9dc89b5-864e-43ab-9ee8-acd49b15ac71",
+              "leftValue": "={{$json[\"title\"]}}",
+              "rightValue": 0,
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -860,
+        -3200
+      ],
+      "id": "2b00a506-ce3d-45a6-a7a7-71a8899e7a41",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f98c4c22-5952-4a42-a0a3-94005de84bf6",
+              "leftValue": "={{$json[\"text\"]}}",
+              "rightValue": 0,
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -260,
+        -3200
+      ],
+      "id": "8cbae188-b8ad-4377-a85f-30146397d60f",
+      "name": "If3"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-04-14T18:59:07.000Z",
+  "versionId": "65b057e4-c404-491c-8fdb-7ee1705f81d3"
+}
