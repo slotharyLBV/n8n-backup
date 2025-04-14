@@ -1,0 +1,319 @@
+{
+  "active": false,
+  "connections": {
+    "Notion (ziehe alle Kategorien die aktiv sind)": {
+      "main": [
+        [
+          {
+            "node": "Loop Over alle Kathegorien",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over alle Kathegorien": {
+      "main": [
+        [],
+        [
+          {
+            "node": "OpenAI (erstelle Assisten)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI (erstelle Assisten)": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request (create Vector Store)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request (create Vector Store)": {
+      "main": [
+        [
+          {
+            "node": "Notion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request (set Vector Store to Assistant)": {
+      "main": [
+        [
+          {
+            "node": "Loop Over alle Kathegorien",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Erstelle alle Assistenten von aktiven Kategorien": {
+      "main": [
+        [
+          {
+            "node": "Notion (ziehe alle Kategorien die aktiv sind)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request (set Vector Store to Assistant)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-04-14T13:57:50.036Z",
+  "id": "MrUynaZ0Tzx1aR8P",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Sync OpenAI Assistent und erstelle bei Bedarf Assistent und Vector Store copy",
+  "nodes": [
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "1d5ab5af-d8fd-805f-bb50-cf7162f7c464",
+          "mode": "list",
+          "cachedResultName": "Kategorien",
+          "cachedResultUrl": "https://www.notion.so/1d5ab5afd8fd805fbb50cf7162f7c464"
+        },
+        "returnAll": true,
+        "filterType": "manual",
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "key": "Status|status",
+              "condition": "equals",
+              "statusValue": "Active"
+            },
+            {
+              "key": "Assistend ID|rich_text",
+              "condition": "is_empty"
+            },
+            {
+              "key": "Vectore Store ID|rich_text",
+              "condition": "is_empty"
+            }
+          ]
+        },
+        "options": {
+          "sort": {
+            "sortValue": [
+              {
+                "key": "Name|title",
+                "direction": "ascending"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        -100
+      ],
+      "id": "f2364a93-a23c-45c7-9ecf-540da6588987",
+      "name": "Notion (ziehe alle Kategorien die aktiv sind)",
+      "alwaysOutputData": false,
+      "executeOnce": true,
+      "credentials": {
+        "notionApi": {
+          "id": "zcMkS7fiCpPyLp07",
+          "name": "Notion account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "reset": false
+        }
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        300,
+        -100
+      ],
+      "id": "0a777a09-19d6-4fc8-9d25-1f3ce1769877",
+      "name": "Loop Over alle Kathegorien",
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "resource": "assistant",
+        "operation": "create",
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "name": "={{ $vars.CCP_assistentPrefix + $json.property_chat_gpt_experte_name}}",
+        "description": "=Idea Brainstorming Assistant für die Kategorie: {{ $json.name }}",
+        "instructions": "=Du bist ein kreativer und strategischer Brainstorming-Assistent.  \nDeine Aufgabe ist es, neue, originelle und relevante Content-Ideen für die Kategorie \"{{ $json.name }}\" zu generieren. Die Beschreibung für die Kategorie ist \"{{ $json.property_beschreibung }}\".\n\nZielgruppe: {{ $json.property_zielgruppe }}\n\nPrimärer Ausspielungskanal: YouTube  \nContent-Länge: ca. 10 Minuten, maximal jedoch 20 Minuten.  \nSekundäre Kanäle (für spätere Anpassung): TikTok, Instagram, LinkedIn, Podcast-Plattformen\n\nDu hast Zugriff auf externe Wissensquellen (Vektordatenbank). Die Inhalte stammen aus verschiedenen Dateien.  \nVerhalte dich abhängig vom Dateinamen folgendermaßen:\n\n1. Wenn die Datei mit **\"usedIdeas_{{ $json.property_chat_gpt_experte_name }}\"** beginnt:\n→ Diese Inhalte gelten als bereits verwendet.  \nDu darfst **KEINE Inhalte generieren, die diesen auch nur im Ansatz ähneln** (Wortwahl, Formulierungen, Struktur, Themenkern oder Titelidee).  \nWenn du unsicher bist, ob eine Idee bereits vorhanden war – verzichte auf sie.\n\n2. Wenn die Datei mit **\"inspiration_\"** beginnt:  \n→ Diese Inhalte dienen dir zur **kreativen Inspiration** (z. B. YouTube-Videos, Artikel etc.).  \nDu darfst daraus Ideen ableiten, **aber sie müssen erweitert, angepasst oder neu interpretiert** werden – niemals 1:1 übernommen.\n\nBeziehe dieses Wissen aktiv in deine Überlegungen ein und trenne intern strikt zwischen diesen Quellen.\n\n---\n\n### Denke die Idee primär als Videokonzept für YouTube:\n- Ist das Thema visuell erzählbar?\n- Gibt es starke visuelle Hooks oder Emotionen?\n- Lässt sich daraus eine ansprechende Storyline oder Struktur bauen?\n\n---\n\n### Kriterien:\n- Relevanz für die Zielgruppe\n- Potenzial für Engagement\n- Noch nicht behandelte Themen (Vermeide Redundanz)\n- Kreativität, aber realistisch umsetzbar\n\n---\n\n### Generiere exakt **soviele** Ideen pro Anfrage, wie der Benutzer möchte.\n\n---\n\n🟡 **Gib deine Antwort ausschließlich als reines, gültiges JSON-Array zurück.**  \n⚠️ **Keine Kommentare, keine erklärenden Sätze davor oder danach, kein Markdown, kein „output“-Wrapper.**\n\nNutze exakt diese Struktur:\n\n```json\n[\n  {\n    \"title\": \"Beispiel-Idee\",\n    \"description\": \"Kurzbeschreibung der Idee (1–2 Sätze).\",\n    \"relevance\": \"Warum das Thema relevant ist (1 Satz).\",\n    \"problemSolved\": \"Welches Problem wird gelöst (1 Satz).\",\n    \"inScope\": \"Was umfasst das Thema (1 Satz).\",\n    \"outOfScope\": \"Was ist nicht Bestandteil (1 Satz).\",\n    \"keywords\": [\"Begriff1\", \"Begriff2\", \"Begriff3\", \"Begriff4\", \"Begriff5\", \"Begriff6\", \"Begriff7\", \"Begriff8\", \"Begriff9\", \"Begriff10\"]\n  }\n]",
+        "knowledgeRetrieval": "={{ false }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        580,
+        -100
+      ],
+      "id": "7bf26b70-8346-4640-9860-f47690af5ec9",
+      "name": "OpenAI (erstelle Assisten)",
+      "retryOnFail": true,
+      "credentials": {
+        "openAiApi": {
+          "id": "u2KUZtdryI1kUCLm",
+          "name": "OpenAi account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/vector_stores",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"name\": \"{{ $vars.CCP_assistentVectorStorePrefix + $('Loop Over alle Kathegorien').item.json.property_chat_gpt_experte_name }}\",\n  \"expires_after\": {\n    \"anchor\": \"last_active_at\",\n    \"days\": 365\n  },\n  \"metadata\": {\n    \"category\": \"{{ $('Loop Over alle Kathegorien').item.json.property_chat_gpt_experte_name }}\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        800,
+        -100
+      ],
+      "id": "5eaa7c5a-7453-47f3-9faf-c3f96c94a302",
+      "name": "HTTP Request (create Vector Store)",
+      "retryOnFail": true,
+      "credentials": {
+        "openAiApi": {
+          "id": "u2KUZtdryI1kUCLm",
+          "name": "OpenAi account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.openai.com/v1/assistants/{{ $('OpenAI (erstelle Assisten)').item.json.id }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "OpenAI-Beta",
+              "value": "assistants=v2"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"tool_resources\": {\n    \"file_search\": {\n      \"vector_store_ids\": [\"{{ $('HTTP Request (create Vector Store)').item.json.id }}\"]\n    }\n  }\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1280,
+        -100
+      ],
+      "id": "2582f524-b4c9-4cf0-9431-855e381dda05",
+      "name": "HTTP Request (set Vector Store to Assistant)",
+      "retryOnFail": true,
+      "credentials": {
+        "openAiApi": {
+          "id": "u2KUZtdryI1kUCLm",
+          "name": "OpenAi account 2"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -260,
+        -100
+      ],
+      "id": "528095a2-87b3-4c8c-8403-5c3fe1b466c7",
+      "name": "Erstelle alle Assistenten von aktiven Kategorien"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "update",
+        "pageId": {
+          "__rl": true,
+          "value": "={{ $('Loop Over alle Kathegorien').item.json.id }}",
+          "mode": "id"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Assistend ID|rich_text",
+              "textContent": "={{ $('OpenAI (erstelle Assisten)').item.json.id }}"
+            },
+            {
+              "key": "Vectore Store ID|rich_text",
+              "textContent": "={{ $json.id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        1040,
+        -100
+      ],
+      "id": "7264c1b6-ee04-4723-b5c1-f37b39c5e78b",
+      "name": "Notion",
+      "credentials": {
+        "notionApi": {
+          "id": "zcMkS7fiCpPyLp07",
+          "name": "Notion account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-04-14T13:58:45.000Z",
+  "versionId": "c51d541b-6fa1-41c1-bb55-f30f70e06eee"
+}
