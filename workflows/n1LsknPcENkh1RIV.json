@@ -1,0 +1,126 @@
+{
+  "active": false,
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Notion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request (upload file)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-04-15T07:47:32.778Z",
+  "id": "n1LsknPcENkh1RIV",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Generate SUNO Music",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "5d5a107b-a0bd-4428-a717-f343f354324b",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "1d5ab5af-d8fd-80bd-9541-fff9b0fdb556",
+          "mode": "list",
+          "cachedResultName": "Content",
+          "cachedResultUrl": "https://www.notion.so/1d5ab5afd8fd80bd9541fff9b0fdb556"
+        },
+        "returnAll": true,
+        "filterType": "manual",
+        "filters": {
+          "conditions": [
+            {
+              "key": "Status|status",
+              "condition": "equals",
+              "statusValue": "Generate"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        220,
+        0
+      ],
+      "id": "9b11a238-c51e-4b97-9295-b274c9eec0f8",
+      "name": "Notion",
+      "credentials": {
+        "notionApi": {
+          "id": "zcMkS7fiCpPyLp07",
+          "name": "Notion account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.acedata.cloud/suno/audios",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "authorization",
+              "value": "=Bearer {{ $vars.acedata_token }}"
+            },
+            {
+              "name": "accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n\"title\": \"{{ $json.id }}\",\n\"style\": \"{{ $json.property_styles }}\",\n\"lyric\": \"{{ $json.property_lyrics_json }}\",\n\"custom\": true\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        400,
+        0
+      ],
+      "id": "ee957abb-52ac-4f8d-b514-c3781e2e38b4",
+      "name": "HTTP Request (upload file)",
+      "retryOnFail": true
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-04-15T07:56:06.000Z",
+  "versionId": "856a3c16-3ae3-42f1-8a3d-cecb4bc0b550"
+}
