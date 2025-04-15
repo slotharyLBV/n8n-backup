@@ -5,6 +5,51 @@
       "main": [
         [
           {
+            "node": "Notion (get all Songs in Status Generate)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request (call SUNO)": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion (get all Songs in Status Generate)": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request (call SUNO)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields (from SUNO)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Edit Fields (from SUNO)": {
+      "main": [
+        [
+          {
             "node": "Notion",
             "type": "main",
             "index": 0
@@ -12,15 +57,9 @@
         ]
       ]
     },
-    "Notion": {
+    "Edit Fields (Test Vars)": {
       "main": [
-        [
-          {
-            "node": "HTTP Request (upload file)",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     }
   },
@@ -41,6 +80,72 @@
       ],
       "id": "5d5a107b-a0bd-4428-a717-f343f354324b",
       "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "db6879fe-db2f-43c6-8a6f-a1afa2f00ab9",
+              "leftValue": "={{$json[\"success\"]}}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        620,
+        0
+      ],
+      "id": "6a75bd11-31f3-47d0-9861-81f80def0c89",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.acedata.cloud/suno/audios",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "authorization",
+              "value": "=Bearer {{ $vars.acedata_token }}"
+            },
+            {
+              "name": "accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n\"title\": \"{{ $json.id }}\",\n\"style\": \"{{ $json.property_styles }}\",\n\"lyric\": \"{{ $json.property_lyrics_json }}\",\n\"custom\": true\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        400,
+        0
+      ],
+      "id": "ee957abb-52ac-4f8d-b514-c3781e2e38b4",
+      "name": "HTTP Request (call SUNO)",
+      "retryOnFail": true
     },
     {
       "parameters": {
@@ -73,6 +178,104 @@
         0
       ],
       "id": "9b11a238-c51e-4b97-9295-b274c9eec0f8",
+      "name": "Notion (get all Songs in Status Generate)",
+      "credentials": {
+        "notionApi": {
+          "id": "zcMkS7fiCpPyLp07",
+          "name": "Notion account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "update",
+        "pageId": {
+          "__rl": true,
+          "value": "={{ $('Notion (get all Songs in Status Generate)').item.json.id }}",
+          "mode": "id"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Status|status",
+              "statusValue": "Produced"
+            },
+            {
+              "key": "suno_id1|rich_text",
+              "textContent": "={{ $json.data[0].id }}"
+            },
+            {
+              "key": "suno_id2|rich_text",
+              "textContent": "={{ $json.data[1].id }}"
+            },
+            {
+              "key": "image_url1|rich_text",
+              "textContent": "={{ $json.data[0].image_url }}"
+            },
+            {
+              "key": "audio_url2|rich_text",
+              "textContent": "={{ $json.data[1].image_url }}"
+            },
+            {
+              "key": "audio_url1|rich_text",
+              "textContent": "={{ $json.data[0].audio_url }}"
+            },
+            {
+              "key": "audio_url2|rich_text",
+              "textContent": "={{ $json.data[1].audio_url }}"
+            },
+            {
+              "key": "created_at1|rich_text",
+              "textContent": "={{ $json.data[0].created_at }}"
+            },
+            {
+              "key": "created_at2|rich_text",
+              "textContent": "={{ $json.data[1].created_at }}"
+            },
+            {
+              "key": "model1|rich_text",
+              "textContent": "={{ $json.data[0].model }}"
+            },
+            {
+              "key": "model2|rich_text",
+              "textContent": "={{ $json.data[1].model }}"
+            },
+            {
+              "key": "state1|rich_text",
+              "textContent": "={{ $json.data[0].state }}"
+            },
+            {
+              "key": "state2|rich_text",
+              "textContent": "={{ $json.data[1].state }}"
+            },
+            {
+              "key": "duration1|number",
+              "numberValue": "={{ $json.data[0].duration }}"
+            },
+            {
+              "key": "duration2|number",
+              "numberValue": "={{ $json.data[1].duration }}"
+            },
+            {
+              "key": "image_url2|rich_text",
+              "textContent": "={{ $json.data[1].image_url }}"
+            },
+            {
+              "key": "suno_task_id|rich_text",
+              "textContent": "={{ $json.task_id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        1060,
+        -100
+      ],
+      "id": "4271bb61-f546-4430-a638-21a422992b9d",
       "name": "Notion",
       "credentials": {
         "notionApi": {
@@ -83,35 +286,61 @@
     },
     {
       "parameters": {
-        "method": "POST",
-        "url": "=https://api.acedata.cloud/suno/audios",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
+        "assignments": {
+          "assignments": [
             {
-              "name": "authorization",
-              "value": "=Bearer {{ $vars.acedata_token }}"
+              "id": "9eb0f0c2-7cb1-4bfa-950b-f9c943467bee",
+              "name": "data",
+              "value": "={{ $json[\"data\"] }}",
+              "type": "array"
             },
             {
-              "name": "accept",
-              "value": "application/json"
+              "id": "330e3283-66e4-4972-aac3-95fbff914e49",
+              "name": "task_id",
+              "value": "={{$json[\"task_id\"]}}",
+              "type": "string"
             }
           ]
         },
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={\n\"title\": \"{{ $json.id }}\",\n\"style\": \"{{ $json.property_styles }}\",\n\"lyric\": \"{{ $json.property_lyrics_json }}\",\n\"custom\": true\n}",
         "options": {}
       },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
       "position": [
-        400,
-        0
+        860,
+        -100
       ],
-      "id": "ee957abb-52ac-4f8d-b514-c3781e2e38b4",
-      "name": "HTTP Request (upload file)",
-      "retryOnFail": true
+      "id": "a04bbd2e-6801-44ab-806e-429f6549564c",
+      "name": "Edit Fields (from SUNO)"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9eb0f0c2-7cb1-4bfa-950b-f9c943467bee",
+              "name": "data",
+              "value": "=[{\"id\":\"a6bde0d1-0a5b-48ab-a9dc-9335a29ac5ed\",\n\"title\":\"Quantum Groove\",\n\"image_url\":\"https://cdn2.suno.ai/image_a6bde0d1-0a5b-48ab-a9dc-9335a29ac5ed.jpeg\",\n\"lyric\":\"[Verse 1]\\nUnderneath the cosmic swirl\\nNebula pulse, watch it unfurl\\n[Chorus]\\nFeel the movement, let it ignite\\nIn the vastness, we take flight\\n[Verse 2]\\nColors racing, stars collide\\nIn this rhythm, we shall glide\\n[Chorus]\\nFeel the movement, let it ignite\\nIn the vastness, we take flight\\n[Bridge]\\nThrough the void, we will find our way\\nIn this cosmic dance, we’ll sway\\n[Outro]\\nNebula pulse, the journeys begun\\nWith every beat, we become one...\",\n\"audio_url\":\"https://cdn1.suno.ai/a6bde0d1-0a5b-48ab-a9dc-9335a29ac5ed.mp3\",\n\"video_url\":\"\",\"created_at\":\"2025-04-15T06:57:16.422Z\",\n\"model\":\"chirp-v4\",\n\"state\":\"succeeded\",\n\"prompt\":\"\",\n\"style\":\"Driving, dark, atmospheric, industrial, and minimal with deep basslines and 4/4 kick patterns. Influenced by Berlin and Detroit sound aesthetics.\",\n\"duration\":177.12},\n{\"id\":\"e61ecd8d-48bf-46b3-8b8b-2fe801d152e8\",\n\"title\":\"Quantum Groove\",\n\"image_url\":\"https://cdn2.suno.ai/image_e61ecd8d-48bf-46b3-8b8b-2fe801d152e8.jpeg\",\n\"lyric\":\"[Verse 1]\\nUnderneath the cosmic swirl\\nNebula pulse, watch it unfurl\\n[Chorus]\\nFeel the movement, let it ignite\\nIn the vastness, we take flight\\n[Verse 2]\\nColors racing, stars collide\\nIn this rhythm, we shall glide\\n[Chorus]\\nFeel the movement, let it ignite\\nIn the vastness, we take flight\\n[Bridge]\\nThrough the void, we will find our way\\nIn this cosmic dance, we’ll sway\\n[Outro]\\nNebula pulse, the journeys begun\\nWith every beat, we become one...\",\n\"audio_url\":\"https://cdn1.suno.ai/e61ecd8d-48bf-46b3-8b8b-2fe801d152e8.mp3\",\n\"video_url\":\"\",\n\"created_at\":\"2025-04-15T06:57:16.422Z\",\n\"model\":\"chirp-v4\",\n\"state\":\"succeeded\",\n\"prompt\":\"\",\n\"style\":\"Driving, dark, atmospheric, industrial, and minimal with deep basslines and 4/4 kick patterns. Influenced by Berlin and Detroit sound aesthetics.\",\n\"duration\":180.64}]",
+              "type": "array"
+            },
+            {
+              "id": "de11c418-8cec-461a-8e27-d1308abb7356",
+              "name": "task_id",
+              "value": "=44d2cf86-56f5-48be-b354-ad9ed872cb7a",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1160,
+        380
+      ],
+      "id": "c419466d-ed2c-4a96-8bf3-42681749cbdb",
+      "name": "Edit Fields (Test Vars)"
     }
   ],
   "pinData": {},
@@ -121,6 +350,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-04-15T07:56:06.000Z",
-  "versionId": "856a3c16-3ae3-42f1-8a3d-cecb4bc0b550"
+  "updatedAt": "2025-04-15T08:56:03.000Z",
+  "versionId": "0de05d6c-53c7-45f1-9c82-482aa65f702f"
 }
