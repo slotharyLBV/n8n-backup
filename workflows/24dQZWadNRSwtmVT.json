@@ -1,0 +1,342 @@
+{
+  "active": false,
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Notion (get all Songs in Status Produced)1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion (get highest custom_id)": {
+      "main": [
+        [
+          {
+            "node": "Notion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Notion (get highest custom_id)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion (get all Songs in Status Produced)": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion (get all Songs in Status Produced)1": {
+      "main": [
+        [
+          {
+            "node": "Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-04-15T11:05:22.091Z",
+  "id": "24dQZWadNRSwtmVT",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Save to GDrive",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -160,
+        360
+      ],
+      "id": "e11af3a6-7c6a-4aa2-a670-9f540cab3fcf",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "1d5ab5af-d8fd-80bd-9541-fff9b0fdb556",
+          "mode": "list",
+          "cachedResultName": "Content",
+          "cachedResultUrl": "https://www.notion.so/1d5ab5afd8fd80bd9541fff9b0fdb556"
+        },
+        "limit": 1,
+        "filterType": "manual",
+        "filters": {
+          "conditions": [
+            {
+              "key": "custom_id|rich_text",
+              "condition": "starts_with",
+              "richTextValue": "=LBVMusicId-{{ new Date().getFullYear() }}-"
+            }
+          ]
+        },
+        "options": {
+          "sort": {
+            "sortValue": [
+              {
+                "key": "custom_id|rich_text",
+                "direction": "descending"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        320,
+        0
+      ],
+      "id": "b3936793-d785-4194-aaa6-5b64eb3216c8",
+      "name": "Notion (get highest custom_id)",
+      "alwaysOutputData": true,
+      "credentials": {
+        "notionApi": {
+          "id": "zcMkS7fiCpPyLp07",
+          "name": "Notion account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        60,
+        15
+      ],
+      "id": "b0a03b4c-0ee1-469b-8f64-996f1936425b",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "update",
+        "pageId": {
+          "__rl": true,
+          "value": "={{ $('Loop Over Items').item.json.id }}",
+          "mode": "id"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "=custom_id|rich_text",
+              "textContent": "=LBVMusicId-{{ new Date().getFullYear() }}-{{ $json.property_custom_id ? parseInt($json.property_custom_id.split('-').pop()) + 1 : 1 }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        620,
+        60
+      ],
+      "id": "2a260bee-bb0d-40ea-a2e7-cf1cbe410087",
+      "name": "Notion",
+      "credentials": {
+        "notionApi": {
+          "id": "zcMkS7fiCpPyLp07",
+          "name": "Notion account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "1d5ab5af-d8fd-80bd-9541-fff9b0fdb556",
+          "mode": "list",
+          "cachedResultName": "Content",
+          "cachedResultUrl": "https://www.notion.so/1d5ab5afd8fd80bd9541fff9b0fdb556"
+        },
+        "returnAll": true,
+        "filterType": "manual",
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "key": "Status|status",
+              "condition": "equals",
+              "statusValue": "Produced"
+            },
+            {
+              "key": "custom_id|rich_text",
+              "condition": "is_empty"
+            }
+          ]
+        },
+        "options": {
+          "sort": {
+            "sortValue": [
+              {
+                "key": "custom_id|rich_text",
+                "direction": "descending"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        -160,
+        15
+      ],
+      "id": "711f3fc7-837d-44b8-a346-285d291b8f91",
+      "name": "Notion (get all Songs in Status Produced)",
+      "credentials": {
+        "notionApi": {
+          "id": "zcMkS7fiCpPyLp07",
+          "name": "Notion account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Create Custom ID",
+        "height": 320,
+        "width": 1060
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -220,
+        -40
+      ],
+      "id": "7a00d2c3-fa1b-416f-b823-a64134eb5da3",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "1d5ab5af-d8fd-80bd-9541-fff9b0fdb556",
+          "mode": "list",
+          "cachedResultName": "Content",
+          "cachedResultUrl": "https://www.notion.so/1d5ab5afd8fd80bd9541fff9b0fdb556"
+        },
+        "returnAll": true,
+        "filterType": "manual",
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "key": "Status|status",
+              "condition": "equals",
+              "statusValue": "Produced"
+            },
+            {
+              "key": "custom_id|rich_text",
+              "condition": "is_not_empty"
+            }
+          ]
+        },
+        "options": {
+          "sort": {
+            "sortValue": [
+              {
+                "key": "custom_id|rich_text",
+                "direction": "descending"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        60,
+        360
+      ],
+      "id": "6ad4f67b-4fa6-4d64-9571-19e9244d9de9",
+      "name": "Notion (get all Songs in Status Produced)1",
+      "credentials": {
+        "notionApi": {
+          "id": "zcMkS7fiCpPyLp07",
+          "name": "Notion account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "folder",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "root",
+          "cachedResultName": "/ (Root folder)"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        280,
+        360
+      ],
+      "id": "b0c9fa24-71f8-478b-ae56-223e051b30e6",
+      "name": "Google Drive"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-04-15T11:53:57.000Z",
+  "versionId": "b764292e-a65d-455c-a0c5-9f63726aef2e"
+}
