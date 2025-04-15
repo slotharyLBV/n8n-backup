@@ -464,7 +464,7 @@
     },
     {
       "parameters": {
-        "content": "## ALLE Files löschen#\nin OpenAI",
+        "content": "## ALLE Files löschen\nin OpenAI",
         "height": 400,
         "width": 1060
       },
@@ -775,6 +775,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-04-14T13:57:36.000Z",
-  "versionId": "5836d910-b15f-45fb-ab5c-69959efbbe16"
+  "updatedAt": "2025-04-15T10:04:13.000Z",
+  "versionId": "a5f5ddaa-73cf-4a43-a82f-ad5fab5c9b82"
 }
