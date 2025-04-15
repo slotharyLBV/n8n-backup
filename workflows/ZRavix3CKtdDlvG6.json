@@ -409,6 +409,14 @@
             {
               "key": "Lyrics|rich_text",
               "textContent": "={{ $json.lyrics.replace(/\\\\n/g, '\\n') }}"
+            },
+            {
+              "key": "Lyrics JSON|rich_text",
+              "textContent": "={{ $json.lyrics }}"
+            },
+            {
+              "key": "styles|rich_text",
+              "textContent": "={{ $json.styles }}"
             }
           ]
         },
@@ -562,6 +570,6 @@
   },
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-04-14T18:59:07.000Z",
-  "versionId": "65b057e4-c404-491c-8fdb-7ee1705f81d3"
+  "updatedAt": "2025-04-15T07:57:43.000Z",
+  "versionId": "a5fccefb-a810-4239-8137-e4fc36097ff2"
 }
