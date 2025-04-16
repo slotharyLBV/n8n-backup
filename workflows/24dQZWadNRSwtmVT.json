@@ -174,7 +174,7 @@
       "main": [
         [
           {
-            "node": "HTTP Request1",
+            "node": "HTTP Request4",
             "type": "main",
             "index": 0
           }
@@ -196,7 +196,7 @@
       "main": [
         [
           {
-            "node": "HTTP Request2",
+            "node": "HTTP Request6",
             "type": "main",
             "index": 0
           }
@@ -262,7 +262,7 @@
       "main": [
         [
           {
-            "node": "Edit Fields2",
+            "node": "Notion (get all Songs in Status Produced)",
             "type": "main",
             "index": 0
           }
@@ -291,11 +291,110 @@
         ]
       ]
     },
-    "Edit Fields2": {
+    "Google Drive": {
       "main": [
         [
           {
-            "node": "HTTP Request4",
+            "node": "HTTP Request8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request6": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request7": {
+      "main": [
+        [
+          {
+            "node": "Google Drive5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive5": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request8": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request9": {
+      "main": [
+        [
+          {
+            "node": "Google Drive6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request10": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request11",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request11": {
+      "main": [
+        [
+          {
+            "node": "Google Drive7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive6": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive7": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request2",
             "type": "main",
             "index": 0
           }
@@ -483,7 +582,7 @@
       "typeVersion": 3,
       "position": [
         780,
-        -260
+        -240
       ],
       "id": "714379c8-931a-44eb-b4ea-1c4369f7326c",
       "name": "Loop Over Items1"
@@ -530,7 +629,7 @@
       "typeVersion": 2.2,
       "position": [
         560,
-        -260
+        -240
       ],
       "id": "6ad4f67b-4fa6-4d64-9571-19e9244d9de9",
       "name": "Notion (get all Songs in Status Produced)2",
@@ -678,8 +777,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        2180,
-        -600
+        3280,
+        -620
       ],
       "id": "c4173b6f-9a69-4ab6-bc96-8fde325e6a8d",
       "name": "HTTP Request1"
@@ -699,8 +798,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        2620,
-        -600
+        4820,
+        -620
       ],
       "id": "3a0d3fde-7c23-42fa-9e77-36d82641825b",
       "name": "HTTP Request2"
@@ -720,8 +819,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        3060,
-        -600
+        5260,
+        -620
       ],
       "id": "0ee2eab9-24ed-4d3a-afcf-e77297f3bec0",
       "name": "HTTP Request3"
@@ -857,8 +956,8 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        2400,
-        -600
+        3500,
+        -620
       ],
       "id": "2ed50a24-3fd3-4e11-8e8d-d7d1c611e396",
       "name": "Google Drive2",
@@ -888,8 +987,8 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        2840,
-        -600
+        5040,
+        -620
       ],
       "id": "1173b508-df7a-4fca-a0fa-0f719bf91de5",
       "name": "Google Drive3",
@@ -919,8 +1018,8 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        3240,
-        -600
+        5440,
+        -620
       ],
       "id": "622643a3-b070-494a-9907-3c748691b886",
       "name": "Google Drive4",
@@ -948,9 +1047,9 @@
     },
     {
       "parameters": {
-        "content": "## Upload Files\nto GDrive",
+        "content": "## Upload Files\nto GDrive\nupscale covers in the process",
         "height": 320,
-        "width": 2800,
+        "width": 3380,
         "color": 4
       },
       "type": "n8n-nodes-base.stickyNote",
@@ -988,8 +1087,8 @@
       "type": "n8n-nodes-base.notion",
       "typeVersion": 2.2,
       "position": [
-        3440,
-        -600
+        5640,
+        -620
       ],
       "id": "2b8a3649-9cfd-4602-bd08-7976a7e28fd3",
       "name": "Notion2",
@@ -1008,7 +1107,7 @@
       "typeVersion": 2,
       "position": [
         400,
-        -260
+        -240
       ],
       "id": "612b2996-7e7c-49f1-8b2b-7f39728f15c2",
       "name": "Code"
@@ -1031,8 +1130,8 @@
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        1600,
-        -260
+        -460,
+        80
       ],
       "id": "7d45c711-ab6b-4f62-9c98-2a16d975677b",
       "name": "When clicking ‘Test workflow’"
@@ -1046,7 +1145,7 @@
           "parameters": [
             {
               "name": "Authorization",
-              "value": "=Bearer {{ $vars.acedata_token }}"
+              "value": "=Bearer {{ $vars.replicate_upscaler }}"
             },
             {
               "name": "Content-Type",
@@ -1060,14 +1159,14 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n\t\"version\": \"f121d640bd286e1fdc67f9799164c1d5be36ff74576ee11c803ae5b665dd46aa\",\n\t\"input\": {\n      \"image\": \"{{ $('Edit Fields2').item.json.image_url1 }}\",\n      \"scale\": 9\n\t}\n}",
+        "jsonBody": "={\n\t\"version\": \"f121d640bd286e1fdc67f9799164c1d5be36ff74576ee11c803ae5b665dd46aa\",\n\t\"input\": {\n      \"image\": \"{{ $('Edit Fields').item.json.image_url1 }}\",\n      \"scale\": 9\n\t}\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        2080,
-        -240
+        2060,
+        -280
       ],
       "id": "2e77e59f-67d2-43fd-b765-ed542a99860e",
       "name": "HTTP Request4"
@@ -1091,8 +1190,8 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        2540,
-        -240
+        2440,
+        -280
       ],
       "id": "4f5bc614-6ee3-42fb-b2f3-78fc5f9d1b21",
       "name": "Google Drive",
@@ -1118,40 +1217,310 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        2340,
-        -240
+        2260,
+        -280
       ],
       "id": "24a2c0bf-b5d2-466a-9baa-258241d9d234",
       "name": "HTTP Request5"
     },
     {
       "parameters": {
-        "assignments": {
-          "assignments": [
+        "content": "## upscale covers",
+        "height": 260,
+        "width": 1700,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1820,
+        -360
+      ],
+      "id": "8b26e689-d88a-4700-bd98-99433d18bade",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.replicate.com/v1/predictions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
             {
-              "id": "f857e88a-23cd-43bd-9bbf-63a4ae989136",
-              "name": "image_url1",
-              "value": "=https://cdn2.suno.ai/image_cd3eb720-7dac-47ff-b9dd-097229469927.jpeg",
-              "type": "string"
+              "name": "Authorization",
+              "value": "=Bearer {{ $vars.replicate_upscaler }}"
             },
             {
-              "id": "6daf7277-96ab-462f-a5e0-85ab29c3ca1f",
-              "name": "gdrive_folder",
-              "value": "=1dRIHZhHi_xKcwFCi437YmH8mw8Npakag",
-              "type": "string"
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Prefer",
+              "value": "wait"
             }
           ]
         },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n\t\"version\": \"f121d640bd286e1fdc67f9799164c1d5be36ff74576ee11c803ae5b665dd46aa\",\n\t\"input\": {\n      \"image\": \"{{ $('Edit Fields').item.json.image_url2 }}\",\n      \"scale\": 9\n\t}\n}",
         "options": {}
       },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
       "position": [
-        1860,
-        -240
+        3640,
+        -300
       ],
-      "id": "805ae252-d486-4fa6-a309-e6c660f8554e",
-      "name": "Edit Fields2"
+      "id": "0730a1cd-8354-4be1-be91-a0dadbe55264",
+      "name": "HTTP Request6"
+    },
+    {
+      "parameters": {
+        "inputDataFieldName": "image_url2_upscaled",
+        "name": "cover1_upscaled.jpeg",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "={{ $json.gdrive_folder }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        4020,
+        -300
+      ],
+      "id": "ec5f7b84-4640-4138-aee1-f9e841ab3da3",
+      "name": "Google Drive5",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "pUAhW2e5sqUMqdXa",
+          "name": "Google Drive account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.output }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file",
+              "outputPropertyName": "image_url2_upscaled"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3840,
+        -300
+      ],
+      "id": "45f85d3c-d8fc-4686-9243-fb76a5a4934c",
+      "name": "HTTP Request7"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.replicate.com/v1/predictions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $vars.replicate_upscaler }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Prefer",
+              "value": "wait"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n\t\"version\": \"f121d640bd286e1fdc67f9799164c1d5be36ff74576ee11c803ae5b665dd46aa\",\n\t\"input\": {\n      \"image\": \"{{ $('Edit Fields').item.json.image_url1 }}\",\n      \"scale\": 9\n\t}\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2660,
+        -20
+      ],
+      "id": "26336c3e-0158-4694-957c-ce0ec90b10b5",
+      "name": "HTTP Request8",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "inputDataFieldName": "image_url1_upscaled",
+        "name": "cover1_upscaled.jpeg",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "={{ $json.gdrive_folder }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        3040,
+        -20
+      ],
+      "id": "195d61f0-abed-4349-9970-ccad3a21818d",
+      "name": "Google Drive6",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "pUAhW2e5sqUMqdXa",
+          "name": "Google Drive account 2"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.output }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file",
+              "outputPropertyName": "image_url1_upscaled"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2860,
+        -20
+      ],
+      "id": "a09b640c-2bf1-44ad-a2bb-7a35dcc22079",
+      "name": "HTTP Request9",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "## create final Covers",
+        "height": 260,
+        "width": 2520,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2340,
+        -80
+      ],
+      "id": "d0fcb7eb-c8bf-4735-9631-b9926ea16fcc",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.replicate.com/v1/predictions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $vars.replicate_upscaler }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Prefer",
+              "value": "wait"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n\t\"version\": \"f121d640bd286e1fdc67f9799164c1d5be36ff74576ee11c803ae5b665dd46aa\",\n\t\"input\": {\n      \"image\": \"{{ $('Edit Fields').item.json.image_url2 }}\",\n      \"scale\": 9\n\t}\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        4260,
+        -20
+      ],
+      "id": "2e6b0653-bae4-4ff2-b25c-da14190b8a29",
+      "name": "HTTP Request10",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "inputDataFieldName": "image_url2_upscaled",
+        "name": "cover1_upscaled.jpeg",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "={{ $json.gdrive_folder }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        4640,
+        -20
+      ],
+      "id": "cabbe774-16d5-44cc-8648-3427b905a27d",
+      "name": "Google Drive7",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "pUAhW2e5sqUMqdXa",
+          "name": "Google Drive account 2"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.output }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file",
+              "outputPropertyName": "image_url2_upscaled"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        4460,
+        -20
+      ],
+      "id": "dbca8240-70bd-4d69-8ed6-3dafc2a336b0",
+      "name": "HTTP Request11",
+      "disabled": true
     }
   ],
   "pinData": {},
@@ -1169,6 +1538,6 @@
   },
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-04-16T07:44:59.000Z",
-  "versionId": "735bd342-0d2f-4199-919e-f83e95039b7f"
+  "updatedAt": "2025-04-16T11:56:33.000Z",
+  "versionId": "0b8b05a0-dc56-4fa4-bc7b-861cd6b48fb1"
 }
