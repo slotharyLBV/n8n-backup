@@ -295,7 +295,7 @@
       "main": [
         [
           {
-            "node": "HTTP Request8",
+            "node": "HTTP Request12",
             "type": "main",
             "index": 0
           }
@@ -328,18 +328,7 @@
       "main": [
         [
           {
-            "node": "HTTP Request10",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "HTTP Request8": {
-      "main": [
-        [
-          {
-            "node": "HTTP Request9",
+            "node": "HTTP Request14",
             "type": "main",
             "index": 0
           }
@@ -351,17 +340,6 @@
         [
           {
             "node": "Google Drive6",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "HTTP Request10": {
-      "main": [
-        [
-          {
-            "node": "HTTP Request11",
             "type": "main",
             "index": 0
           }
@@ -395,6 +373,28 @@
         [
           {
             "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request12": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request14": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request11",
             "type": "main",
             "index": 0
           }
@@ -862,7 +862,7 @@
     {
       "parameters": {
         "inputDataFieldName": "image_url1",
-        "name": "cover1.jpeg",
+        "name": "cover1_orig.jpeg",
         "driveId": {
           "__rl": true,
           "mode": "list",
@@ -923,6 +923,18 @@
               "name": "gdrive_folder",
               "value": "={{ $json.property_gdrive_folder }}",
               "type": "string"
+            },
+            {
+              "id": "0b24effd-439c-4ecd-96cb-8204c2c93543",
+              "name": "title",
+              "value": "={{ $json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "da5f8010-39ee-4ac2-9079-80e52f94c3e7",
+              "name": "version_line",
+              "value": "={{ $json.property_version_line }}",
+              "type": "string"
             }
           ]
         },
@@ -940,7 +952,7 @@
     {
       "parameters": {
         "inputDataFieldName": "image_url2",
-        "name": "cover2.jpeg",
+        "name": "cover2_orig.jpeg",
         "driveId": {
           "__rl": true,
           "mode": "list",
@@ -1182,7 +1194,7 @@
         },
         "folderId": {
           "__rl": true,
-          "value": "={{ $json.gdrive_folder }}",
+          "value": "={{ $('Edit Fields').item.json.gdrive_folder }}",
           "mode": "id"
         },
         "options": {}
@@ -1277,7 +1289,7 @@
     {
       "parameters": {
         "inputDataFieldName": "image_url2_upscaled",
-        "name": "cover1_upscaled.jpeg",
+        "name": "cover2_upscaled.jpeg",
         "driveId": {
           "__rl": true,
           "mode": "list",
@@ -1285,7 +1297,7 @@
         },
         "folderId": {
           "__rl": true,
-          "value": "={{ $json.gdrive_folder }}",
+          "value": "={{ $('Edit Fields').item.json.gdrive_folder }}",
           "mode": "id"
         },
         "options": {}
@@ -1328,44 +1340,8 @@
     },
     {
       "parameters": {
-        "method": "POST",
-        "url": "https://api.replicate.com/v1/predictions",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "Authorization",
-              "value": "=Bearer {{ $vars.replicate_upscaler }}"
-            },
-            {
-              "name": "Content-Type",
-              "value": "application/json"
-            },
-            {
-              "name": "Prefer",
-              "value": "wait"
-            }
-          ]
-        },
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={\n\t\"version\": \"f121d640bd286e1fdc67f9799164c1d5be36ff74576ee11c803ae5b665dd46aa\",\n\t\"input\": {\n      \"image\": \"{{ $('Edit Fields').item.json.image_url1 }}\",\n      \"scale\": 9\n\t}\n}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        2660,
-        -20
-      ],
-      "id": "26336c3e-0158-4694-957c-ce0ec90b10b5",
-      "name": "HTTP Request8",
-      "disabled": true
-    },
-    {
-      "parameters": {
-        "inputDataFieldName": "image_url1_upscaled",
-        "name": "cover1_upscaled.jpeg",
+        "inputDataFieldName": "image_url1_final",
+        "name": "cover1_final.jpeg",
         "driveId": {
           "__rl": true,
           "mode": "list",
@@ -1373,7 +1349,7 @@
         },
         "folderId": {
           "__rl": true,
-          "value": "={{ $json.gdrive_folder }}",
+          "value": "={{ $('Edit Fields').item.json.gdrive_folder }}",
           "mode": "id"
         },
         "options": {}
@@ -1401,7 +1377,7 @@
           "response": {
             "response": {
               "responseFormat": "file",
-              "outputPropertyName": "image_url1_upscaled"
+              "outputPropertyName": "image_url1_final"
             }
           }
         }
@@ -1434,44 +1410,8 @@
     },
     {
       "parameters": {
-        "method": "POST",
-        "url": "https://api.replicate.com/v1/predictions",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "Authorization",
-              "value": "=Bearer {{ $vars.replicate_upscaler }}"
-            },
-            {
-              "name": "Content-Type",
-              "value": "application/json"
-            },
-            {
-              "name": "Prefer",
-              "value": "wait"
-            }
-          ]
-        },
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={\n\t\"version\": \"f121d640bd286e1fdc67f9799164c1d5be36ff74576ee11c803ae5b665dd46aa\",\n\t\"input\": {\n      \"image\": \"{{ $('Edit Fields').item.json.image_url2 }}\",\n      \"scale\": 9\n\t}\n}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        4260,
-        -20
-      ],
-      "id": "2e6b0653-bae4-4ff2-b25c-da14190b8a29",
-      "name": "HTTP Request10",
-      "disabled": true
-    },
-    {
-      "parameters": {
-        "inputDataFieldName": "image_url2_upscaled",
-        "name": "cover1_upscaled.jpeg",
+        "inputDataFieldName": "image_url2_final",
+        "name": "cover2_final.jpeg",
         "driveId": {
           "__rl": true,
           "mode": "list",
@@ -1479,7 +1419,7 @@
         },
         "folderId": {
           "__rl": true,
-          "value": "={{ $json.gdrive_folder }}",
+          "value": "={{ $('Edit Fields').item.json.gdrive_folder }}",
           "mode": "id"
         },
         "options": {}
@@ -1507,7 +1447,7 @@
           "response": {
             "response": {
               "responseFormat": "file",
-              "outputPropertyName": "image_url2_upscaled"
+              "outputPropertyName": "image_url2_final"
             }
           }
         }
@@ -1520,6 +1460,70 @@
       ],
       "id": "dbca8240-70bd-4d69-8ed6-3dafc2a336b0",
       "name": "HTTP Request11",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $vars.music_content_creation_automation_render_endpoint }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $vars.music_content_creation_automation_token\t }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"background_url\": \"{{ $('HTTP Request4').item.json.output }}\",\n  \"logo_url\": \"{{ $vars.cover_logo_url }}\",\n  \"titel\": \"{{ $('Edit Fields').item.json.title }}\\n({{ $('Edit Fields').item.json.version_line }})\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2620,
+        -20
+      ],
+      "id": "3cd9b886-aaf1-4580-bad0-a23157598557",
+      "name": "HTTP Request12",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $vars.music_content_creation_automation_render_endpoint }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $vars.music_content_creation_automation_token\t }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"background_url\": \"{{ $('HTTP Request6').item.json.output }}\",\n  \"logo_url\": \"{{ $vars.cover_logo_url }}\",\n  \"titel\": \"{{ $('Edit Fields').item.json.title }}\\n({{ $('Edit Fields').item.json.version_line }} 2)\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        4280,
+        -20
+      ],
+      "id": "ffcef640-2510-4ca8-ae9a-b2c5bff0efff",
+      "name": "HTTP Request14",
       "disabled": true
     }
   ],
@@ -1538,6 +1542,6 @@
   },
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-04-16T11:56:33.000Z",
-  "versionId": "0b8b05a0-dc56-4fa4-bc7b-861cd6b48fb1"
+  "updatedAt": "2025-04-16T12:38:30.000Z",
+  "versionId": "250796a1-1a1d-4d50-b056-a88c3e1fa077"
 }
