@@ -262,7 +262,40 @@
       "main": [
         [
           {
-            "node": "Notion (get all Songs in Status Produced)",
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request4": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request5": {
+      "main": [
+        [
+          {
+            "node": "Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request4",
             "type": "main",
             "index": 0
           }
@@ -998,11 +1031,127 @@
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        -380,
-        60
+        1600,
+        -260
       ],
       "id": "7d45c711-ab6b-4f62-9c98-2a16d975677b",
       "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.replicate.com/v1/predictions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $vars.acedata_token }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Prefer",
+              "value": "wait"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n\t\"version\": \"f121d640bd286e1fdc67f9799164c1d5be36ff74576ee11c803ae5b665dd46aa\",\n\t\"input\": {\n      \"image\": \"{{ $('Edit Fields2').item.json.image_url1 }}\",\n      \"scale\": 9\n\t}\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2080,
+        -240
+      ],
+      "id": "2e77e59f-67d2-43fd-b765-ed542a99860e",
+      "name": "HTTP Request4"
+    },
+    {
+      "parameters": {
+        "inputDataFieldName": "image_url1_upscaled",
+        "name": "cover1_upscaled.jpeg",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "={{ $json.gdrive_folder }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2540,
+        -240
+      ],
+      "id": "4f5bc614-6ee3-42fb-b2f3-78fc5f9d1b21",
+      "name": "Google Drive",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "pUAhW2e5sqUMqdXa",
+          "name": "Google Drive account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.output }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file",
+              "outputPropertyName": "image_url1_upscaled"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2340,
+        -240
+      ],
+      "id": "24a2c0bf-b5d2-466a-9baa-258241d9d234",
+      "name": "HTTP Request5"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f857e88a-23cd-43bd-9bbf-63a4ae989136",
+              "name": "image_url1",
+              "value": "=https://cdn2.suno.ai/image_cd3eb720-7dac-47ff-b9dd-097229469927.jpeg",
+              "type": "string"
+            },
+            {
+              "id": "6daf7277-96ab-462f-a5e0-85ab29c3ca1f",
+              "name": "gdrive_folder",
+              "value": "=1dRIHZhHi_xKcwFCi437YmH8mw8Npakag",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1860,
+        -240
+      ],
+      "id": "805ae252-d486-4fa6-a309-e6c660f8554e",
+      "name": "Edit Fields2"
     }
   ],
   "pinData": {},
@@ -1020,6 +1169,6 @@
   },
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-04-15T13:12:11.000Z",
-  "versionId": "b971738d-4d09-4cf3-95d8-287e70da7617"
+  "updatedAt": "2025-04-16T07:44:59.000Z",
+  "versionId": "735bd342-0d2f-4199-919e-f83e95039b7f"
 }
