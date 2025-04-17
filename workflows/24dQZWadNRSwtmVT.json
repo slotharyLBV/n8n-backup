@@ -1061,7 +1061,7 @@
       "parameters": {
         "content": "## Upload Files\nto GDrive\nupscale covers in the process",
         "height": 320,
-        "width": 3380,
+        "width": 5020,
         "color": 4
       },
       "type": "n8n-nodes-base.stickyNote",
@@ -1239,7 +1239,7 @@
       "parameters": {
         "content": "## upscale covers",
         "height": 260,
-        "width": 1700,
+        "width": 2440,
         "color": 5
       },
       "type": "n8n-nodes-base.stickyNote",
@@ -1542,6 +1542,6 @@
   },
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-04-16T12:38:30.000Z",
-  "versionId": "250796a1-1a1d-4d50-b056-a88c3e1fa077"
+  "updatedAt": "2025-04-17T11:25:32.000Z",
+  "versionId": "3b0045ba-9230-4660-ba97-5ca76399f483"
 }
