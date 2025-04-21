@@ -1,0 +1,1033 @@
+{
+  "active": false,
+  "connections": {
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Agent-scene",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Agent-meta",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser2": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Agent-scene",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Agent-meta",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set-scene": {
+      "main": [
+        [
+          {
+            "node": "Execute Builder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sub-Start": {
+      "main": [
+        [
+          {
+            "node": "Get-Video-Infos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agent-scene": {
+      "main": [
+        [
+          {
+            "node": "Set-scene",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agent-meta": {
+      "main": [
+        [
+          {
+            "node": "Set-Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "Video url to array1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search For Folder": {
+      "main": [
+        [
+          {
+            "node": "Create-Title-Folder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create-Title-Folder": {
+      "main": [
+        [
+          {
+            "node": "BuildJSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "10 Secs": {
+      "main": [
+        [
+          {
+            "node": "Get-URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "Get-URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get-URL": {
+      "main": [
+        [
+          {
+            "node": "Switch1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "JSON 2 VIDEO Upload": {
+      "main": [
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch1": {
+      "main": [
+        [
+          {
+            "node": "Status-Video-Created",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [],
+        [
+          {
+            "node": "10 Secs",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "10 Secs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Status-Video-Created": {
+      "main": [
+        [
+          {
+            "node": "Set-Fields-meta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get-Video-Infos": {
+      "main": [
+        [
+          {
+            "node": "Search For Folder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "BuildJSON": {
+      "main": [
+        [
+          {
+            "node": "JSON 2 VIDEO Upload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set-Fields-meta": {
+      "main": [
+        [
+          {
+            "node": "Execute UploadDispatcher",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-04-21T16:23:04.557Z",
+  "id": "3ZIDQQS6UPf4oJqy",
+  "meta": null,
+  "name": "Sub_LLM_Fails",
+  "nodes": [
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        2000,
+        1920
+      ],
+      "id": "d76dba35-68bf-45a9-a053-2ee593a300c6",
+      "name": "OpenAI Chat Model",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"comment\": \"What-If Scenario\",\n  \"template\": \"o2sBf91OekbB6AiGUc8I\",\n  \"variables\": {\n    \"scenes\": [\n      {\n        \"imagePrompt\": \"A dystopian Earth with shattered buildings under a red sky, in the style of cinematic concept art\",\n        \"voiceOverText\": \"The world changed forever the day the Moon vanished.\",\n        \"duration\": 5\n      },\n      {\n        \"imagePrompt\": \"Massive tides swallowing coastal cities, viewed from above, in the style of cinematic concept art\",\n        \"voiceOverText\": \"Oceans rose violently, consuming everything in their path.\",\n        \"duration\": 5\n      },\n      {\n        \"imagePrompt\": \"People staring at the night sky, now completely black, in the style of cinematic concept art\",\n        \"voiceOverText\": \"Nights turned pitch black, confusing wildlife and humans alike.\",\n        \"duration\": 5\n      },\n      {\n        \"imagePrompt\": \"A lone astronaut floating in orbit, looking at Earth, in the style of cinematic concept art\",\n        \"voiceOverText\": \"And as chaos spread, one question remained…\",\n        \"duration\": 5\n      },\n      {\n        \"imagePrompt\": \"A question mark glowing above Earth, abstract and futuristic, in the style of cinematic concept art\",\n        \"voiceOverText\": \"Would you survive in a world without the Moon?\",\n        \"duration\": 5\n      }\n    ],\n    \"voice\": \"en-US-BrianMultilingualNeural\",\n    \"imageModel\": \"freepik-classic\",\n    \"voiceModel\": \"azure\"\n  }\n}\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        2540,
+        1440
+      ],
+      "id": "fa0626a6-cd8a-432b-85b5-e333d9720f34",
+      "name": "Structured Output Parser2",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"title\": \"What If: Humanity Became Solar Powered?\",\n  \"description\": \"🌍 In a world where humans harness sunlight to survive...\\n\\n- 🌱 Cities bloom with chlorophyll-powered citizens\\n- 🔋 Sunlight becomes our only energy source\\n- ⚠️ Darkness triggers panic and collapse\\n- 🧬 A new evolutionary path begins\\n\\nWould you thrive or fade in the shadows? Follow for more realities.\",\n  \"keywords\": \"what if, humans, sunlight, evolution, alternate future, sci-fi, dystopia, survival, earth, extinction, speculation, cinematic, futuristic, imagination, storytelling, shortform, video, future, planet, biology\"\n}\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        2540,
+        1920
+      ],
+      "id": "f908dad5-3ca7-44a7-ba13-aba62efd86ca",
+      "name": "Structured Output Parser1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fb96dd5a-40e8-4922-af79-f6f46c693ddf",
+              "name": "BaserowID",
+              "value": "={{ $('Sub-Start').item.json.BaserowID }}",
+              "type": "string"
+            },
+            {
+              "id": "cbd69d9a-67ba-487d-ba38-46e399dc15a4",
+              "name": "projectURL",
+              "value": "={{ $('Sub-Start').item.json.projectURL }}",
+              "type": "string"
+            },
+            {
+              "id": "1e73167d-6f1a-4a8d-a80a-6d407ac28054",
+              "name": "Video Title",
+              "value": "={{ $('Sub-Start').item.json['Video Title'] }}",
+              "type": "string"
+            },
+            {
+              "id": "cb7c47ec-67f0-42aa-bf0c-fda1b7efccb6",
+              "name": "GoogleFolderID",
+              "value": "={{ $('Sub-Start').item.json.GoogleFolderID }}",
+              "type": "string"
+            },
+            {
+              "id": "f58415f7-765f-41ca-9e8c-eef8e63ac2ee",
+              "name": "Category",
+              "value": "={{ $('Sub-Start').item.json.Category }}",
+              "type": "string"
+            },
+            {
+              "id": "150325d6-933b-45da-8ae5-20a4499117f4",
+              "name": "TargetChannel",
+              "value": "={{ $('Sub-Start').item.json.TargetChannel }}",
+              "type": "string"
+            },
+            {
+              "id": "7042dabd-1a95-4bb4-ad31-25367d3f6131",
+              "name": "RunStep-Status",
+              "value": "meta",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2820,
+        1680
+      ],
+      "id": "ad2f9c58-a10b-407d-b3be-79d47664de81",
+      "name": "Set-Data",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "d08cda7b-d350-482f-831e-fea1db36d565",
+                    "leftValue": "={{ $json[\"RunStep-Status\"] }}",
+                    "rightValue": "scene",
+                    "operator": {
+                      "type": "string",
+                      "operation": "notExists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "scene"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "2274d7e4-e5a1-431f-b2b0-6449a3884632",
+                    "leftValue": "={{ $json[\"RunStep-Status\"] }}",
+                    "rightValue": "meta",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "meta"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1260,
+        1800
+      ],
+      "id": "cc78eb24-cd35-4a40-9c5b-a7f48cf1beef",
+      "name": "Step Router",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6fe1a5e4-d77e-408e-9453-9681f9378bf0",
+              "name": "RunStep-Status",
+              "value": "scene",
+              "type": "string"
+            },
+            {
+              "id": "22f70720-fb97-465f-b182-f297ab922a28",
+              "name": "Category",
+              "value": "={{ $('Sub-Start').item.json.Category.value }}",
+              "type": "string"
+            },
+            {
+              "id": "a5fbe2bd-11d5-4b97-af95-dd3f13d22fe7",
+              "name": "Video Title",
+              "value": "={{ $('Sub-Start').item.json[\"Video Title\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "bf3b8c89-4ad1-45fa-b38d-36fe3efce0ed",
+              "name": "Short",
+              "value": "={{ $('Sub-Start').item.json.Short }}",
+              "type": "string"
+            },
+            {
+              "id": "a733277a-4e6b-40b7-a2d3-8d7b66aeb006",
+              "name": "BaserowID",
+              "value": "={{ $('Sub-Start').item.json.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2820,
+        1200
+      ],
+      "id": "de842fae-b5d3-41e0-b9fa-0032f95c1c27",
+      "name": "Set-scene",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "DEMCl5v80awWWcfH",
+          "mode": "list",
+          "cachedResultName": "Main-Video-Orchestrator"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        3060,
+        1200
+      ],
+      "id": "77ca3604-4618-4e75-9202-db6507e5ca09",
+      "name": "Execute Builder",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "AyBBZbthBzxZ1b6E",
+          "mode": "list",
+          "cachedResultName": "Main-Video-Orchestrator-v2"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        2820,
+        240
+      ],
+      "id": "ae9d6fec-375b-4081-b743-1f73a147db10",
+      "name": "Execute UploadDispatcher"
+    },
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        260,
+        240
+      ],
+      "id": "bebcbc9f-9df2-454c-b4a1-6d88c4f086db",
+      "name": "Sub-Start"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Sub-Start').item.json.Short }}: {{ $('Sub-Start').item.json['Video Title'] }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=You are an AI storyteller specialized in immersive \"What If\" scenarios, short-form video production, and viral audience retention. Your task is to generate all necessary assets for a fully automated short-form video based on the following fields:\n\n- Video title: {{ $('Sub-Start').item.json['Video Title'] }}\n- Number of scenes: {{ $('Sub-Start').item.json['Number of scenes'].value }}\n- Seconds per scene: {{ $('Sub-Start').item.json['Seconds per scene'].value }}\n- Style: {{ $('Sub-Start').item.json.Style.value }}\n- Voice: {{ $('Sub-Start').item.json.Voice }}\n- Image model: {{ $('Sub-Start').item.json['Image model'].value }}\n\n---\n\n### TASK\n\nBuild a compelling {{ $('Sub-Start').item.json.Category.value }} based on the video title. Present a hypothetical story in exactly **{{ $('Sub-Start').item.json['Number of scenes'].value }} scenes**, where each scene contains:\n\n1. `imagePrompt`: A rich and imaginative description for an AI-generated image, including the visual **style \"{{ $('Sub-Start').item.json.Style.value }}\".\n2. `voiceOverText`: A cinematic, immersive narration line for that scene.\n3. Duration: {{ $('Sub-Start').item.json['Seconds per scene'].value }}\n\n---\n\n### STRUCTURE\n\n1. **Scene 1 (HOOK)**:  \n- First line = only the category as a standalone phrase (e.g. “{{ $('Sub-Start').item.json.Category.value }}”)  \n- Second line = as a dramatic, curiosity-pulling statement. No setup — start right in the moment.\n→ Both should appear as one continuous narration block, but split by a dramatic pause or new sentence.\n2. **Scenes 2–{{ $('Sub-Start').item.json['Number of scenes'].value }}**:  \n   - Describe a continuous chain of events in this alternate world. Let each scene logically build on the previous one. \n   - The result should feel like a short sci-fi documentary – not just separate ideas.\n3. **Scene {{ $('Sub-Start').item.json['Number of scenes'].value -1 }}**: Twist, surprise, or major consequence.\n4. **Scene {{ $('Sub-Start').item.json['Number of scenes'].value }} (CALL-TO-ACTION)**: Close with a reflective or mysterious call to action:\n   - “Would you survive in this world?”\n   - “What would you do if this happened?”\n   - “Follow for more alternate realities.”\n\n---\n\n### STYLE & RULES\n\n- Narration style: **Cinematic, mysterious, dramatic.**\n- No direct viewer instructions, no tech talk, no tools.\n- Each scene = 1–2 sentences, strong imagery.\n- Use language that **feels like a mini sci-fi documentary**.\n- The first sentence must *hook immediately*.\n- The imagePrompt should be visual, atmospheric, and always reference the \"{{ $('Sub-Start').item.json.Style.value }}\" style.\n- Final output must be valid JSON and follow this structure:\n\n```json\n{\n  \"comment\": \"{{ $('Sub-Start').item.json.Short }}\",\n  \"template\": {{ $('Sub-Start').item.json.Template[0].value }},\n  \"variables\": {\n    \"scenes\": [\n      {\n        \"imagePrompt\": \"Dramatic alien cityscape with dual moons, in the style of {{ $('Sub-Start').item.json.Style.value }}\",\n        \"voiceOverText\": \"{{ $('Sub-Start').item.json.Category.value }}\\nThe year is 2080. Earth has gone silent.\",\n        \"duration\": {{ $('Sub-Start').item.json['Seconds per scene'].value }}\n      }\n      // ...more scenes\n    ],\n    \"voice\": {{ $('Sub-Start').item.json.Voice }},\n    \"imageModel\": {{ $('Sub-Start').item.json['Image model'].value }},\n    \"voiceModel\": {{ $('Sub-Start').item.json.voiceModel }}\n  }\n}\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        2380,
+        1200
+      ],
+      "id": "455e43fe-8842-4fea-8cfa-801151ec8b5c",
+      "name": "Agent-scene",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are an AI content strategist specialized in speculative storytelling, YouTube Shorts, and audience retention. Your task is to generate engaging metadata for a short-form video based on a fictional What-If scenario.\n\n🎯 Purpose: Create compelling metadata based on the provided scene texts that explore an alternate reality.\n\n1. **Title**: \n   - Max. 60 characters\n   - Start with \"What If\"\n   - Be specific, dramatic, or mysterious\n   - Avoid clickbait phrasing – be cinematic\n\n2. **Description**: Write:\n   - A 1–2 sentence intro that pulls the viewer into the scenario\n   - 3–5 bullet points explaining:\n     - The main change or alternate event\n     - Its surprising consequences\n     - A twist, paradox or deeper question\n   - Use relevant emojis (🌍🧠🔥⚡ etc.)\n   - End with a CTA like:\n     - “Would you survive?”\n     - “Follow for more alternate realities”\n\n3. **Keywords**: Return two formats:\n   - `raw`: 20 comma-separated, short, relevant keywords\n     *(e.g. what if, alternate history, sci-fi, worldbuilding, future, extinction, solar flare, earth, humans, evolution, etc.)*\n\n🧠 Base your content only on the following video scenes (from the script):\n\n{{ $('Sub-Start').item.json.scenes[0].voiceOverText }}\n{{ $('Sub-Start').item.json.scenes[1].voiceOverText }}\n{{ $('Sub-Start').item.json.scenes[2].voiceOverText }}\n{{ $('Sub-Start').item.json.scenes[3].voiceOverText }}\n{{ $('Sub-Start').item.json.scenes[4].voiceOverText }}\n\n---\n\n### Output Format:\n```json\n{\n  \"title\": \"What If: [dramatic scenario]\",\n  \"description\": \"Intro line...\\n\\n- 🌱 Humanity gains a new ability\\n- 🌞 Cities powered by sunlight\\n- ⚠️ Darkness becomes a threat\\n- 🧬 Evolution takes a new turn\\n\\nWould you survive?\",\n  \"keywords\": \"what if, alternate future, sci-fi, earth, sun, evolution, humans, survival, dystopia, story, fiction, cinematic, shortform, imagination, future, climate, extinction, universe, species, question\",\n}\n",
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        2380,
+        1680
+      ],
+      "id": "e55da8a5-9baf-48af-b89b-81b1d03b7333",
+      "name": "Agent-meta",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Die ID kommt vom ersten Item\nconst mergeId = $items('Generate Merge ID')[0].json.mergeId;\n\n// Die restlichen Items enthalten die Videos\nconst videoUrls = $items('Get-Video-Infos').map(item => item.json.minio_url);\n\nreturn [\n  {\n    json: {\n      video_urls: videoUrls,\n      id: mergeId\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3760,
+        1960
+      ],
+      "id": "933f59c5-6cbb-4a1a-ad9f-011c4ec4dea7",
+      "name": "Code1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract the array of URLs\nconst urls = items[0].json[\"video_urls\"] || [];\n\n// Map URLs into the required structure\nconst formattedURLs = urls.map(url => ({ \"video_url\": url }));\n\n// Return the transformed data\nreturn [{\n    json: {\n        \"video_urls\": formattedURLs\n    }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4000,
+        1960
+      ],
+      "id": "492e2fd5-44e0-44bc-8dca-d6e128de69dc",
+      "name": "Video url to array1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "={{ $('Get-Video-Infos').item.json.Category.value }}",
+        "filter": {
+          "folderId": {
+            "__rl": true,
+            "value": "1RnXzeBUfKnLTtsa0rsFQfpkChMrWVuC8",
+            "mode": "list",
+            "cachedResultName": "Categories",
+            "cachedResultUrl": "https://drive.google.com/drive/folders/1RnXzeBUfKnLTtsa0rsFQfpkChMrWVuC8"
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        760,
+        240
+      ],
+      "id": "21b6c070-99c7-4573-8bf0-a8afee8d644b",
+      "name": "Search For Folder",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "resource": "folder",
+        "name": "={{ $('Get-Video-Infos').item.json[\"Video Title\"] }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "={{ $('Search For Folder').first().json.id}}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        960,
+        240
+      ],
+      "id": "2290b026-c22c-46af-83f3-15dcccf58ed4",
+      "name": "Create-Title-Folder"
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1660,
+        80
+      ],
+      "id": "1d69db58-31b8-463b-9b0c-a377547ccc5b",
+      "name": "10 Secs",
+      "webhookId": "57c53548-5c05-439d-9104-cf8d3bc391fd"
+    },
+    {
+      "parameters": {
+        "amount": 60
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1660,
+        240
+      ],
+      "id": "2f6289a3-75c2-4ead-b148-6af887f1c0e9",
+      "name": "Wait1",
+      "webhookId": "78606edf-7896-4301-a88e-7cd9fb188611"
+    },
+    {
+      "parameters": {
+        "url": "https://api.json2video.com/v2/movies",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "project",
+              "value": "={{ $('JSON 2 VIDEO Upload').item.json.project }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": "yourkey"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1840,
+        240
+      ],
+      "id": "607ab53a-de03-4ef2-a705-8a511c0dae29",
+      "name": "Get-URL",
+      "executeOnce": false,
+      "retryOnFail": false,
+      "waitBetweenTries": 3000
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.json2video.com/v2/movies",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": "yourkey"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $('BuildJSON').item.json }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1420,
+        240
+      ],
+      "id": "837d18e1-048f-41e8-94bf-af2f2da16012",
+      "name": "JSON 2 VIDEO Upload"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "5b858d82-0a7c-44ea-940b-ae83a7c22f3c",
+                    "leftValue": "={{ $json.movie.status }}",
+                    "rightValue": "done",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Done"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.movie.status }}",
+                    "rightValue": "error",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "2e627457-06c8-411e-b6e0-f2e0207a3882"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Error"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "6ebbf3c8-599e-451d-acf6-4e63fef69ae0",
+                    "leftValue": "={{ $json.movie.status }}",
+                    "rightValue": "running",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Running"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "e22298ac-6f08-4f73-a361-768a17ea9a3a",
+                    "leftValue": "={{ $json.movie.status }}",
+                    "rightValue": "preparing",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Preparing"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        2080,
+        220
+      ],
+      "id": "43033f30-3ca2-4eb2-88c3-b7b330c909eb",
+      "name": "Switch1"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "databaseId": 183,
+        "tableId": 755,
+        "rowId": "={{ $('Get-Video-Infos').item.json.id }}",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": 7575,
+              "fieldValue": "Video-Created"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [
+        2340,
+        240
+      ],
+      "id": "3b6104cb-f11d-412a-94a7-85e1891f3b38",
+      "name": "Status-Video-Created"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "626ad3a6-3131-4e69-a8a9-0de9b0fb7649",
+              "name": "RunStep-Status",
+              "value": "upload",
+              "type": "string"
+            },
+            {
+              "id": "373c0474-06cf-47ca-bf23-4de8d9aaea35",
+              "name": "BaserowID",
+              "value": "={{ $('Get-Video-Infos').item.json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "28a2518a-63f4-4129-a2e8-c5716b9c8750",
+              "name": "projectURL",
+              "value": "={{ $('Get-URL').item.json.movie.url }}",
+              "type": "string"
+            },
+            {
+              "id": "7983e341-4318-49f4-8547-5547f0c773b0",
+              "name": "GoogleFolderID",
+              "value": "={{ $('Create-Title-Folder').item.json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "7d0f22d1-2e03-4edd-b7b6-148915c006cf",
+              "name": "Category",
+              "value": "={{ $json.Category.value }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2580,
+        240
+      ],
+      "id": "2bf3e3cf-7ec0-4409-a6d8-1c5832398912",
+      "name": "Set-Fields-meta"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"comment\": \"{{ $('Update-Project').item.json.title }}\",\n  \"template\": \"F4YsLMRDpAkMYBuT8KZ1\",\n  \"cache\": true,\n  \"scenes\": [\n    {\n      \"comment\": \"Main video scene\",\n      \"elements\": [\n        {\n          \"type\": \"video\",\n          \"src\": \"{{ $('Create-Project').item.json.merged_url }}\",\n          \"volume\": 1,\n          \"crop\": false\n        }\n      ],\n      \"duration\": 10\n    }\n  ]\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3120,
+        2000
+      ],
+      "id": "1eb354bd-b108-4dd1-b35f-08bae269af9b",
+      "name": "PrepareJSON",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "databaseId": 183,
+        "tableId": 755,
+        "limit": 1,
+        "additionalOptions": {
+          "filters": {
+            "fields": [
+              {
+                "field": 7575,
+                "operator": "contains",
+                "value": "Released"
+              },
+              {
+                "field": 7586,
+                "operator": "contains",
+                "value": "Fails"
+              }
+            ]
+          },
+          "filterType": "AND",
+          "order": {
+            "fields": [
+              {
+                "field": 7592
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [
+        520,
+        240
+      ],
+      "id": "9481c828-e74b-4c60-a2b1-35bf3643efc4",
+      "name": "Get-Video-Infos"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"comment\": \"{{ $('Get-Video-Infos').item.json['Video Title'] }}\",\n  \"template\": \"{{ $('Get-Video-Infos').item.json.Template[0].value }}\",\n  \"variables\": {\n    \"voiceOverText\": \"{{ $('Get-Video-Infos').item.json.Short }}\",\n    \"backgroundMusic\":\"{{ $('Sub-Start').item.json.backgroundMusic[0].value }}\",\n    \"scenes\": [\n      {\n        \"video\": {\n          \"url\": \"{{ $('Get-Video-Infos').item.json.minio_url }}\",\n          \"volume\": 0.35,\n          \"crop\": {\n            \"enabled\": false\n          }\n        },\n        \"duration\": -1\n      }\n    ],\n    \"voiceModel\": \"azure\",\n    \"voice\": \"en-US-BrianMultilingualNeural\",\n    \"imageModel\": \"flux-pro\",\n    \"subtitlesModel\": \"default\",\n    \"fontFamily\": \"Oswald Bold\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1180,
+        240
+      ],
+      "id": "5c0d6b81-fc59-44b8-97ed-dddeddae78fc",
+      "name": "BuildJSON",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "content": "## Fails-Builder",
+        "height": 560,
+        "width": 3200
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "9b79b0be-74be-4a1c-b68d-c8ff3a3677cd",
+      "name": "Sticky Note"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2025-04-21T16:23:11.959Z",
+      "updatedAt": "2025-04-21T16:23:11.959Z",
+      "id": "RJR06OtG35kAQ2mz",
+      "name": "DEV-Version"
+    }
+  ],
+  "triggerCount": 0,
+  "updatedAt": "2025-04-21T16:24:48.000Z",
+  "versionId": "48fce80f-aaa4-4f18-8af5-cdb88e5b7a4f"
+}
