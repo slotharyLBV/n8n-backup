@@ -1,0 +1,1637 @@
+{
+  "active": false,
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Initiate execution index",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Minio-Upload": {
+      "main": [
+        [
+          {
+            "node": "Mapping",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reddit-Search": {
+      "main": [
+        [
+          {
+            "node": "Filter Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Items": {
+      "main": [
+        [
+          {
+            "node": "Get-DB-Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Reddit-Search",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read/Write Files from Disk": {
+      "main": [
+        [
+          {
+            "node": "Minio-Upload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Items1": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Update-DB",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get-DB-Data": {
+      "main": [
+        [
+          {
+            "node": "Filter-against-DB",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ParseOutput-Convert": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mapping": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get-Video-Infos": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Video url to array",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Merge ID": {
+      "main": [
+        [
+          {
+            "node": "Get-Video-Infos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine Clips": {
+      "main": [
+        [
+          {
+            "node": "Assemble-minio_url",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Video url to array": {
+      "main": [
+        [
+          {
+            "node": "Combine Clips",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create-Project": {
+      "main": [
+        [
+          {
+            "node": "Date & Time",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update-Project": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Split-rowId",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split-rowId": {
+      "main": [
+        [
+          {
+            "node": "Update-Scenes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Assemble-minio_url": {
+      "main": [
+        [
+          {
+            "node": "Create-Project",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time": {
+      "main": [
+        [
+          {
+            "node": "Update-Project",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update-Scenes": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Initiate execution index": {
+      "main": [
+        [
+          {
+            "node": "If less than 1000 executions",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If less than 1000 executions": {
+      "main": [
+        [
+          {
+            "node": "Workflow logic",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Reject logic",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Workflow logic": {
+      "main": [
+        [
+          {
+            "node": "Generate Merge ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Initiate execution index",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-04-21T16:25:46.013Z",
+  "id": "LcCcgBeVE1KkeTCx",
+  "meta": null,
+  "name": "Reddit_Scraper",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1860,
+        1060
+      ],
+      "id": "47f5a782-7d94-4064-94d9-5096f1ab1a11",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.videoUrl }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "User-Agent",
+              "value": "Mozilla/5.0"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          },
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1840,
+        1940
+      ],
+      "id": "a24137b5-5c88-4eca-8043-d77a4328a261",
+      "name": "Downloader",
+      "disabled": true
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        2020,
+        460
+      ],
+      "id": "d0094df4-0e6c-42d6-82a0-f35d2bc4562c",
+      "name": "Clear Binary Data"
+    },
+    {
+      "parameters": {
+        "operation": "upload",
+        "bucketName": "cache",
+        "fileName": "={{ $json.fileName }}",
+        "additionalFields": {},
+        "tagsUi": {
+          "tagsValues": [
+            {
+              "key": "format",
+              "value": "9x16"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.s3",
+      "typeVersion": 1,
+      "position": [
+        1020,
+        460
+      ],
+      "id": "400e152b-ff0a-4117-8198-4a4eac984150",
+      "name": "Minio-Upload"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ad9e01d6-1764-4fcf-b7dc-7236f4aa601e",
+              "name": "=data.fileName",
+              "value": "={{ $json[\"title\"].replace(/[^\\w\\s-]/g, \"\").replace(/\\s+/g, \"_\").substring(0, 60) }}.mp4",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2040,
+        1980
+      ],
+      "id": "ba7a20df-5c47-4518-b2d0-f9b6bb85a013",
+      "name": "Set-Filename",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "subreddit": "={{ $('On form submission').item.json['Reddit Section'] }}",
+        "keyword": "={{ $('On form submission').item.json['Search Term'] }}",
+        "limit": "={{ $('On form submission').item.json['Number of results'] }}",
+        "additionalFields": {
+          "sort": "new"
+        }
+      },
+      "type": "n8n-nodes-base.reddit",
+      "typeVersion": 1,
+      "position": [
+        520,
+        220
+      ],
+      "id": "5edb4ec2-32f1-4ada-a57c-59be48c39401",
+      "name": "Reddit-Search"
+    },
+    {
+      "parameters": {
+        "jsCode": "return items\n  .map(item => {\n    const post = item.json;\n\n    const titleRaw = post.title || 'untitled';\n    const title = titleRaw\n      .replace(/[^\\w\\s-]/g, '')      // Sonderzeichen raus\n      .replace(/\\s+/g, '_')          // Leerzeichen zu _\n      .substring(0, 60);             // max 60 Zeichen\n\n    const videoUrl = post.url_overridden_by_dest || post.url || null;\n\n    return {\n      json: {\n        safeTitle: title,\n        videoUrl,\n        is_video: post.is_video === true // explizit als bool\n      }\n    };\n  })\n  .filter(item => item.json.is_video && item.json.videoUrl?.includes('v.redd.it'));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        780,
+        220
+      ],
+      "id": "20a93728-2ccc-431e-8958-14662860d4ca",
+      "name": "Filter Items"
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "subreddit": "={{ $json['Reddit Section'] }}",
+        "keyword": "={{ $json['Search Term'] }}",
+        "limit": 20,
+        "additionalFields": {
+          "sort": "top"
+        }
+      },
+      "type": "n8n-nodes-base.reddit",
+      "typeVersion": 1,
+      "position": [
+        260,
+        1820
+      ],
+      "id": "e873568e-4552-43ca-bd7f-5f1cfaa5ba23",
+      "name": "Reddit-Search1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "formTitle": "Scrape Reddit",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Reddit Section",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "PublicFreakout"
+                  },
+                  {
+                    "option": "fail"
+                  },
+                  {
+                    "option": "Whatcouldgowrong"
+                  },
+                  {
+                    "option": "Trashy"
+                  },
+                  {
+                    "option": "Cringetopia"
+                  },
+                  {
+                    "option": "instant_regret"
+                  },
+                  {
+                    "option": "InstantRegret"
+                  },
+                  {
+                    "option": "WinStupidPrizes"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Search Term"
+            },
+            {
+              "fieldLabel": "Number of results"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        160,
+        460
+      ],
+      "id": "f2623ae6-fcf5-4981-a548-2f342e489e18",
+      "name": "On form submission",
+      "webhookId": "610b3981-96ec-4590-bacc-11667bfaec69"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1160,
+        1940
+      ],
+      "id": "ee28e12f-f9ba-40f3-8aab-c7e23c33bc32",
+      "name": "Edit Fields1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "url": "https://www.reddit.com/r/fail/top.json",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "t",
+              "value": "day"
+            },
+            {
+              "name": "limit",
+              "value": "10"
+            },
+            {
+              "name": "is_video",
+              "value": "true"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "User-Agent",
+              "value": "n8n-fail-bot"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        920,
+        1980
+      ],
+      "id": "7ae37e7f-b691-4080-90c2-a7bda4a0d4dd",
+      "name": "HTTP Request",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b0242082-8d6b-42ba-a475-59c5dfa9db87",
+              "name": "Search_Term",
+              "value": "={{ $json['Search Term'] }}",
+              "type": "string"
+            },
+            {
+              "id": "127e14cc-36c9-406f-a8b8-56e34a434200",
+              "name": "Reddit_Section",
+              "value": "={{ $json['Reddit Section'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        720,
+        2000
+      ],
+      "id": "f3acc93a-5eae-43c8-b36e-e4c0c130a95f",
+      "name": "Edit Fields",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "fileSelector": "={{ $json.outputPath }}",
+        "options": {
+          "dataPropertyName": "data"
+        }
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        780,
+        460
+      ],
+      "id": "116609d7-7d70-4fe4-8704-ffde9451dcf4",
+      "name": "Read/Write Files from Disk"
+    },
+    {
+      "parameters": {
+        "jsCode": "return items\n  .map(item => {\n    const post = item.json;\n    return {\n      title: post.title,\n      reddit_video: post.media?.reddit_video?.fallback_url || null,\n      is_video: post.is_video\n    };\n  })\n  .filter(post => post.is_video && post.reddit_video)\n  .map(post => ({\n    json: {\n      title: post.title,\n      videoUrl: post.reddit_video\n    }\n  }));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1400,
+        1940
+      ],
+      "id": "d2db7112-5466-421b-bea7-42d4a5e91073",
+      "name": "Filter Items1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map(item => {\n  const title = item.json.title\n    .replace(/[^\\w\\s-]/g, '')\n    .replace(/\\s+/g, '_')\n    .substring(0, 60);\n\n  return {\n    json: {\n      videoUrl: item.json.videoUrl,\n      safeTitle: title,\n    }\n  };\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1600,
+        1940
+      ],
+      "id": "8a12ec2a-684d-427e-9b6e-fd37caff7e85",
+      "name": "Code1",
+      "disabled": true
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        2280,
+        1980
+      ],
+      "id": "9895b5b7-7935-4307-a834-679566f4908c",
+      "name": "Execute Command1",
+      "disabled": true
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        1780,
+        2100
+      ],
+      "id": "49b3db35-53bf-4f14-97ca-a049a2c42011",
+      "name": "Execute Command2",
+      "disabled": true
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        780,
+        20
+      ],
+      "id": "fdb77b0c-405c-410a-a900-44e32700bbd8",
+      "name": "Clear Binary Data1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Filename: {{ $('Mapping').item.json.fileName }}\nSource: {{ $('Mapping').item.json.videoUrl }}\n",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=You are an assistant that creates short, engaging descriptions for social media videos. Your task is to:\n\n1. Based on the filename, create a concise, interesting description for a YouTube Shorts video. The description should:\n   - Be a maximum of 2-3 sentences\n   - Be compelling and attention-grabbing\n   - Be written in English\n   - Use emojis to make the description more lively\n\n2. Generate 3-5 specific hashtags for social media use that:\n   - Are engaging and trendy\n   - Include at least one general category hashtag (e.g. #Fails, #Comedy, #Prank)\n   - Include at least one specific descriptor hashtag (e.g. #IceMachineFail, #DogReaction)\n\n3. Create a structured categorization system with:\n   - Main category: One primary category (e.g. \"Fails\", \"Pranks\", \"Animals\", \"Reactions\", \"Stunts\")\n   - Subcategory: More specific classification (e.g. \"Kitchen Fails\", \"Public Pranks\", \"Dog Videos\")\n   - Keywords: 3-5 keywords that specifically describe key elements in the video (e.g. \"ice machine\", \"theft\", \"public\", \"confrontation\")\n   \n4. Determine the source of the video based on the URL:\n   - If the URL contains \"reddit.com\" or \"v.redd.it\", the source is \"Reddit\"\n   - If the URL contains \"youtube.com\", \"youtu.be\", or \"yt.be\", the source is \"YouTube\"\n\n5. Format your response as a JSON object with the following structure:\n```json\n{\n  \"description\": \"Your engaging description with emojis here\",\n  \"hashtags\": \"Comma-separated hashtags, like #Fail, #Funny, #IceMachineFail\",\n  \"categorization\": {\n    \"main_category\": \"Primary Category\",\n    \"subcategory\": \"More Specific Category\",\n    \"keywords\": \"keyword1, keyword2, keyword3, keyword4\"\n  },\n  \"source\": \"Reddit or YouTube\",\n  \"original_filename\": \"The original filename processed\"\n}\n\n## TOOL\n1. Think - Use this tool to think deeply"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        1440,
+        460
+      ],
+      "id": "8682b7b9-27c9-4575-8593-66aed5ead112",
+      "name": "AI Agent",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "azure/gpt-4.1",
+          "mode": "list",
+          "cachedResultName": "azure/gpt-4.1"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1080,
+        760
+      ],
+      "id": "0ba9253a-a389-4a65-affc-0e3b9d420ce4",
+      "name": "OpenAI Chat Model"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "0823d10a-ad54-4d82-bcea-9dd236e97857",
+              "operator": {
+                "type": "string",
+                "operation": "notContains"
+              },
+              "leftValue": "={{ $('Get-DB-Data').item.json.title }}",
+              "rightValue": "={{ $('Filter Items').item.json.safeTitle }}"
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "id": "a01f2424-b5c7-49ec-8f8c-7d271f1684e9",
+      "name": "Filter Posts DB",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        1280,
+        2080
+      ],
+      "typeVersion": 2.2,
+      "executeOnce": false,
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "0823d10a-ad54-4d82-bcea-9dd236e97857",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              },
+              "leftValue": "={{ $('Filter Items').item.json.is_video }}",
+              "rightValue": "true"
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {
+          "ignoreCase": false
+        }
+      },
+      "id": "2d460ec5-b866-4eca-a98c-7ed56f09df48",
+      "name": "Filter Posts",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        480,
+        2060
+      ],
+      "typeVersion": 2.2,
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "resource": "folder",
+        "operation": "getAll",
+        "bucketName": "cache",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.s3",
+      "typeVersion": 1,
+      "position": [
+        2000,
+        2100
+      ],
+      "id": "9b061379-db98-4c30-ac99-6b5875af26a4",
+      "name": "Minio-Upload1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"description\": \"Your engaging description with emojis here\",\n  \"hashtags\": \"Comma-separated hashtags, like #Fail, #Funny, #IceMachineFail\",\n  \"categorization\": {\n    \"main_category\": \"Primary Category\",\n    \"subcategory\": \"More Specific Category\",\n    \"keywords\": \"keyword1, keyword2, keyword3, keyword4\"\n  },\n  \"source\": \"Reddit or YouTube\",\n  \"original_filename\": \"The original filename processed\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        1620,
+        680
+      ],
+      "id": "3b48507c-74bc-44a9-8e10-12af59157e00",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "databaseId": 183,
+        "tableId": 758,
+        "returnAll": true,
+        "additionalOptions": {
+          "filters": {
+            "fields": [
+              {
+                "field": 7656,
+                "operator": "not_empty"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [
+        1020,
+        220
+      ],
+      "id": "0dbf30ca-c5d2-4f1d-bd25-f228871e3359",
+      "name": "Get-DB-Data",
+      "alwaysOutputData": false,
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "databaseId": 183,
+        "tableId": 758,
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": 7656,
+              "fieldValue": "={{ $('Mapping').item.json.fileName }}"
+            },
+            {
+              "fieldId": 7658,
+              "fieldValue": "=http://192.168.100.10:9768/cache/{{ $('Mapping').item.json.fileName }}"
+            },
+            {
+              "fieldId": 7659,
+              "fieldValue": "={{ $('Mapping').item.json.videoUrl }}"
+            },
+            {
+              "fieldId": 7660,
+              "fieldValue": "downloaded"
+            },
+            {
+              "fieldId": 7663,
+              "fieldValue": "={{ $('AI Agent').item.json.output.description }}"
+            },
+            {
+              "fieldId": 7664,
+              "fieldValue": "={{ $('AI Agent').item.json.output.hashtags }}"
+            },
+            {
+              "fieldId": 7666,
+              "fieldValue": "={{ $('AI Agent').item.json.output.categorization.main_category }}"
+            },
+            {
+              "fieldId": 7667,
+              "fieldValue": "={{ $('AI Agent').item.json.output.categorization.subcategory }}"
+            },
+            {
+              "fieldId": 7665,
+              "fieldValue": "={{ $('AI Agent').item.json.output.categorization.keywords }}"
+            },
+            {
+              "fieldId": 7657,
+              "fieldValue": "={{ $('AI Agent').item.json.output.source }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [
+        1780,
+        460
+      ],
+      "id": "c54802eb-56a4-44a1-b3a5-02cbfbee4d4a",
+      "name": "Update-DB"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.removeDuplicates",
+      "typeVersion": 2,
+      "position": [
+        1540,
+        2080
+      ],
+      "id": "50793cf4-e524-4294-bcf4-648d9e889234",
+      "name": "Remove Duplicates",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "subreddit": "PublicFreakout+fail+Whatcouldgowrong+Trashy+Cringetopia+instant_regret+InstantRegret+WinStupidPrizes",
+        "keyword": "funny",
+        "limit": 3,
+        "additionalFields": {
+          "sort": "top"
+        }
+      },
+      "type": "n8n-nodes-base.reddit",
+      "typeVersion": 1,
+      "position": [
+        580,
+        1820
+      ],
+      "id": "29d63c32-7007-4c7d-b5c5-95327a5ebe38",
+      "name": "Reddit-Search2",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c770a8d8-a07b-44b2-835d-f88648d343c9",
+              "leftValue": "={{ $json.title }}",
+              "rightValue": "={{ $('Filter Items').item.json.safeTitle }}",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        1060,
+        2120
+      ],
+      "id": "cf48218c-d4b1-4aab-ac44-3ce4a6b39f69",
+      "name": "Filter",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Hole alle Titel aus der Datenbank\nconst dbItems = $('Get-DB-Data').all();\n// Extrahiere nur die Titeltexte und bereinige sie (entferne Dateiendungen)\nconst dbTitles = dbItems.map(item => {\n  // Extrahiere den Titel und entferne die Dateiendung (.mp4, etc.)\n  let title = item.json.title;\n  // Entferne Dateiendungen wie .mp4, .avi, etc.\n  return title.replace(/\\.[^.]+$/, '');\n});\n\n// Hole alle Videos aus dem vorherigen Node\nconst videos = $('Filter Items').all();\n\n// Filtere die Videos, deren safeTitle nicht in der Datenbank ist\nconst filteredVideos = videos.filter(video => {\n  const safeTitle = video.json.safeTitle;\n  \n  // Prüfe, ob ein ähnlicher Titel in der Datenbank existiert\n  const exists = dbTitles.some(dbTitle => {\n    // Vergleiche den bereinigten DB-Titel mit dem safeTitle\n    return dbTitle.includes(safeTitle) || safeTitle.includes(dbTitle);\n  });\n  \n  // Wenn der Titel nicht existiert, behalte das Video\n  return !exists;\n});\n\n// Gib die gefilterten Videos zurück\nreturn filteredVideos;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1240,
+        220
+      ],
+      "id": "f6504090-f147-4082-92bd-9f9934c78abf",
+      "name": "Filter-against-DB"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        1520,
+        220
+      ],
+      "id": "14e8b9f4-3b6d-4de4-ad11-06b454cd26ba",
+      "name": "Download Videos"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        2020,
+        220
+      ],
+      "id": "d2f8c65e-b115-4eae-afa6-6a87d6ed7b47",
+      "name": "Convert-to-format"
+    },
+    {
+      "parameters": {
+        "jsCode": "return items\n  .map(item => {\n    const output = item.json.stdout;\n\n    // Nur final gemergte Datei verwenden!\n    const match = output.match(/Merging formats into \"(.+?\\.mp4)\"/);\n\n    if (!match) return null;\n\n    const path = match[1].trim();\n    return {\n      json: {\n        videoPath: path,\n        safeTitle: path.split(\"/\").pop().replace(\".mp4\", \"\")\n      }\n    };\n  })\n  .filter(Boolean);\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1780,
+        220
+      ],
+      "id": "510e8afb-9063-43dd-87b4-aaae0c8bae2b",
+      "name": "ParseOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Eingabe: FFmpeg-Execute-Node mit JSON-Array von Ergebnissen\nconst ffmpegResults = items.map(item => item.json);\n\n// Regex zur Extraktion des Output-Pfads\nconst outputRegex = /Output #0, mp4, to '(.*?)':/;\n\n// Ergebnisse sammeln\nconst outputPaths = ffmpegResults.map(result => {\n  const match = result.stderr.match(outputRegex);\n  return {\n    original: result,\n    path: match ? match[1] : null,\n  };\n});\n\n// Filtere nur gültige Ergebnisse mit Pfad\nconst valid = outputPaths.filter(entry => entry.path !== null);\n\n// Rückgabeformat: z.B. für spätere Verwendung in Merge-Node\nreturn valid.map(entry => ({\n  json: {\n    outputPath: entry.path,\n  },\n}));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        520,
+        460
+      ],
+      "id": "534a2ad6-96a5-4871-8275-a111935c8ead",
+      "name": "ParseOutput-Convert"
+    },
+    {
+      "parameters": {
+        "jsCode": "const diskItems = $items('Read/Write Files from Disk');\nconst dbItems = $items('Filter-against-DB');\n\nreturn diskItems.map((diskItem) => {\n  const filename = diskItem.json.fileName || '';\n  const cleanFilename = filename.toLowerCase().replace(/[_\\-\\.]/g, '');\n\n  // finde den ersten safeTitle, der im (vereinfachten) Dateinamen enthalten ist\n  const match = dbItems.find((dbItem) => {\n    const safeTitle = (dbItem.json.safeTitle || '').toLowerCase().replace(/[_\\-\\.]/g, '');\n    return cleanFilename.includes(safeTitle);\n  });\n\n  return {\n    json: {\n      fileName: filename,\n      videoUrl: match?.json.videoUrl ?? null,\n      safeTitle: match?.json.safeTitle ?? 'NO_MATCH',\n    },\n  };\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1240,
+        460
+      ],
+      "id": "72bcf55f-0ae6-4d78-be77-21a54bfe2860",
+      "name": "Mapping"
+    },
+    {
+      "parameters": {
+        "databaseId": 183,
+        "tableId": 758,
+        "returnAll": true,
+        "additionalOptions": {
+          "filters": {
+            "fields": [
+              {
+                "field": 7660,
+                "operator": "contains",
+                "value": "downloaded"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [
+        -60,
+        920
+      ],
+      "id": "29010f77-c5f5-43ee-a2ff-3c1cb5e96e7f",
+      "name": "Get-Video-Infos"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Die ID kommt vom ersten Item\nconst mergeId = $items('Generate Merge ID')[0].json.mergeId;\n// Hol die LLM-Ausgabe mit den ausgewählten Video-IDs\nconst llmOutput = $items('AI Agent1')[0].json.output;\n// Extrahiere die ausgewählten Video-IDs und die vorgeschlagene Reihenfolge\nconst selectedIds = llmOutput.suggested_order || llmOutput.video_ids;\n// Hole alle Video-Daten\nconst allVideos = $items('Get-Video-Infos');\n// Filtere die Videos basierend auf den ausgewählten IDs und behalte die Reihenfolge bei\nconst selectedVideos = selectedIds.map(id => {\n  // Finde das Video mit der passenden ID\n  const video = allVideos.find(item => item.json.id === id);\n  return video ? video.json.minio_url : null;\n}).filter(url => url !== null); // Entferne null-Werte für den Fall, dass ein Video nicht gefunden wurde\n\nreturn [\n  {\n    json: {\n      video_urls: selectedVideos,\n      video_ids: selectedIds, // Wichtig: Wir geben die IDs weiter\n      id: mergeId,\n      compilation_title: llmOutput.compilation_title,\n      social_media_description: llmOutput.social_media_description,\n      hashtags: llmOutput.hashtags,\n      theme: llmOutput.theme\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        820,
+        920
+      ],
+      "id": "7de1bafa-44f1-4b83-bb63-21f261566618",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "jsCode": "function generateUUID() {\n  const timestamp = Date.now().toString(36);\n  const random = Math.random().toString(36).substring(2, 10);\n  return `${timestamp}-${random}`;\n}\n\nreturn [\n  {\n    json: {\n      mergeId: generateUUID()\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -240,
+        920
+      ],
+      "id": "8017b8ad-a4b6-4dea-b244-bc7f5b2f9ccc",
+      "name": "Generate Merge ID"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://192.168.100.10:1880/v1/video/concatenate",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"video_urls\": {{ JSON.stringify($json.video_urls) }},\n    \"id\": \"{{ $('Generate Merge ID').first().json.mergeId }}\"\n}",
+        "options": {
+          "timeout": 50000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1300,
+        920
+      ],
+      "id": "e619fa4b-9876-47d8-b18f-733de38b331b",
+      "name": "Combine Clips"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract the array of URLs\nconst urls = items[0].json[\"video_urls\"] || [];\n\n// Map URLs into the required structure\nconst formattedURLs = urls.map(url => ({ \"video_url\": url }));\n\n// Return the transformed data\nreturn [{\n    json: {\n        \"video_urls\": formattedURLs\n    }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1060,
+        920
+      ],
+      "id": "1a12b68e-904f-4af7-a88b-0f618e71841f",
+      "name": "Video url to array"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "allVideos",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        160,
+        920
+      ],
+      "id": "ade188d7-cc93-411d-82cf-649179af0650",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "databaseId": 183,
+        "tableId": 755,
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": 7597,
+              "fieldValue": "={{ $('Combine Clips').item.json.response }}"
+            },
+            {
+              "fieldId": 7575,
+              "fieldValue": "Merged"
+            },
+            {
+              "fieldId": 7574,
+              "fieldValue": "={{ $('AI Agent1').item.json.output.compilation_title }}"
+            },
+            {
+              "fieldId": 7596,
+              "fieldValue": "={{ $json.minio_url }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [
+        1760,
+        920
+      ],
+      "id": "5f58a98e-1110-47d5-b918-d3e8cee1dca0",
+      "name": "Create-Project"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "databaseId": 183,
+        "tableId": 755,
+        "rowId": "={{ $('Create-Project').item.json.id }}",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": 7598,
+              "fieldValue": "={{ $('AI Agent1').item.json.output.video_ids }}"
+            },
+            {
+              "fieldId": 7581,
+              "fieldValue": "={{ $('AI Agent1').item.json.output.social_media_description }}"
+            },
+            {
+              "fieldId": 7589,
+              "fieldValue": "={{ $('AI Agent1').item.json.output.hashtags }}"
+            },
+            {
+              "fieldId": 7586,
+              "fieldValue": "Fails"
+            },
+            {
+              "fieldId": 7587,
+              "fieldValue": "Fails"
+            },
+            {
+              "fieldId": 7595,
+              "fieldValue": "Fails"
+            },
+            {
+              "fieldId": 7585,
+              "fieldValue": "={{ $('AI Agent1').item.json.output.intro_voiceover }}"
+            },
+            {
+              "fieldId": 7594,
+              "fieldValue": "={{ $('Date & Time').item.json.currentDate }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [
+        2160,
+        920
+      ],
+      "id": "768c8aee-ac9a-466c-9b02-955dcaa538f2",
+      "name": "Update-Project"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "databaseId": 183,
+        "tableId": 758,
+        "rowId": "={{ $json.rowId }}",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": 7660,
+              "fieldValue": "merged"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [
+        2860,
+        920
+      ],
+      "id": "eca6c277-3125-4e58-9147-2c410de14afc",
+      "name": "Update-Scenes"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "output.video_ids",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        820,
+        1120
+      ],
+      "id": "623cf238-73fc-42cf-b385-37fd9ae5d10e",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.1,
+      "position": [
+        2420,
+        920
+      ],
+      "id": "c41d4fe1-5222-4e17-9253-2bb68092becf",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Hole alle input items\nconst input = items;\n\n// Extrahiere alle IDs aus Feldern wie: { \"output.video_ids\": 54 }\nreturn input\n  .filter(item => item.json['output.video_ids'] !== undefined)\n  .map(item => ({\n    json: {\n      rowId: item.json['output.video_ids'],\n    },\n  }));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2640,
+        920
+      ],
+      "id": "e83f4ebe-271f-4357-b057-8a2f43eea0f5",
+      "name": "Split-rowId"
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map(item => {\n  const originalUrl = item.json.response;\n  const minioUrl = originalUrl.replace('http://192.168.100.10:9768/', 'https://minio.plex123.uk/');\n  \n  return {\n    json: {\n      ...item.json,\n      minio_url: minioUrl\n    }\n  };\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1560,
+        920
+      ],
+      "id": "57751d88-0769-42c7-a94b-33f67617d875",
+      "name": "Assemble-minio_url"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Analyze the following metadata for {{ $json.allVideos.length }} videos and select exactly 3 videos that thematically fit together and would create a coherent fail compilation. I want to merge these 3 videos using ffmpeg later.\n\nHere's the complete video metadata for all available videos:\n{{ JSON.stringify($json.allVideos) }}\n\nPlease analyze all these videos and select exactly 3 that work well together as a fail compilation. Create a compelling title, social media description with emojis, and relevant hashtags for the compilation.\n\nReturn a single response with only these 3 selections in the following JSON format:\n{\n  \"compilation_title\": \"A catchy title for this compilation\",\n  \"social_media_description\": \"An engaging 2-3 sentence description with emojis\",\n  \"video_ids\": [id1, id2, id3],\n  \"video_titles\": [\"Title 1\", \"Title 2\", \"Title 3\"],\n  \"theme\": \"The connecting theme of the videos\",\n  \"reason\": \"Justification for why these 3 videos work well together\",\n  \"suggested_order\": [id1, id2, id3],\n  \"intro_voiceover\": \"Wait for it...\",\n  \"hashtags\": \"Relevant, Trending, Hashtags\"\n}\n\nmergeID: {{ $('Generate Merge ID').item.json.mergeId }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=You are an expert in selecting and compiling viral videos. Your task is to analyze video metadata from a database and select exactly 3 videos that thematically fit together to create a coherent fail compilation.\n\nFor each video, you'll receive:\n- videoID: Unique identifier for the video\n- videoTitle: The title of the video\n- description: Descriptive text about the video content\n- hashtags: Content categorization tags\n- keywords: Specific terms describing video elements\n- category: Primary content category\n- subcategory: More specific content classification\n- mergeID: Processing identifier\n\nAnalyze these metadata fields and identify 3 videos that:\n1. Share thematic elements or subject matter\n2. Would create a good narrative progression when played sequentially\n3. Feature similar situations, reactions, or environments\n4. Together would make an entertaining short compilation\n\nYour response must follow this JSON format:\n{\n  \"compilation_title\": \"A catchy title for this compilation\",\n  \"social_media_description\": \"An engaging 2-3 sentence description with emojis that would perform well on social media platforms\",\n  \"video_ids\": [1, 2, 3],\n  \"video_titles\": [\"Title One\", \"Title Two\", \"Title Three\"],\n  \"theme\": \"The connecting theme of the videos\",\n  \"reason\": \"Justification for why these 3 videos work well together\",\n  \"suggested_order\": [2, 1, 3],\n  \"intro_voiceover\": \"Some catchy phrase\",\n  \"hashtags\": \"Viral, trending hashtags combining elements from the selected videos' hashtags and adding new relevant ones\"\n\n}\n\nImportant guidelines:\n1. Select exactly 3 videos, no more and no less\n2. Focus primarily on thematic coherence and entertainment value\n3. For the social_media_description:\n   - Keep it between 2-3 sentences\n   - Include relevant emojis that enhance the content\n   - Make it attention-grabbing and shareable\n   - Hint at what viewers will see without spoiling everything\n4. For hashtags:\n   - Include a mix of hashtags from the original videos where relevant\n   - Add trending, popular hashtags that fit the theme\n   - Ensure they're appropriate for the content\n   - Use 5-7 hashtags total\n5. For intro_voiceover:\n   - Add a short, attention-grabbing line (max. 2 seconds duration)\n   - Use expressions like “Wait for it…”, “This escalates quickly…”, “What could possibly go wrong?” etc. no emojis here!\n   - Make it suspenseful, funny, or surprising\n   - Output in the field: intro_voiceover\n\n\nYour selection should create a compilation that feels coherent while maintaining viewers' interest throughout all three clips.\n\n## TOOL\n1. Think - Use this tool to think deeply"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        400,
+        920
+      ],
+      "id": "b5c8a1bf-f446-467a-be14-0ca04bfff4f6",
+      "name": "AI Agent1",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"compilation_title\": \"Epic Dog Fails\",\n  \"social_media_description\": \"Watch these hilarious dog fails that will make your day! 🐶 From slippery ice adventures to snowboarding mishaps, these pups and their humans are having a rough time. 😂\",\n  \"video_ids\": [56, 59, 68],\n  \"video_titles\": [\"Dog Slips on Ice\", \"Snowboarding with Dog Fail\", \"Dog Reaction Fail\"],\n  \"theme\": \"Funny Dog Mishaps\",\n  \"reason\": \"All three videos feature dogs in comedic situations\",\n  \"suggested_order\": [56, 59, 68],\n  \"intro_voiceover\": \"That escalated quickly... 😳\",\n  \"hashtags\": \"DogFails, PetFails, FunnyAnimals, EpicFail, PetHumor\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        580,
+        1140
+      ],
+      "id": "570b5c7b-c248-4ce2-a9b0-fc1d687463b9",
+      "name": "Structured Output Parser1"
+    },
+    {
+      "parameters": {
+        "content": "## Gather and Merge Videoclips",
+        "height": 460,
+        "width": 3940
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -840,
+        840
+      ],
+      "typeVersion": 1,
+      "id": "c5a9837b-69bf-46f7-a2ac-2a632161ac96",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Scrape / Download / FFPMEG",
+        "height": 820,
+        "width": 2320,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "f6c55095-5836-44c4-be7d-9a12f5ae764e",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "options": {
+          "includeInputFields": false
+        }
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        1960,
+        920
+      ],
+      "id": "abbc376e-539b-490a-a187-6a7c3fb1c9d4",
+      "name": "Date & Time"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolThink",
+      "typeVersion": 1,
+      "position": [
+        940,
+        760
+      ],
+      "id": "b2aa4080-e83a-4ecf-ad5b-dd70d1527d0e",
+      "name": "Think"
+    },
+    {
+      "parameters": {},
+      "id": "3e47a576-55f8-4b82-839b-9b2aa53578b0",
+      "name": "Workflow logic",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -1120,
+        920
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const workflowStaticData = $getWorkflowStaticData('global');\n\n// inititate the execution index if it desn't exist or increment if does\nworkflowStaticData.executionIndex = \n  !workflowStaticData?.executionIndex ? 1 :  // [bug] replace 0 with 1\n  workflowStaticData.executionIndex + 1;\n\nreturn [\n  {\n      data: $input.all(),\n      executionIndex: workflowStaticData.executionIndex\n  }\n];"
+      },
+      "id": "cd83e100-020c-4189-957f-03db78ef6305",
+      "name": "Initiate execution index",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1560,
+        1060
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "f5d1aeeb-eddf-4c2a-a1af-f0019715fc60",
+      "name": "Reject logic",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -1120,
+        1140
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "cb8386f4-44ea-402d-b3d4-c00f8c987f9f",
+              "leftValue": "={{ $json.executionIndex }}",
+              "rightValue": 5,
+              "operator": {
+                "type": "number",
+                "operation": "lte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "4f8b2eb1-18bd-438f-9ad6-5c8bd2b55a94",
+      "name": "If less than 1000 executions",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.1,
+      "position": [
+        -1340,
+        1060
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 1
+            }
+          ]
+        }
+      },
+      "id": "f4cd8a6c-697d-4946-b7ee-3e82b9771a8d",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -1140,
+        1740
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        2860,
+        1160
+      ],
+      "id": "4f4e6bfe-3813-4ec4-94ec-b08c9b8249ff",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "content": "## Loop Logic with counter",
+        "height": 460,
+        "width": 1020
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1940,
+        840
+      ],
+      "typeVersion": 1,
+      "id": "d59d1a3e-32ce-4da5-bed9-ce362e380663",
+      "name": "Sticky Note2"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2025-04-21T16:25:58.639Z",
+      "updatedAt": "2025-04-21T16:25:58.639Z",
+      "id": "7vlPZdUKD6eekCQM",
+      "name": "Baserow"
+    },
+    {
+      "createdAt": "2025-04-21T16:25:58.660Z",
+      "updatedAt": "2025-04-21T16:25:58.660Z",
+      "id": "cUk15hhTZJRZVm9n",
+      "name": "Reddit"
+    },
+    {
+      "createdAt": "2025-04-21T16:25:58.616Z",
+      "updatedAt": "2025-04-21T16:25:58.616Z",
+      "id": "euHN9Rql8bII1UP8",
+      "name": "Scraper"
+    }
+  ],
+  "triggerCount": 0,
+  "updatedAt": "2025-04-21T16:26:14.000Z",
+  "versionId": "92c357bf-14cc-494e-be75-d2727d1d60ad"
+}
