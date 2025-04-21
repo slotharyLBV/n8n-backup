@@ -1,0 +1,163 @@
+{
+  "active": false,
+  "connections": {
+    "Get-Released-Videos1": {
+      "main": [
+        [
+          {
+            "node": "Baserow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get-Released-Videos1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get-Released-Videos": {
+      "main": [
+        [
+          {
+            "node": "Baserow1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-04-21T16:25:12.208Z",
+  "id": "LRBy5QymoTNaB4Xp",
+  "meta": null,
+  "name": "Baserow___Delete_Emtpy_Rows",
+  "nodes": [
+    {
+      "parameters": {
+        "databaseId": 171,
+        "tableId": 723,
+        "returnAll": true,
+        "additionalOptions": {
+          "filters": {
+            "fields": [
+              {
+                "field": 7174,
+                "operator": "empty"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [
+        20,
+        180
+      ],
+      "id": "7f0db3f5-14d3-424d-b7fd-62b2a4885d10",
+      "name": "Get-Released-Videos1"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "databaseId": 171,
+        "tableId": 723,
+        "rowId": "={{ $json.id }}"
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [
+        240,
+        180
+      ],
+      "id": "cf40ce5f-c5cf-498b-bdc0-382594bbcd3a",
+      "name": "Baserow"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -200,
+        180
+      ],
+      "id": "d4c992c8-f891-42e5-8df0-80d1e6ac2d52",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "resource": "folder",
+        "operation": "getAll",
+        "bucketName": "cache",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.s3",
+      "typeVersion": 1,
+      "position": [
+        80,
+        420
+      ],
+      "id": "589f2a7e-e07b-4b31-855b-f61634529d24",
+      "name": "Minio-Upload1"
+    },
+    {
+      "parameters": {
+        "databaseId": 183,
+        "tableId": 763,
+        "returnAll": true,
+        "additionalOptions": {
+          "filters": {
+            "fields": [
+              {
+                "field": 7736,
+                "operator": "contains_not",
+                "value": "qnfE9m7f-LA"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "3d812b23-042e-454e-aa30-b393991253b0",
+      "name": "Get-Released-Videos"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "databaseId": 183,
+        "tableId": 763,
+        "rowId": "={{ $json.id }}"
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [
+        220,
+        0
+      ],
+      "id": "1162ed64-c488-4b62-b45c-c01e87ffe71c",
+      "name": "Baserow1"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-04-21T16:25:15.000Z",
+  "versionId": "bcf3135c-03d9-43f0-bbe4-4c419a165cd2"
+}
