@@ -151,7 +151,8 @@
         840
       ],
       "id": "0c042ae4-4241-4cbc-8b3e-8debb424ab0e",
-      "name": "Azure OpenAI Chat Model"
+      "name": "Azure OpenAI Chat Model",
+      "disabled": true
     },
     {
       "parameters": {
@@ -245,30 +246,6 @@
       "name": "Category-Spelling+Split"
     },
     {
-      "parameters": {},
-      "type": "n8n-nodes-mcp.mcpClientTool",
-      "typeVersion": 1,
-      "position": [
-        1040,
-        500
-      ],
-      "id": "3bb7416e-34ef-44f0-bc59-c6cdd8d2e690",
-      "name": "MCP Execute Brave Search",
-      "credentials": {}
-    },
-    {
-      "parameters": {},
-      "type": "n8n-nodes-mcp.mcpClientTool",
-      "typeVersion": 1,
-      "position": [
-        880,
-        500
-      ],
-      "id": "9911df4d-3b0b-458d-a59d-3039040b168e",
-      "name": "MCP Get Brave Tools",
-      "credentials": {}
-    },
-    {
       "parameters": {
         "modelName": "models/gemini-2.0-flash-exp",
         "options": {}
@@ -280,7 +257,8 @@
         840
       ],
       "id": "d8b5727d-73ab-4572-915b-01adb3cd0b8e",
-      "name": "Google Gemini Chat Model"
+      "name": "Google Gemini Chat Model",
+      "disabled": true
     },
     {
       "parameters": {
@@ -299,7 +277,8 @@
         840
       ],
       "id": "5fb68f7e-b14d-466c-adab-9824967b6cb1",
-      "name": "Anthropic Chat Model"
+      "name": "Anthropic Chat Model",
+      "disabled": true
     },
     {
       "parameters": {
@@ -333,18 +312,24 @@
         500
       ],
       "id": "4de1d0e8-16b6-4121-bd59-64c66edd1c2e",
-      "name": "LiteLLM"
+      "name": "LiteLLM",
+      "credentials": {
+        "openAiApi": {
+          "id": "L8Rf6JdZUG7XqHMn",
+          "name": "OpenAi BONS-AI"
+        }
+      }
     },
     {
       "parameters": {
-        "databaseId": 183,
-        "tableId": 755,
+        "databaseId": 213324,
+        "tableId": 511973,
         "returnAll": true,
         "additionalOptions": {
           "filters": {
             "fields": [
               {
-                "field": 7585,
+                "field": 4054780,
                 "operator": "not_empty"
               }
             ]
@@ -358,12 +343,18 @@
         160
       ],
       "id": "570fde05-1896-40e0-811a-70981329d3cc",
-      "name": "Get-DB-Short"
+      "name": "Get-DB-Short",
+      "credentials": {
+        "baserowApi": {
+          "id": "CUFELLf3Yq9PWolc",
+          "name": "Baserow account"
+        }
+      }
     },
     {
       "parameters": {
         "operation": "create",
-        "databaseId": 183,
+        "databaseId": 213324,
         "tableId": 755,
         "fieldsUi": {
           "fieldValues": [
@@ -481,7 +472,13 @@
         160
       ],
       "id": "ca225424-4852-479a-bd06-6d6446ea43f0",
-      "name": "Upload Ideas"
+      "name": "Upload Ideas",
+      "credentials": {
+        "baserowApi": {
+          "id": "CUFELLf3Yq9PWolc",
+          "name": "Baserow account"
+        }
+      }
     },
     {
       "parameters": {},
@@ -540,6 +537,32 @@
       "typeVersion": 1,
       "id": "0822578a-fc54-4d2a-b82e-6a51424706e1",
       "name": "Sticky Note2"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-mcp.mcpClientTool",
+      "typeVersion": 1,
+      "position": [
+        1040,
+        560
+      ],
+      "id": "3bb7416e-34ef-44f0-bc59-c6cdd8d2e690",
+      "name": "MCP Execute Brave Search",
+      "credentials": {},
+      "disabled": true
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-mcp.mcpClientTool",
+      "typeVersion": 1,
+      "position": [
+        860,
+        560
+      ],
+      "id": "9911df4d-3b0b-458d-a59d-3039040b168e",
+      "name": "MCP Get Brave Tools",
+      "credentials": {},
+      "disabled": true
     }
   ],
   "pinData": {},
@@ -549,6 +572,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-04-21T16:26:35.000Z",
-  "versionId": "7d53e302-886f-4b49-b90a-d00330d409a0"
+  "updatedAt": "2025-04-21T21:52:31.000Z",
+  "versionId": "a8ee9e01-085f-4dc5-8b97-3c3bc7328813"
 }
