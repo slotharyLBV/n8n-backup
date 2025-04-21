@@ -1,0 +1,577 @@
+{
+  "active": false,
+  "connections": {
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Category-Spelling+Split",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Scraper",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scraper": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CategoryChooser": {
+      "main": [
+        [
+          {
+            "node": "Scraper",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload Times": {
+      "main": [
+        [
+          {
+            "node": "Get-DB-Short",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Category-Spelling+Split": {
+      "main": [
+        [
+          {
+            "node": "Date & Time",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time": {
+      "main": [
+        [
+          {
+            "node": "Upload Ideas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LiteLLM": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Scraper",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get-DB-Short": {
+      "main": [
+        [
+          {
+            "node": "CategoryChooser",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-04-21T21:52:46.632Z",
+  "id": "0DFMlW0YLAyQCGhV",
+  "meta": null,
+  "name": "Video_Shorts_Automation__Fetch_Ideas__v3 (original)",
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are a creative strategist for viral short-form video content.  \nYour focus is on topics such as AI tools, productivity, tech tutorials, speculative fiction, and surprising facts.\n\nYou will receive a list of up to **10 video ideas**, each containing:\n- a `title` (hook or name of the idea)\n- a `concept` (normalized label for deduplication)\n\n---\n\n🎯 Your task:\n\n1. Select the **5 best-performing ideas** for visual short-form content.\n2. Avoid **duplicates** or semantically similar topics to those already in use.\n3. For each selected idea, generate full metadata for an automated video workflow.\n\n---\n\n🚫 BLACKLIST CONCEPTS (do not reuse):\n\n={{\n  JSON.stringify(\n    $items(\"Get-DB-Short\")\n      .map(i => i.json[\"Short\"]?.toLowerCase()?.trim())\n      .filter(i => i)\n  )\n}}\n\n\n\n\n---\n\n### For each selected entry, generate:\n\n1. **A scroll-stopping video title** (max 12 words)  \n   – Must relate directly to the `concept`  \n   – Must start with \"{{ $('CategoryChooser').item.json.Category }}\"  \n   – Be cinematic, surprising, and curiosity-driven  \n   – Think like a TikTok hook or YouTube Shorts headline\n\n2. **\"style\"**  \n   – Must be one of the following EXACT strings (case-sensitive, no typos!):  \n     [\"Photorealistic\", \"3D Render\", \"Cartoon\", \"Cinematic\", \"Anime\", \"Cyberpunk\", \"Low poly\", \"Neon Glow\", \"Surrealism\", \"Pixel Art\", \"Pop Art\", \"Watercolor\", \"Oil Painting\", \"Stencil/Graffiti\"]  \n   – Spelling must match 1:1  \n   – Do NOT invent or misspell any style  \n   – If unsure, always return `\"Cinematic\"`\n\n3. **\"short\"**  \n   – If the entry is a real software/tool → use its name  \n   – If it’s a speculative concept (e.g. What If / Did You Know), generate a short **fictitious label** as `\"short\"`  \n   – Use 2–3 words in **Title Case**, and make it descriptive  \n     - Examples:  \n       - `\"Dinosaur World\"` → for `\"what if dinosaurs never went extinct\"`  \n       - `\"Mind Reader\"` → for `\"reading thoughts\"`  \n       - `\"Alien Octopus\"` → for `\"three heart octopus\"`\n\n4. **\"category\"**  \n   – Must be exactly: `{{ $('CategoryChooser').item.json.Category }}`  \n   – Use exact spelling and casing. Never invent or change it.\n\n5. **\"scenes\"**  \n   – 5 short, creative visual scene descriptions based on the concept  \n   – Each scene = one image or moment  \n   – Think in visual vertical storytelling\n   \n---\n\n### CATEGORY:  \nCategory must match exactly!  \nUse exact spelling and casing.  \nNever invent or change the format.  \n{{ $('CategoryChooser').item.json.Category }}\n\n---\n\n### INPUT IDEAS / SHORT:  \n{{ $('Scraper').item.json.output }}\n\n---\n\n### Output format:\nReturn a structured JSON array like this:\n\n```json\n[\n  {\n    \"title\": \"What If Earth Had Two Suns?\",\n    \"short\": \"Twin Star Earth\",\n    \"style\": \"Cinematic\",\n    \"category\": \"{{ $('CategoryChooser').item.json.Category }}\",\n    \"scenes\": [\n      \"A blazing sunrise over a desert with two suns rising on opposite horizons.\",\n      \"People walking in double shadows through a futuristic city.\",\n      \"A global heatwave map glowing red.\",\n      \"Melting icecaps flooding coastal cities.\",\n      \"A child gazing at the sky with two pairs of sunglasses stacked.\"\n    ]\n  }\n]\n\n\n## TOOL\n1 Think - Use this tool to think deeply",
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        1500,
+        160
+      ],
+      "id": "a5c7b33a-edad-4edb-9338-0d2f7d8090b8",
+      "name": "AI Agent",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAzureOpenAi",
+      "typeVersion": 1,
+      "position": [
+        1100,
+        840
+      ],
+      "id": "86822c1f-1bd0-4327-930b-18c2396955d8",
+      "name": "Azure OpenAI Chat Model",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "[\n  {\n    \"title\": \"This AI Designs Presentations For You\",\n    \"short\": \"Gamma\",\n    \"style\": \"Cinematic\",\n    \"category\": \"Productivity with AI\"\n  },\n  {\n    \"title\": \"Never Summarize Manually Again\",\n    \"short\": \"Upword\",\n    \"style\": \"Low poly\",\n    \"category\": \"AI tools for daily use\"\n  }\n]\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        1680,
+        360
+      ],
+      "id": "e78244a1-8426-419b-9b71-98242d82c3de",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "[\n  \"Rewind AI\",\n  \"FlowGPT\",\n  \"Gamma\",\n  \"Lingo3D\",\n  \"Tiledesk\",\n  \"Pika Labs\",\n  \"Claude Instant\",\n  \"Supermeme\",\n  \"Nanonets\",\n  \"Taskade\"\n]"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        1180,
+        360
+      ],
+      "id": "6c5dce1a-e37e-4034-aaef-64e03418d6bd",
+      "name": "Structured Output Parser1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are an expert researcher for viral short-form video content.  \nYour task is to generate a list of **10 highly relevant, category-specific entries** based on the following topic:\n\n🎯 Category: `{{ $('CategoryChooser').item.json.Category }}`\n\n---\n\n🔎 STEP 1 — Smart Source Selection:\n\nSelect **one or more** of the following **flexible sources** based on the category. Do **not** mix unrelated categories or return random results. Use only **relevant** sources per category.\n\n- **\"AI tools for daily use\"**  \n  → Explore new tools from:  \n  - https://www.futuretools.io  \n  - https://www.producthunt.com/topics/artificial-intelligence  \n  - https://techcrunch.com/tag/ai  \n  - https://www.aitools.fyi  \n\n- **\"Productivity with AI\"**  \n  → Focus on tools and hacks from:  \n  - https://zapier.com/blog  \n  - https://todoist.com/blog  \n  - https://lifehacker.com  \n  - https://www.producthunt.com/topics/productivity  \n\n- **\"Short explainer tech tutorials\"**  \n  → Discover projects and simple concepts from:  \n  - https://github.com/trending  \n  - https://www.youtube.com/c/TechGumbo  \n  - https://dev.to/t/tutorials  \n\n- **\"What if\"**  \n  → Pull unique ideas from:  \n  - https://whatif.show/archives  \n  - https://www.reddit.com/r/whatif/  \n  - https://www.reddit.com/r/hypotheticalscenario/  \n  - https://futurecrunch.com  \n\n- **\"Did You Know\"**  \n  → Use fact-based inspiration from:  \n  - https://www.thefactsite.com  \n  - https://www.reddit.com/r/todayilearned/  \n  - https://www.factslides.com  \n  - https://www.natgeokids.com  \n\n- **\"Everyday Items You Are Using Wrong\"**  \n  → Find practical insight from:  \n  - https://www.rd.com/list/things-you-use-wrong/  \n  - https://www.goodhousekeeping.com  \n  - https://www.lifehacker.com  \n  - https://www.consumerreports.org  \n\n---\n\n🧠 STEP 2 — Deduplication Using Canonical Concepts:\n\nFor **each entry**, generate a **short lowercase concept label** that captures the idea (like a tag).  \nCompare this label against the blacklist below and **skip any idea** with a matching or similar concept.\n\nExamples:\n\n- \"Did you know octopuses have 3 hearts?\" → `three heart octopus`  \n- \"What if humans had wings?\" → `humans with wings`  \n- \"You’re using your blender all wrong\" → `blender misuse`  \n\n---\n\n🚫 BLACKLIST (concepts to avoid):\n\n```json\n{{ JSON.stringify(\n  $items(\"Get-DB-Short\")\n    .map(i => i.json[\"Short\"]?.toLowerCase()?.trim())\n    .filter(i => i)\n) }}\n\n\n---\n\n🎯 STEP 3 — Output Format Rules:\n\n- For categories like:\n  - `\"AI tools for daily use\"`\n  - `\"Productivity with AI\"`\n  - `\"Short explainer tech tutorials\"`\n\n  ➤ Return 10 **fresh and unique tool or project names** only. No descriptions, no URLs.\n\n- For categories like:\n  - `\"What if\"`\n  - `\"Did You Know\"`\n  - `\"Everyday Items You Are Using Wrong\"`\n\n  ➤ Return 10 **short, intriguing fact-like hook phrases** that could serve as video ideas.\n\n---\n\n🚫 Do NOT return:\n\n- Titles of existing articles\n- Descriptions, summaries, or full sentences from web pages\n- URLs\n- HTML tags or formatting\n- Reddit thread titles or votes\n\nOnly return original, creative hook phrases or short names – no metadata.\n\nIf the category is one of:\n- \"What if\"\n- \"Did You Know\"\n- \"Everyday Items You Are Using Wrong\"\n\nThen your output must be **10 unique, curiosity-driven hook phrases** that could be the opening line of a short-form video.\n\nEach phrase must:\n- Be 5–12 words max\n- Contain a surprising or weird twist\n- Sound like a TikTok or YouTube Shorts hook\n\n---\n\n✅ FINAL INSTRUCTION:\n\nPerform **exactly one** search operation.  \nReturn **exactly 10 items** based on the rules above.  \nOutput as a clean flat JSON array with 10 strings, like this:\n\n```json\n[\n  \"Did you know bananas are technically berries?\",\n  \"What if Earth had rings like Saturn?\",\n  \"Gamma\",\n  \"Supermeme\",\n  \"What if humans had tails?\",\n  \"You’re using your blender all wrong\",\n  \"Lingo3D\",\n  \"Rewind AI\",\n  \"Most people microwave food the wrong way\",\n  \"Ask Marcus\"\n]\n",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=You are a helpful assistant\n1. Find the tools available\n2. From the <user query> work out which tool is best for the job based on the descriptions (MCP Get Brave Tools)\n3. Use executeTool (MCP Execute Brave Search), passing in the correct parameters\n4. Think - use this tool to think deeply\n\n<user query>\nsearch {{ $json.Category }}\n</user query> ",
+          "maxIterations": 15
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        1000,
+        160
+      ],
+      "id": "bab1163e-805e-4b58-b6c8-c8240d9a4504",
+      "name": "Scraper"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Debug-Informationen ausgeben\nconsole.log(\"Input data:\", JSON.stringify($input.item.json, null, 2));\n\n// Explizit prüfen, ob fromForm vorhanden und true ist\nif ($input.item.json.fromForm === true) {\n  console.log(\"Form path detected!\");\n  \n  // Form-Kategorie verwenden\n  return {\n    json: {\n      Category: $input.item.json.originalFormCategory,\n      source: \"form\",\n      debug: \"Used form category\"\n    }\n  };\n} else {\n  console.log(\"Random path detected!\");\n  \n  // Zufällige Kategorie\n  const categories = [\n    \"What if?\",\n    \"Did you know?\",\n    \"AI tools for daily use\",\n    \"Cool Animal Facts\",\n    \"Everyday Items You Are Using Wrong\",\n  ];\n  const index = Math.floor(Math.random() * categories.length);\n  \n  return {\n    json: {\n      Category: categories[index],\n      source: \"random\",\n      debug: \"Used random category\"\n    }\n  };\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        640,
+        160
+      ],
+      "id": "56e4dacd-f513-45cd-9010-3df373adb1c4",
+      "name": "CategoryChooser"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 3
+            }
+          ]
+        }
+      },
+      "id": "85dd307e-2ae4-413a-91ca-fc604b385abe",
+      "name": "Upload Times",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        80,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const ideas = $json.output;\nreturn ideas.map(item => {\n  const rawCat = item.category?.trim();\n  let finalCategory = rawCat;\n  \n  if (rawCat?.toLowerCase() === \"what if\" || rawCat?.toLowerCase() === \"what if?\") finalCategory = \"What if?\";\n  else if (rawCat?.toLowerCase() === \"did you know\" || rawCat?.toLowerCase() === \"did you know?\") finalCategory = \"Did you know?\";\n  else if (rawCat?.toLowerCase() === \"ai tools for daily use\") finalCategory = \"AI tools for daily use\";\n  else if (rawCat?.toLowerCase() === \"productivity with ai\") finalCategory = \"Productivity with AI\";\n  else if (rawCat?.toLowerCase() === \"short explainer tech tutorials\") finalCategory = \"Short explainer tech tutorials\";\n  // Für den Fall mit \"Everyday Items You're Using Wrong\"\n  else if (rawCat?.toLowerCase() === \"everyday items you're using wrong\") finalCategory = \"Everyday Items You Are Using Wrong\";\n  \n  return {\n    json: {\n      ...item,\n      category: finalCategory\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1960,
+        160
+      ],
+      "id": "f235f18d-6d70-4a65-8ebd-7d252939850c",
+      "name": "Category-Spelling+Split"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash-exp",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1400,
+        840
+      ],
+      "id": "4fecf6d5-8775-4642-b2a5-ac4d2c598b84",
+      "name": "Google Gemini Chat Model",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "claude-3-7-sonnet-20250219",
+          "cachedResultName": "Claude 3.7 Sonnet"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.3,
+      "position": [
+        1240,
+        840
+      ],
+      "id": "362f1613-c208-4800-aa47-ea1cd5fd1993",
+      "name": "Anthropic Chat Model",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "options": {
+          "includeInputFields": true
+        }
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        2160,
+        160
+      ],
+      "id": "ea947401-85b4-42e4-8646-742653d75f91",
+      "name": "Date & Time"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "azure/gpt-4.1",
+          "mode": "list",
+          "cachedResultName": "azure/gpt-4.1"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1320,
+        500
+      ],
+      "id": "12f468d7-755a-459b-8a34-1d4d3fcbe2a4",
+      "name": "LiteLLM",
+      "credentials": {
+        "openAiApi": {
+          "id": "L8Rf6JdZUG7XqHMn",
+          "name": "OpenAi BONS-AI"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "databaseId": 213324,
+        "tableId": 511973,
+        "returnAll": true,
+        "additionalOptions": {
+          "filters": {
+            "fields": [
+              {
+                "field": 4054780,
+                "operator": "not_empty"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [
+        380,
+        160
+      ],
+      "id": "8896b4e0-8538-4c08-9819-ff66cc7f39af",
+      "name": "Get-DB-Short",
+      "credentials": {
+        "baserowApi": {
+          "id": "CUFELLf3Yq9PWolc",
+          "name": "Baserow account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "databaseId": 213324,
+        "tableId": 755,
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": 7574,
+              "fieldValue": "={{ $('Category-Spelling+Split').item.json.title }}"
+            },
+            {
+              "fieldId": 7585,
+              "fieldValue": "={{ $('Category-Spelling+Split').item.json.short }}"
+            },
+            {
+              "fieldId": 7586,
+              "fieldValue": "={{ $('Category-Spelling+Split').item.json.category }}"
+            },
+            {
+              "fieldId": 7577,
+              "fieldValue": "={{ $('Category-Spelling+Split').item.json.style }}"
+            },
+            {
+              "fieldId": 7576,
+              "fieldValue": "4"
+            },
+            {
+              "fieldId": 7575,
+              "fieldValue": "Idea"
+            },
+            {
+              "fieldId": 7578,
+              "fieldValue": "flux-pro"
+            },
+            {
+              "fieldId": 7579,
+              "fieldValue": "5"
+            },
+            {
+              "fieldId": 7594,
+              "fieldValue": "={{ $json.currentDate }}"
+            },
+            {
+              "fieldId": 7587,
+              "fieldValue": "={{ $('Category-Spelling+Split').item.json.category }}"
+            },
+            {
+              "fieldId": 7595,
+              "fieldValue": "={{ $('Category-Spelling+Split').item.json.category }}"
+            },
+            {
+              "fieldId": 7592,
+              "fieldValue": "10"
+            },
+            {
+              "fieldId": 7603,
+              "fieldValue": "={{ $('Category-Spelling+Split').item.json.category }}"
+            },
+            {
+              "fieldId": 7599,
+              "fieldValue": "={{ $('Category-Spelling+Split').item.json.category }}"
+            },
+            {
+              "fieldId": 7600,
+              "fieldValue": "={{ $('Category-Spelling+Split').item.json.category }}"
+            },
+            {
+              "fieldId": 7614,
+              "fieldValue": "short"
+            },
+            {
+              "fieldId": 7615,
+              "fieldValue": "true"
+            },
+            {
+              "fieldId": 7612,
+              "fieldValue": "={{ $('Category-Spelling+Split').item.json.category }}"
+            },
+            {
+              "fieldId": 7613,
+              "fieldValue": "={{ $('Category-Spelling+Split').item.json.category }}"
+            },
+            {
+              "fieldId": 7607,
+              "fieldValue": "={{ $('Category-Spelling+Split').item.json.category }}"
+            },
+            {
+              "fieldId": 7606,
+              "fieldValue": "={{ $('Category-Spelling+Split').item.json.category }}"
+            },
+            {
+              "fieldId": 7605,
+              "fieldValue": "={{ $('Category-Spelling+Split').item.json.category }}"
+            },
+            {
+              "fieldId": 7608,
+              "fieldValue": "={{ $('Category-Spelling+Split').item.json.category }}"
+            },
+            {
+              "fieldId": 7609,
+              "fieldValue": "={{ $('Category-Spelling+Split').item.json.category }}"
+            },
+            {
+              "fieldId": 7610,
+              "fieldValue": "={{ $('Category-Spelling+Split').item.json.category }}"
+            },
+            {
+              "fieldId": 7611,
+              "fieldValue": "={{ $('Category-Spelling+Split').item.json.category }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [
+        2360,
+        160
+      ],
+      "id": "c5008910-9d36-4b52-98e7-363946b4feca",
+      "name": "Upload Ideas",
+      "credentials": {
+        "baserowApi": {
+          "id": "CUFELLf3Yq9PWolc",
+          "name": "Baserow account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolThink",
+      "typeVersion": 1,
+      "position": [
+        1460,
+        540
+      ],
+      "id": "b2b8c082-da9f-4cd3-8fe1-dfbe00869671",
+      "name": "Think"
+    },
+    {
+      "parameters": {
+        "content": "# Trigger and Category-Chooser\n## Configure new Category Ideas",
+        "height": 740,
+        "width": 800,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "0876234a-b3bc-4f04-986d-6721d454649e",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "# Scraper and AI-Agent\n## Scrapes 10 ideas -> decides upon the best 5 (title, short, style....)",
+        "height": 740,
+        "width": 1040
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        820,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "1eca21cc-60ba-408d-89e2-dfaaa69c0579",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "# Prepare data for Baserow documentation",
+        "height": 740,
+        "width": 680,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1880,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "bb9ed549-ffa5-42a7-80b6-9959b96da658",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-mcp.mcpClientTool",
+      "typeVersion": 1,
+      "position": [
+        1040,
+        560
+      ],
+      "id": "7df6255b-f316-4a3b-808d-89582be95d5d",
+      "name": "MCP Execute Brave Search",
+      "credentials": {},
+      "disabled": true
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-mcp.mcpClientTool",
+      "typeVersion": 1,
+      "position": [
+        860,
+        560
+      ],
+      "id": "bb0a3c6e-9932-4746-84e4-f2092e00c88a",
+      "name": "MCP Get Brave Tools",
+      "credentials": {},
+      "disabled": true
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-04-21T21:52:46.000Z",
+  "versionId": "c604475e-b2cc-48ed-9f96-51ceeedcb94e"
+}
