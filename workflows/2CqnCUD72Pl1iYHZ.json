@@ -1,0 +1,1132 @@
+{
+  "active": false,
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Baserow2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Video IDs": {
+      "main": [
+        [
+          {
+            "node": "Extract Video IDs2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Video IDs2": {
+      "main": [
+        [
+          {
+            "node": "Get Video Stats2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Video Stats2": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Split Out1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Baserow2": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Video Stats1": {
+      "main": [
+        [
+          {
+            "node": "Baserow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Video IDs1": {
+      "main": [
+        [
+          {
+            "node": "Code3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Video IDs2": {
+      "main": [
+        [
+          {
+            "node": "Code2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code2": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Code3": {
+      "main": [
+        [
+          {
+            "node": "Get Video IDs2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "Split Out2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Baserow2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Get Video Stats1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Baserow": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Baserow5": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Video Stats3": {
+      "main": [
+        [
+          {
+            "node": "Baserow6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger1": {
+      "main": [
+        [
+          {
+            "node": "Baserow5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Get Video Stats3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Baserow6": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-04-21T16:27:10.891Z",
+  "id": "2CqnCUD72Pl1iYHZ",
+  "meta": null,
+  "name": "Youtube_Metric_Colletor",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        100,
+        280
+      ],
+      "id": "cd9fe22e-d15c-4b11-87d4-e22d3cd257ca",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "youTubeOAuth2Api",
+        "url": "https://www.googleapis.com/youtube/v3/search",
+        "options": {},
+        "queryParametersUi": {
+          "parameter": [
+            {
+              "name": "channelId",
+              "value": "UCxXpMWpTd34HYmK0jaZ4Alg"
+            },
+            {
+              "name": "part",
+              "value": "id"
+            },
+            {
+              "name": "maxResults",
+              "value": "200"
+            },
+            {
+              "name": "type",
+              "value": "video"
+            },
+            {
+              "name": "=pageToken",
+              "value": "="
+            }
+          ]
+        }
+      },
+      "id": "4d88c652-7228-45e2-b222-021b58af4975",
+      "name": "Get Video IDs",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 2,
+      "position": [
+        2480,
+        1720
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "videoIds",
+              "value": "={{ $json.items.map(i => i.id.videoId).join(',') }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "17d49ba5-b6c1-4058-97e0-2a98a31c9cc2",
+      "name": "Extract Video IDs2",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        2700,
+        1720
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "youTubeOAuth2Api",
+        "url": "https://www.googleapis.com/youtube/v3/videos",
+        "options": {},
+        "queryParametersUi": {
+          "parameter": [
+            {
+              "name": "id",
+              "value": "={{ $json.videoIds }}"
+            },
+            {
+              "name": "part",
+              "value": "statistics,snippet"
+            }
+          ]
+        }
+      },
+      "id": "c03cba76-dc66-4777-af67-306face833a3",
+      "name": "Get Video Stats2",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 2,
+      "position": [
+        2940,
+        1720
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e9925ea7-0728-4b31-a063-2a76ec755afb",
+              "name": "id",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "fd7c77c3-f2a7-41ab-bafb-63039bcf4425",
+              "name": "title",
+              "value": "={{ $json['snippet.title'] }}",
+              "type": "string"
+            },
+            {
+              "id": "2fc2f072-587e-48b1-9f2e-5d4bc0556b27",
+              "name": "views",
+              "value": "={{ $json['statistics.viewCount'] }}",
+              "type": "string"
+            },
+            {
+              "id": "781baa56-2111-4c17-951c-3bbc24291ee6",
+              "name": "likes",
+              "value": "={{ $json['statistics.likeCount'] }}",
+              "type": "string"
+            },
+            {
+              "id": "b140aa12-4d80-49e0-8254-5e93f89796af",
+              "name": "dislikes",
+              "value": "={{ $json['statistics.dislikeCount'] }}",
+              "type": "string"
+            },
+            {
+              "id": "073eb24b-cbc5-4886-8bd3-52e872cdd971",
+              "name": "comments",
+              "value": "={{ $json['statistics.commentCount'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2140,
+        1480
+      ],
+      "id": "af0a6275-16a8-40b7-a04b-614484eefa76",
+      "name": "Edit Fields",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "items",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1780,
+        1480
+      ],
+      "id": "302c19ab-d009-4a98-bf06-c5c528690fc9",
+      "name": "Split Out",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "id",
+        "include": "selectedOtherFields",
+        "fieldsToInclude": "snippet.title, statistics.viewCount, statistics.likeCount, statistics.dislikeCount, statistics.commentCount",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1960,
+        1480
+      ],
+      "id": "e8cc7aa1-70cc-4f8a-87dc-41d356b1e9e9",
+      "name": "Split Out1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "projectId": "peu2rkgn3a6542e",
+        "table": "m9agyd3al3mqplg",
+        "fieldsUi": {
+          "fieldValues": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        2840,
+        1400
+      ],
+      "id": "cc9363cf-5d22-4fa7-bc55-986d9e236535",
+      "name": "NocoDB",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "databaseId": 171,
+        "tableId": 709,
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": 6920,
+              "fieldValue": "={{ $json.title }}"
+            },
+            {
+              "fieldId": 6922,
+              "fieldValue": "={{ $json.views }}"
+            },
+            {
+              "fieldId": 6928,
+              "fieldValue": "={{ $json.dislikes }}"
+            },
+            {
+              "fieldId": 6929,
+              "fieldValue": "={{ $json.comments }}"
+            },
+            {
+              "fieldId": 6927,
+              "fieldValue": "={{ $json.likes }}"
+            },
+            {
+              "fieldId": 6921,
+              "fieldValue": "={{ $json.id }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [
+        3100,
+        1460
+      ],
+      "id": "22c793a5-0c5c-4caa-9c45-f6b721f1932f",
+      "name": "Baserow1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "databaseId": 183,
+        "tableId": 761,
+        "returnAll": true,
+        "additionalOptions": {}
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [
+        340,
+        280
+      ],
+      "id": "9f38219c-06db-4eb7-99f7-312a1af2a0b4",
+      "name": "Baserow2"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Beispiel: Wenn du die JSON-Daten als Eingabe hast, auf die Eingabedaten zugreifen\nconst data = items[0].json; // Holen wir uns die Eingabedaten (dies ist dein JSON)\n\nlet output = []; // Array für die Ausgabe\n\n// Überprüfen, ob die \"items\"-Eigenschaft existiert und es sich um ein Array handelt\nif (data.items && Array.isArray(data.items)) {\n    console.log(`Anzahl der Items: ${data.items.length}`); // Ausgabe der Anzahl der Items\n\n    // Durch alle Items iterieren\n    data.items.forEach(item => {\n        const { id, snippet, statistics } = item;\n\n        const stats = {\n            json: {  // Wir packen die Felder in das \"json\"-Objekt\n                id: id,\n                title: snippet.title,\n                viewCount: statistics.viewCount,\n                likeCount: statistics.likeCount,\n                dislikeCount: statistics.dislikeCount,\n                commentCount: statistics.commentCount\n            }\n        };\n\n        output.push(stats); // Füge jedes extrahierte Objekt in das Array hinzu\n    });\n} else {\n    // Falls keine Items vorhanden sind, geben wir einen Fehler als Objekt zurück\n    output.push({ json: { error: \"Keine Video-Daten gefunden!\" } });\n}\n\nreturn output; // Rückgabe eines Arrays, das alle Items enthält\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3120,
+        1720
+      ],
+      "id": "ce1a34ca-fba1-40cb-b025-e39dda889d1b",
+      "name": "Code",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "youTubeOAuth2Api",
+        "url": "https://www.googleapis.com/youtube/v3/videos",
+        "options": {},
+        "queryParametersUi": {
+          "parameter": [
+            {
+              "name": "part",
+              "value": "statistics,snippet,status,contentDetails"
+            },
+            {
+              "name": "id",
+              "value": "={{ $json[\"Video-ID\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "999238bc-d3e1-4e4a-aa6a-44afa94d9c02",
+      "name": "Get Video Stats1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 2,
+      "position": [
+        780,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "databaseId": 171,
+        "tableId": 709,
+        "rowId": "={{ $json.id }}",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": 6920,
+              "fieldValue": "={{ $json.title }}"
+            },
+            {
+              "fieldId": 6922,
+              "fieldValue": "={{ $json.views }}"
+            },
+            {
+              "fieldId": 6928,
+              "fieldValue": "={{ $json.dislikes }}"
+            },
+            {
+              "fieldId": 6929,
+              "fieldValue": "={{ $json.comments }}"
+            },
+            {
+              "fieldId": 6927,
+              "fieldValue": "={{ $json.likes }}"
+            },
+            {
+              "fieldId": 6921,
+              "fieldValue": "={{ $json.id }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [
+        2440,
+        1480
+      ],
+      "id": "b46023aa-b902-48f7-acc3-4201a04e4e2d",
+      "name": "Baserow3",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "youTubeOAuth2Api",
+        "url": "https://www.googleapis.com/youtube/v3/search",
+        "options": {},
+        "queryParametersUi": {
+          "parameter": [
+            {
+              "name": "channelId",
+              "value": "UCxXpMWpTd34HYmK0jaZ4Alg"
+            },
+            {
+              "name": "part",
+              "value": "id, snippet"
+            },
+            {
+              "name": "maxResults",
+              "value": "200"
+            },
+            {
+              "name": "type",
+              "value": "video"
+            },
+            {
+              "name": "=pageToken",
+              "value": "="
+            }
+          ]
+        }
+      },
+      "id": "3c95f54a-dcc4-47a5-a7cc-2317113aa26a",
+      "name": "Get Video IDs1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 2,
+      "position": [
+        860,
+        1400
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "youTubeOAuth2Api",
+        "url": "https://www.googleapis.com/youtube/v3/search",
+        "options": {},
+        "queryParametersUi": {
+          "parameter": [
+            {
+              "name": "channelId",
+              "value": "UCxXpMWpTd34HYmK0jaZ4Alg"
+            },
+            {
+              "name": "part",
+              "value": "id, snippet"
+            },
+            {
+              "name": "maxResults",
+              "value": "200"
+            },
+            {
+              "name": "type",
+              "value": "video"
+            },
+            {
+              "name": "=pageToken",
+              "value": "={{ $json[\"nextPageToken\"] || \"\" }}"
+            }
+          ]
+        }
+      },
+      "id": "983d1887-688b-4894-aeb1-975ba88db8b5",
+      "name": "Get Video IDs2",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 2,
+      "position": [
+        1260,
+        1400
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = items[0].json;\n\n// Initialisiere das Array für Video-IDs\nlet videoIds = [];\ndata.items.forEach(item => {\n    videoIds.push(item.id.videoId);  // Video-IDs extrahieren\n});\n\n// Wenn ein nextPageToken vorhanden ist, dann gebe es weiter\nif (data.nextPageToken) {\n    return [\n        {\n            json: {\n                videoIds: videoIds,\n                nextPageToken: data.nextPageToken\n            }\n        }\n    ];\n} else {\n    return [\n        {\n            json: {\n                videoIds: videoIds\n            }\n        }\n    ];\n}\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1460,
+        1400
+      ],
+      "id": "7e9cadb5-81fa-46ee-a786-61480e40ab2c",
+      "name": "Code2",
+      "disabled": true
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.1,
+      "position": [
+        1600,
+        1260
+      ],
+      "id": "176908c1-2360-4e77-8074-d17057f11b7e",
+      "name": "Merge",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = items[0].json;\n\n// Initialisiere das Array für Video-IDs\nlet videoIds = [];\ndata.items.forEach(item => {\n    videoIds.push(item.id.videoId);  // Video-IDs extrahieren\n});\n\n// Wenn ein nextPageToken vorhanden ist, dann gebe es weiter\nif (data.nextPageToken) {\n    return [\n        {\n            json: {\n                videoIds: videoIds,\n                nextPageToken: data.nextPageToken\n            }\n        }\n    ];\n} else {\n    return [\n        {\n            json: {\n                videoIds: videoIds\n            }\n        }\n    ];\n}\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1060,
+        1400
+      ],
+      "id": "426d4c0d-e2e0-47a3-8eb5-105ca2bd8687",
+      "name": "Code3",
+      "disabled": true
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.1,
+      "position": [
+        1220,
+        1740
+      ],
+      "id": "f7557ec8-574f-4747-95b2-a1692b8da73a",
+      "name": "Merge1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "databaseId": 171,
+        "tableId": 709,
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": 6921,
+              "fieldValue": "={{ $json.videoIds }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [
+        1920,
+        1720
+      ],
+      "id": "671379ac-6bce-4707-b962-0b15fe4616a6",
+      "name": "Baserow4",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "videoIds",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1500,
+        1740
+      ],
+      "id": "2813e3b9-5cfb-4a1e-80d2-a3df00c4c914",
+      "name": "Split Out2",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {},
+            {
+              "triggerAtHour": 12
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        100,
+        120
+      ],
+      "id": "fa2b2d25-66d7-4c07-912a-230c9246709c",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "youTubeOAuth2Api",
+        "url": "https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&videoId=ABC12345678&maxResults=100",
+        "options": {},
+        "queryParametersUi": {
+          "parameter": [
+            {
+              "name": "part",
+              "value": "snippet"
+            },
+            {
+              "name": "id",
+              "value": "=Djck56AamAM"
+            }
+          ]
+        }
+      },
+      "id": "67deb583-65cd-4134-bcbd-3034aed4fa67",
+      "name": "Get Video Stats",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 2,
+      "position": [
+        900,
+        1660
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "youTubeOAuth2Api",
+        "url": "https://www.googleapis.com/youtube/v3/commentThreads",
+        "options": {},
+        "queryParametersUi": {
+          "parameter": [
+            {
+              "name": "part",
+              "value": "snippet"
+            },
+            {
+              "name": "videoId",
+              "value": "Djck56AamAM"
+            },
+            {
+              "name": "maxResults",
+              "value": "100"
+            }
+          ]
+        }
+      },
+      "id": "ca6eae9b-e136-4148-9d3c-857da255ab73",
+      "name": "Get YouTube Comments",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 2,
+      "position": [
+        640,
+        1640
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "batchSize": 100,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        540,
+        280
+      ],
+      "id": "610c836a-879b-4ae6-b645-3090895bdf20",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "content": "## Call DB -> Split in Batches 100 -> API Call HTTPS Youtube -> Update DB\nSHORTS",
+        "height": 580,
+        "width": 1240
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "c7e5452f-f4be-43dc-a18c-902d6ff7a895",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "databaseId": 183,
+        "tableId": 761,
+        "rowId": "={{ $('Baserow2').item.json.id }}",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": 7696,
+              "fieldValue": "={{ $json.items[0].statistics.viewCount }}"
+            },
+            {
+              "fieldId": 7701,
+              "fieldValue": "={{ $json.items[0].statistics.dislikeCount }}"
+            },
+            {
+              "fieldId": 7702,
+              "fieldValue": "={{ $json.items[0].statistics.commentCount }}"
+            },
+            {
+              "fieldId": 7700,
+              "fieldValue": "={{ $json.items[0].statistics.likeCount }}"
+            },
+            {
+              "fieldId": 7694,
+              "fieldValue": "={{ $json.items[0].snippet.title }}"
+            },
+            {
+              "fieldId": 7703,
+              "fieldValue": "={{ $json.items[0].snippet.publishedAt }}"
+            },
+            {
+              "fieldId": 7707,
+              "fieldValue": "={{ $json.items[0].contentDetails.licensedContent ? \"licensed\" : \"notLicensed\" }}"
+            },
+            {
+              "fieldId": 7706,
+              "fieldValue": "={{ $json.items[0].status.embeddable ? \"embeddable\" : \"notEmbeddable\" }}"
+            },
+            {
+              "fieldId": 7705,
+              "fieldValue": "={{ $json.items[0].status.privacyStatus }}"
+            },
+            {
+              "fieldId": 7704,
+              "fieldValue": "={{ $json.items[0].status.uploadStatus }}"
+            },
+            {
+              "fieldId": 7710,
+              "fieldValue": "={{ $json.items[0].contentDetails.contentRating?.ytRating === \"ytAgeRestricted\" ? \"ageRestricted\" : \"notRestricted\" }}"
+            },
+            {
+              "fieldId": 7712,
+              "fieldValue": "={{ (($json.items[0].contentDetails.duration || 'PT0S').match(/PT(?:(\\d+)M)?(?:(\\d+)S)?/) || []).slice(1).reduce((acc, val, i) => acc + (parseInt(val || '0', 10) * (i === 0 ? 60 : 1)), 0) }}\n"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [
+        980,
+        280
+      ],
+      "id": "52209e76-f8af-450a-aaa7-07a39db30e56",
+      "name": "Baserow"
+    },
+    {
+      "parameters": {
+        "databaseId": 183,
+        "tableId": 763,
+        "returnAll": true,
+        "additionalOptions": {}
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [
+        1680,
+        280
+      ],
+      "id": "4300d4f7-f1b1-4239-b4e8-0e0af22fa5f2",
+      "name": "Baserow5"
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "youTubeOAuth2Api",
+        "url": "https://www.googleapis.com/youtube/v3/videos",
+        "options": {},
+        "queryParametersUi": {
+          "parameter": [
+            {
+              "name": "part",
+              "value": "statistics,snippet,status,contentDetails"
+            },
+            {
+              "name": "id",
+              "value": "={{ $json[\"Video-ID\"] }}"
+            }
+          ]
+        }
+      },
+      "id": "67782801-b9e4-4e05-83d7-6d9c9b4f66f8",
+      "name": "Get Video Stats3",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 2,
+      "position": [
+        2120,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 23
+            },
+            {
+              "triggerAtHour": 11
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        1440,
+        120
+      ],
+      "id": "4111df17-d00a-49b2-ac21-d2b82ff08ae2",
+      "name": "Schedule Trigger1"
+    },
+    {
+      "parameters": {
+        "batchSize": 100,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1880,
+        280
+      ],
+      "id": "9485d41b-5bb5-4974-b1f5-9546c1ab6b8f",
+      "name": "Loop Over Items1"
+    },
+    {
+      "parameters": {
+        "content": "## Call DB -> Split in Batches 100 -> API Call HTTPS Youtube -> Update DB\nLONGFORM VIDEOS",
+        "height": 580,
+        "width": 1240
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1340,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "aaf3ce78-fb38-48f7-a9ff-f738502b8603",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "databaseId": 183,
+        "tableId": 763,
+        "rowId": "={{ $('Baserow5').item.json.id }}",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": 7737,
+              "fieldValue": "={{ $json.items[0].statistics.viewCount }}"
+            },
+            {
+              "fieldId": 7740,
+              "fieldValue": "={{ $json.items[0].statistics.dislikeCount }}"
+            },
+            {
+              "fieldId": 7741,
+              "fieldValue": "={{ $json.items[0].statistics.commentCount }}"
+            },
+            {
+              "fieldId": 7739,
+              "fieldValue": "={{ $json.items[0].statistics.likeCount }}"
+            },
+            {
+              "fieldId": 7735,
+              "fieldValue": "={{ $json.items[0].snippet.title }}"
+            },
+            {
+              "fieldId": 7742,
+              "fieldValue": "={{ $json.items[0].snippet.publishedAt }}"
+            },
+            {
+              "fieldId": 7746,
+              "fieldValue": "={{ $json.items[0].contentDetails.licensedContent ? \"licensed\" : \"notLicensed\" }}"
+            },
+            {
+              "fieldId": 7745,
+              "fieldValue": "={{ $json.items[0].status.embeddable ? \"embeddable\" : \"notEmbeddable\" }}"
+            },
+            {
+              "fieldId": 7744,
+              "fieldValue": "={{ $json.items[0].status.privacyStatus }}"
+            },
+            {
+              "fieldId": 7743,
+              "fieldValue": "={{ $json.items[0].status.uploadStatus }}"
+            },
+            {
+              "fieldId": 7749,
+              "fieldValue": "={{ $json.items[0].contentDetails.contentRating?.ytRating === \"ytAgeRestricted\" ? \"ageRestricted\" : \"notRestricted\" }}"
+            },
+            {
+              "fieldId": 7751,
+              "fieldValue": "={{ (($json.items[0].contentDetails.duration || 'PT0S').match(/PT(?:(\\d+)M)?(?:(\\d+)S)?/) || []).slice(1).reduce((acc, val, i) => acc + (parseInt(val || '0', 10) * (i === 0 ? 60 : 1)), 0) }}\n"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [
+        2320,
+        280
+      ],
+      "id": "8322bd29-e4df-4b4b-bf05-a28c5162dead",
+      "name": "Baserow6"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-04-21T16:27:20.000Z",
+  "versionId": "781d401f-c222-4995-90d5-ffa639f383de"
+}
