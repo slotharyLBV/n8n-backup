@@ -1,0 +1,426 @@
+{
+  "active": false,
+  "connections": {
+    "Sub-Start": {
+      "main": [
+        [
+          {
+            "node": "Set-Clean",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supervisor": {
+      "main": [
+        [
+          {
+            "node": "Parser-Node",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LiteLLM": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Supervisor",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Postfilter",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Postfilter_long",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set-Clean": {
+      "main": [
+        [
+          {
+            "node": "Supervisor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postfilter": {
+      "main": [
+        [
+          {
+            "node": "Set-JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set-JSON": {
+      "main": [
+        [
+          {
+            "node": "Execute Builder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Type-Switch": {
+      "main": [
+        [
+          {
+            "node": "Postfilter_long",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Postfilter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postfilter_long": {
+      "main": [
+        [
+          {
+            "node": "Set-JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parser-Node": {
+      "main": [
+        [
+          {
+            "node": "Type-Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-04-21T16:22:42.443Z",
+  "id": "DXSIZ8MzUbJEy7ge",
+  "meta": null,
+  "name": "Sub_LLM_IntroSceneMeta",
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        60,
+        500
+      ],
+      "id": "fd9df7ad-f78a-41b8-a8f6-d8f26c3e04bf",
+      "name": "Sub-Start"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.short }}: {{ $json.title }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=You are an AI short-form video creator specialized in cinematic storytelling, educational content, and platform-optimized delivery.\n\nYour task is to generate:\n1. A cinematic **intro** scene\n2. A series of **main scenes**\n3. Platform-optimized **metadata** (title, description, keywords, hashtags)\n\n---\n\nCATEGORY: {{ $json[\"category\"] }}\nVIDEO TITLE: {{ $json[\"title\"] }}\nSTYLE: {{ $json[\"style\"] }}\nVOICE: {{ $json[\"voice\"] }}\nIMAGE MODEL: {{ $json[\"imageModel\"] }}\nVOICE MODEL: {{ $json[\"voiceModel\"] }}\nDURATION PER SCENE: {{ $json[\"secondsPerScene\"] }} seconds\nNUMBER OF SCENES: {{ $json[\"numberOfScenes\"] }}\n\n---\n\n### INTRO INSTRUCTION\n{{ $json[\"intro_instruction\"] }}\n\n---\n\n### SCENE STRUCTURE\n{{ $json[\"scene_instruction\"] }}\n\n---\n\n### METADATA INSTRUCTION\n{{ $json[\"meta_instruction\"] }}\n\n---\n\nUse these fixed values exactly. Do not change or reinterpret them.\n\n- template: {{ $json[\"template_id\"] }}\n- backgroundMusic: {{ $json[\"background_music\"] }}\n- voice: {{ $json[\"voice\"] }}\n- imageModel: {{ $json[\"imageModel\"] }}\n- voiceModel: {{ $json[\"voiceModel\"] }}\n\n---\n\n## TOOL\n1 Think - Use this tool to think deeply\n\n🎯 Output format (IMPORTANT!):\n\nYou must return a single raw JSON object.  \nStart directly with `{` and include **only** the keys: `comment`, `template`, `variables`, `metadata`.  \nDo **NOT** include any explanations, markdown, quotes, or wrappers like `output:` or `data:`.\n\n❌ WRONG: { \"output\": { ... } }  \n❌ WRONG: ```json { ... } ```  \n✅ RIGHT: { \"comment\": \"...\", \"template\": \"...\", ... }\n\nThe structure must exactly match this format:\n\n{\n  \"comment\": \"String\",\n  \"template\": \"{{ $json['template_id'] }}\",\n  \"variables\": {\n    \"backgroundMusic\": \"{{ $json['background_music'] }}\",\n    \"introImagePrompt\": \"String\",\n    \"introVoiceoverText\": \"String\",\n    \"scenes\": [\n      {\n        \"imagePrompt\": \"String\",\n        \"voiceOverText\": \"String\",\n        \"duration\": {{ $json['secondsPerScene'] }}\n      }\n    ],\n    \"voice\": \"{{ $json['voice'] }}\",\n    \"imageModel\": \"{{ $json['imageModel'] }}\",\n    \"voiceModel\": \"{{ $json['voiceModel'] }}\"\n  },\n  \"metadata\": {\n    \"title\": \"String\",\n    \"description\": \"String\",\n    \"keywords\": \"String\",\n    \"hashtags\": \"String\"\n  }\n}\n\nYou are an expert JSON formatter. You MUST return only a single JSON object with the following top-level keys: comment, template, variables, metadata. Return nothing else.\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        560,
+        500
+      ],
+      "id": "cfa09d0d-07c6-4d09-af55-64bbedbf03ed",
+      "name": "Supervisor"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "AyBBZbthBzxZ1b6E",
+          "mode": "list",
+          "cachedResultName": "Main-Video-Orchestrator-v2"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        2260,
+        500
+      ],
+      "id": "c853c2cb-dcfe-4e15-bef8-a94476fa8889",
+      "name": "Execute Builder"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "azure/gpt-4.1",
+          "mode": "list",
+          "cachedResultName": "azure/gpt-4.1"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1320,
+        740
+      ],
+      "id": "3324e997-623b-4d2b-9d85-f09faa2a58fb",
+      "name": "LiteLLM"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{\n  json: {\n    short: $json[\"Short\"],\n    title: $json[\"Video Title\"],\n    category: $json[\"Category\"].value,\n    style: $json[\"Style\"].value,\n    voice: $json[\"Voice\"][0].value,\n    imageModel: $json[\"Image model\"].value,\n    voiceModel: $json[\"voiceModel\"][0].value,\n    secondsPerScene: +$json[\"Seconds per scene\"].value,\n    numberOfScenes: +$json[\"Number of scenes\"].value,\n    template_id: $json[\"Template\"][0].value,\n    background_music: $json[\"backgroundMusic\"][0].value,\n    intro_instruction: $json[\"intro_instruction\"][0].value,\n    scene_instruction: $json[\"scene_instruction\"][0].value,\n    meta_instruction: $json[\"meta_instruction\"][0].value\n  }\n}]\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        340,
+        500
+      ],
+      "id": "4c86d760-ab80-4324-8206-c8dc8ee20c46",
+      "name": "Set-Clean"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.variables.scenes }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=You are a strict post-filter for cinematic short-form video scripts.\n\nYour task is to examine the provided `voiceOverText` in each scene.  \nYou will revise the `voiceOverText` ONLY IF it violates the following rules:\n\n1. **Max Length**: The `voiceOverText` must contain no more than **17 words** or **160 characters**, whichever comes first.  \n2. If a `voiceOverText` exceeds the limit:\n    - **Shorten the text**, keeping the core information intact.\n    - Focus on **clarity**, keeping it cinematic, informative, and punchy.\n\n3. **NSFW Filter**: If any `voiceOverText` contains language that may trigger NSFW or content moderation filters (e.g. terms like “narcotics”, “drug-like”, “contraband items”, “evidence bags”, or any phrasing commonly associated with violence, abuse, or explicit material):\n    - **Reword the sentence** to remove or neutralize the trigger terms.\n    - Keep the original meaning and tone, but phrase it in a safe, cinematic way.\n    - Use alternatives like “confiscated goods”, “suspicious items”, “restricted imports”, or similar neutral phrasing.\n    - Do not reference nudity, violence, or illegal substances explicitly.\n\nDo **not** change the context or meaning, just trim or reword if necessary.\n\nYour job is to output the original **JSON structure** with the updated `voiceOverText` **only when necessary**.\n\n---\n\n**Input:**\nYou will receive a list of scenes, each containing the following structure:\n- `imagePrompt`: A description of the scene (do not alter).\n- `voiceOverText`: A sentence or two with a potentially excessive or problematic length (may need shortening or rewording).\n- `duration`: The time assigned to the scene (do not alter).\n\n**Your output should preserve the original JSON structure.** Only the `voiceOverText` should be altered if it exceeds the word/character limit **or contains NSFW-prone phrasing**. Do **not** modify any other fields.\n\nExample Input:\n{\n    \"scenes\": [\n        {\n            \"imagePrompt\": \"A U.S. Customs agent confiscating Kinder Eggs from a traveler's luggage\",\n            \"voiceOverText\": \"The 1938 Food, Drug, and Cosmetic Act forbids embedding non-nutritive items inside confectionery products, making Kinder Eggs contraband at the border.\",\n            \"duration\": \"5\"\n        },\n        {\n            \"imagePrompt\": \"A judge's gavel coming down next to a Kinder Egg\",\n            \"voiceOverText\": \"Violators face civil penalties up to $2,500 per egg. One Minnesota couple was fined $12,000 for trying to bring 30 eggs across the Canadian border.\",\n            \"duration\": \"5\"\n        }\n    ]\n}\n\n**Output Example:**\n{\n    \"scenes\": [\n        {\n            \"imagePrompt\": \"A U.S. Customs agent confiscating Kinder Eggs from a traveler's luggage\",\n            \"voiceOverText\": \"The 1938 Food and Drug Act forbids embedding non-nutritive items in candy products, making Kinder Eggs contraband.\",\n            \"duration\": \"5\"\n        },\n        {\n            \"imagePrompt\": \"A judge's gavel coming down next to a Kinder Egg\",\n            \"voiceOverText\": \"Violators face fines up to $2,500 per egg. One couple was fined $12,000 for 30 eggs at the Canadian border.\",\n            \"duration\": \"5\"\n        }\n    ]\n}\n\n\n## TOOL\n1 Think - Use this tool to think deeply"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        1580,
+        500
+      ],
+      "id": "42210ef4-3532-4b88-a407-bc0247b3b9d0",
+      "name": "Postfilter"
+    },
+    {
+      "parameters": {
+        "jsCode": "let supervisor = $node[\"Supervisor\"].json.output;\nconst original = $node[\"Sub-Start\"].json;\n\n// Supervisor ggf. parsen\nif (typeof supervisor === \"string\") {\n  try {\n    supervisor = JSON.parse(supervisor);\n  } catch (e) {\n    throw new Error(\"Supervisor output is not valid JSON string.\");\n  }\n}\n\n// Videotyp bestimmen\nconst videoType = original.Video_Type?.value ?? \"short\";\nlet raw = $node[videoType === \"long\" ? \"Postfilter_long\" : \"Postfilter\"].json;\nlet postfilter = [];\n\ntry {\n  if (typeof raw === \"string\") raw = JSON.parse(raw);\n\n  if (Array.isArray(raw)) {\n    postfilter = raw;\n  } else if (typeof raw.output === \"string\") {\n    const parsed = JSON.parse(raw.output);\n    postfilter = parsed?.scenes || parsed;\n  } else if (Array.isArray(raw.output)) {\n    postfilter = raw.output;\n  } else if (Array.isArray(raw.scenes)) {\n    postfilter = raw.scenes;\n  } else if (typeof raw.text === \"string\") {\n    const parsed = JSON.parse(raw.text);\n    postfilter = parsed?.output || parsed?.scenes || [];\n  } else {\n    console.warn(\"⚠️ Postfilter format not recognized – fallback to empty array.\");\n  }\n} catch (e) {\n  console.warn(\"⚠️ Failed to parse Postfilter output: \" + e.message);\n  postfilter = [];\n}\n\n// Fallback-Absicherung\nif (!Array.isArray(postfilter)) postfilter = [];\n\n// Rückgabe\nreturn {\n  output: {\n    ...supervisor,\n    variables: {\n      ...supervisor.variables,\n      scenes: postfilter,\n    },\n    metadata: {\n      ...supervisor.metadata,\n      AffiliateCTA: original[\"Affiliate_CTA\"]?.[0]?.value ?? \"\",\n      AffiliateCTA_default: original[\"Affiliate_CTA_default\"]?.[0]?.value ?? \"\",\n      AffiliateComment: original[\"Affiliate_Comment\"]?.[0]?.value ?? \"\",\n      AffiliateComment_default: original[\"Affiliate_Comment_default\"]?.[0]?.value ?? \"\",\n    },\n  },\n  BaserowID: original.id ?? null,\n  Category: original.Category?.value ?? null,\n  Video_Type: videoType,\n  TargetChannel: original.TargetChannel?.[0]?.value ?? null,\n  \"Video Title\": original[\"Video Title\"] ?? null,\n  \"AutoPublish\": String(original.AutoPublish).toLowerCase() === \"true\",\n  \"RunStep-Status\": \"builder\"\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2040,
+        500
+      ],
+      "id": "c951c660-383a-4220-b4d8-b543cff85186",
+      "name": "Set-JSON"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolThink",
+      "typeVersion": 1,
+      "position": [
+        1180,
+        740
+      ],
+      "id": "ae9c4106-0260-4d12-a090-1bdaed457c30",
+      "name": "Think"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Sub-Start').item.json.Video_Type.value }}",
+                    "rightValue": "long",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    },
+                    "id": "661cc7e1-42a1-4460-9650-63828eb97c3e"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "long"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "633b69f9-341e-473c-ad4e-2c4f68253fb5",
+                    "leftValue": "={{ $('Sub-Start').item.json.Video_Type.value }}",
+                    "rightValue": "short",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "short"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1200,
+        500
+      ],
+      "id": "20f5e73d-f8f5-4ed7-a724-5ab052d00521",
+      "name": "Type-Switch"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.variables.scenes }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=You are a strict post-filter for cinematic short-form video scripts.\n\nYour task is to examine the provided `voiceOverText` in each scene.  \nYou will revise the `voiceOverText` ONLY IF it violates the following rules:\n\n1. **Max Length**: The `voiceOverText` must contain no more than **50 words** or **320 characters**, whichever comes first.  \n2. If a `voiceOverText` exceeds the limit:\n    - **Shorten the text**, keeping the core information intact.\n    - Focus on **clarity**, keeping it cinematic, informative, and punchy.\n\n3. **NSFW Filter**: If any `voiceOverText` contains language that may trigger NSFW or content moderation filters (e.g. terms like “narcotics”, “drug-like”, “contraband items”, “evidence bags”, or any phrasing commonly associated with violence, abuse, or explicit material):\n    - **Reword the sentence** to remove or neutralize the trigger terms.\n    - Keep the original meaning and tone, but phrase it in a safe, cinematic way.\n    - Use alternatives like “confiscated goods”, “suspicious items”, “restricted imports”, or similar neutral phrasing.\n    - Do not reference nudity, violence, or illegal substances explicitly.\n\nDo **not** change the context or meaning, just trim or reword if necessary.\n\nSSML Support:\n- If any `voiceOverText` contains SSML tags (e.g. <break time=\"1.2s\" />), you must preserve them exactly as written.\n- Do NOT remove, escape, rephrase, interpret, or strip XML-style tags like <break>.\n- These tags are critical for timing and must remain in the final output unmodified.\n\nYour job is to output the original **JSON structure** with the updated `voiceOverText` **only when necessary**.\n\n---\n\n**Input:**\nYou will receive a list of scenes, each containing the following structure:\n- `imagePrompt`: A description of the scene (do not alter).\n- `voiceOverText`: A sentence or two with a potentially excessive or problematic length (may need shortening or rewording).\n- `duration`: The time assigned to the scene (do not alter).\n\n**Your output should preserve the original JSON structure.** Only the `voiceOverText` should be altered if it exceeds the word/character limit **or contains NSFW-prone phrasing**. Do **not** modify any other fields.\n\nExample Input:\n{\n    \"scenes\": [\n        {\n            \"imagePrompt\": \"A U.S. Customs agent confiscating Kinder Eggs from a traveler's luggage\",\n            \"voiceOverText\": \"The 1938 Food, Drug, and Cosmetic Act forbids embedding non-nutritive items inside confectionery products, making Kinder Eggs contraband at the border.\",\n            \"duration\": \"5\"\n        },\n        {\n            \"imagePrompt\": \"A judge's gavel coming down next to a Kinder Egg\",\n            \"voiceOverText\": \"Violators face civil penalties up to $2,500 per egg. One Minnesota couple was fined $12,000 for trying to bring 30 eggs across the Canadian border.\",\n            \"duration\": \"5\"\n        }\n    ]\n}\n\n**Output Example:**\n{\n    \"scenes\": [\n        {\n            \"imagePrompt\": \"A U.S. Customs agent confiscating Kinder Eggs from a traveler's luggage\",\n            \"voiceOverText\": \"The 1938 Food and Drug Act forbids embedding non-nutritive items in candy products, making Kinder Eggs contraband.\",\n            \"duration\": \"5\"\n        },\n        {\n            \"imagePrompt\": \"A judge's gavel coming down next to a Kinder Egg\",\n            \"voiceOverText\": \"Violators face fines up to $2,500 per egg. One couple was fined $12,000 for 30 eggs at the Canadian border.\",\n            \"duration\": \"5\"\n        }\n    ]\n}\n\n\n## TOOL\n1 Think - Use this tool to think deeply"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        1580,
+        180
+      ],
+      "id": "81051b67-6c43-40c1-9e62-e0616d704395",
+      "name": "Postfilter_long"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Robust JSON parser for LLM output with fallback and cleanup\n\nconst raw = $json.text ?? $json.output;\n\nif (!raw || typeof raw !== \"string\") {\n  throw new Error(\"Kein Textinput erhalten oder kein String-Format. LLM-Output fehlt.\");\n}\n\n// Schritt 1: Anfang/Ende trimmen\nlet cleaned = raw.trim();\n\n// Schritt 2: Falls als JSON-String (mit \\\\\" etc.)\nif (cleaned.startsWith('\"') && cleaned.endsWith('\"')) {\n  cleaned = cleaned.slice(1, -1).replace(/\\\\\"/g, '\"');\n}\n\n// Schritt 3: Falls Vorsatz wie \"Your provided …\" → entfernen\ncleaned = cleaned\n  .split(\"\\n\")\n  .filter(line => !/^Your provided/.test(line))\n  .join(\"\\n\")\n  .trim();\n\n// Schritt 4: Parsen + Wrapper-Handling\ntry {\n  const parsed = JSON.parse(cleaned);\n  return parsed.output ?? parsed;\n} catch (err) {\n  throw new Error(\n    \"Parsing des LLM-Outputs fehlgeschlagen: \" + err.message +\n    \"\\nRaw Input (gekürzt):\\n\" + cleaned.slice(0, 1000)\n  );\n}\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        940,
+        500
+      ],
+      "id": "75992d6c-45de-4cb8-a175-aedcb2cbd100",
+      "name": "Parser-Node"
+    },
+    {
+      "parameters": {
+        "content": "# Postfilter Short & Long\n## Regulates the outcome of the Supervisor LLM regarding NSFW and/or words per scene to stay within the timeframe",
+        "height": 920,
+        "width": 800
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1140,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "990e970c-6be7-4b38-91c0-5e09e34eba57",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "# Supervisor LLM\n## Fetches Video Title and Short Description and generates the prompts for the scenes and voiceOverText",
+        "height": 920,
+        "width": 860,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        260,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "ba43b630-be90-400a-b707-7bfc800c5512",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "# Ingress",
+        "height": 920,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "9ae069d8-bb34-41b3-a46e-cb089f2e1479",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "# Clean the output and outflow to Main-Orchestrator",
+        "height": 920,
+        "width": 580,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1960,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "b9ee5942-edb4-47e6-8a2b-72363f4a874f",
+      "name": "Sticky Note3"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-04-21T16:24:53.000Z",
+  "versionId": "a491af61-c7c6-4283-ad0b-7dc18240e795"
+}
