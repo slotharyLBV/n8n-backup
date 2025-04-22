@@ -119,7 +119,9 @@
   },
   "createdAt": "2025-04-21T16:26:25.886Z",
   "id": "6Z3BlkVhMSxljCeY",
-  "meta": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
   "name": "Video_Shorts_Automation__Fetch_Ideas__v3",
   "nodes": [
     {
@@ -138,21 +140,6 @@
       "id": "bde0898d-3fc6-4a4a-8dc3-e2b5b335490e",
       "name": "AI Agent",
       "retryOnFail": true
-    },
-    {
-      "parameters": {
-        "model": "gpt-4o",
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatAzureOpenAi",
-      "typeVersion": 1,
-      "position": [
-        1100,
-        840
-      ],
-      "id": "0c042ae4-4241-4cbc-8b3e-8debb424ab0e",
-      "name": "Azure OpenAI Chat Model",
-      "disabled": true
     },
     {
       "parameters": {
@@ -247,41 +234,6 @@
     },
     {
       "parameters": {
-        "modelName": "models/gemini-2.0-flash-exp",
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
-      "typeVersion": 1,
-      "position": [
-        1400,
-        840
-      ],
-      "id": "d8b5727d-73ab-4572-915b-01adb3cd0b8e",
-      "name": "Google Gemini Chat Model",
-      "disabled": true
-    },
-    {
-      "parameters": {
-        "model": {
-          "__rl": true,
-          "mode": "list",
-          "value": "claude-3-7-sonnet-20250219",
-          "cachedResultName": "Claude 3.7 Sonnet"
-        },
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
-      "typeVersion": 1.3,
-      "position": [
-        1240,
-        840
-      ],
-      "id": "5fb68f7e-b14d-466c-adab-9824967b6cb1",
-      "name": "Anthropic Chat Model",
-      "disabled": true
-    },
-    {
-      "parameters": {
         "options": {
           "includeInputFields": true
         }
@@ -299,9 +251,9 @@
       "parameters": {
         "model": {
           "__rl": true,
-          "value": "azure/gpt-4.1",
+          "value": "gpt-4o-mini",
           "mode": "list",
-          "cachedResultName": "azure/gpt-4.1"
+          "cachedResultName": "gpt-4o-mini"
         },
         "options": {}
       },
@@ -355,43 +307,43 @@
       "parameters": {
         "operation": "create",
         "databaseId": 213324,
-        "tableId": 755,
+        "tableId": 511973,
         "fieldsUi": {
           "fieldValues": [
             {
-              "fieldId": 7574,
+              "fieldId": 4054781,
               "fieldValue": "={{ $('Category-Spelling+Split').item.json.title }}"
             },
             {
-              "fieldId": 7585,
+              "fieldId": 4054793,
               "fieldValue": "={{ $('Category-Spelling+Split').item.json.short }}"
             },
             {
-              "fieldId": 7586,
+              "fieldId": 4054794,
               "fieldValue": "={{ $('Category-Spelling+Split').item.json.category }}"
             },
             {
-              "fieldId": 7577,
+              "fieldId": "4054784",
               "fieldValue": "={{ $('Category-Spelling+Split').item.json.style }}"
             },
             {
-              "fieldId": 7576,
+              "fieldId": 4054783,
               "fieldValue": "4"
             },
             {
-              "fieldId": 7575,
+              "fieldId": 4054782,
               "fieldValue": "Idea"
             },
             {
-              "fieldId": 7578,
+              "fieldId": 4054786,
               "fieldValue": "flux-pro"
             },
             {
-              "fieldId": 7579,
+              "fieldId": 4054787,
               "fieldValue": "5"
             },
             {
-              "fieldId": 7594,
+              "fieldId": 4054805,
               "fieldValue": "={{ $json.currentDate }}"
             },
             {
@@ -399,11 +351,11 @@
               "fieldValue": "={{ $('Category-Spelling+Split').item.json.category }}"
             },
             {
-              "fieldId": 7595,
+              "fieldId": 4054794,
               "fieldValue": "={{ $('Category-Spelling+Split').item.json.category }}"
             },
             {
-              "fieldId": 7592,
+              "fieldId": 4054801,
               "fieldValue": "10"
             },
             {
@@ -419,11 +371,11 @@
               "fieldValue": "={{ $('Category-Spelling+Split').item.json.category }}"
             },
             {
-              "fieldId": 7614,
+              "fieldId": "4054835",
               "fieldValue": "short"
             },
             {
-              "fieldId": 7615,
+              "fieldId": 4054836,
               "fieldValue": "true"
             },
             {
@@ -481,17 +433,6 @@
       }
     },
     {
-      "parameters": {},
-      "type": "@n8n/n8n-nodes-langchain.toolThink",
-      "typeVersion": 1,
-      "position": [
-        1460,
-        540
-      ],
-      "id": "804af9f5-0351-44de-b493-3d05e8a2cd3d",
-      "name": "Think"
-    },
-    {
       "parameters": {
         "content": "# Trigger and Category-Chooser\n## Configure new Category Ideas",
         "height": 740,
@@ -537,32 +478,6 @@
       "typeVersion": 1,
       "id": "0822578a-fc54-4d2a-b82e-6a51424706e1",
       "name": "Sticky Note2"
-    },
-    {
-      "parameters": {},
-      "type": "n8n-nodes-mcp.mcpClientTool",
-      "typeVersion": 1,
-      "position": [
-        1040,
-        560
-      ],
-      "id": "3bb7416e-34ef-44f0-bc59-c6cdd8d2e690",
-      "name": "MCP Execute Brave Search",
-      "credentials": {},
-      "disabled": true
-    },
-    {
-      "parameters": {},
-      "type": "n8n-nodes-mcp.mcpClientTool",
-      "typeVersion": 1,
-      "position": [
-        860,
-        560
-      ],
-      "id": "9911df4d-3b0b-458d-a59d-3039040b168e",
-      "name": "MCP Get Brave Tools",
-      "credentials": {},
-      "disabled": true
     }
   ],
   "pinData": {},
@@ -572,6 +487,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-04-21T21:52:31.000Z",
-  "versionId": "a8ee9e01-085f-4dc5-8b97-3c3bc7328813"
+  "updatedAt": "2025-04-21T23:19:52.000Z",
+  "versionId": "402fcd5f-037c-489f-93d7-8093a9f6ca2a"
 }
