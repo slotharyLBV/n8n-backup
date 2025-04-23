@@ -287,7 +287,7 @@
       "credentials": {
         "openAiApi": {
           "id": "xSvlcZNPoASPwcvk",
-          "name": "OpenAi account"
+          "name": "OpenAi account Content Creator Automation"
         }
       }
     },
@@ -334,7 +334,7 @@
       "credentials": {
         "openAiApi": {
           "id": "xSvlcZNPoASPwcvk",
-          "name": "OpenAi account"
+          "name": "OpenAi account Content Creator Automation"
         }
       }
     },
@@ -367,7 +367,7 @@
       "credentials": {
         "openAiApi": {
           "id": "xSvlcZNPoASPwcvk",
-          "name": "OpenAi account"
+          "name": "OpenAi account Content Creator Automation"
         }
       }
     },
@@ -404,7 +404,7 @@
       "credentials": {
         "openAiApi": {
           "id": "xSvlcZNPoASPwcvk",
-          "name": "OpenAi account"
+          "name": "OpenAi account Content Creator Automation"
         }
       }
     },
@@ -428,7 +428,7 @@
       "credentials": {
         "openAiApi": {
           "id": "xSvlcZNPoASPwcvk",
-          "name": "OpenAi account"
+          "name": "OpenAi account Content Creator Automation"
         }
       }
     },
@@ -464,7 +464,7 @@
     },
     {
       "parameters": {
-        "content": "## ALLE Files löschen#\nin OpenAI",
+        "content": "## ALLE Files löschen\nin OpenAI",
         "height": 400,
         "width": 1060
       },
@@ -635,7 +635,7 @@
       "credentials": {
         "notionApi": {
           "id": "yDYyBY9jyV4cRvEx",
-          "name": "Notion account"
+          "name": "Notion account Content Creator Automation"
         }
       }
     },
@@ -677,7 +677,7 @@
       "credentials": {
         "notionApi": {
           "id": "yDYyBY9jyV4cRvEx",
-          "name": "Notion account"
+          "name": "Notion account Content Creator Automation"
         }
       }
     },
@@ -716,7 +716,7 @@
       "credentials": {
         "openAiApi": {
           "id": "xSvlcZNPoASPwcvk",
-          "name": "OpenAi account"
+          "name": "OpenAi account Content Creator Automation"
         }
       }
     },
@@ -775,6 +775,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-04-13T21:27:48.000Z",
-  "versionId": "46e1524e-521e-4a58-8a7f-486a8ba6f03c"
+  "updatedAt": "2025-04-23T10:57:41.000Z",
+  "versionId": "f3fbd69f-2690-48bf-8d64-1641987dc8a9"
 }
