@@ -668,8 +668,8 @@
       "parameters": {
         "workflowId": {
           "__rl": true,
-          "mode": "id",
-          "value": "={{ $workflow.id }}"
+          "value": "={{ $workflow.id }}",
+          "mode": "id"
         },
         "workflowInputs": {
           "value": {},
@@ -697,12 +697,12 @@
   "staticData": {
     "node:Schedule Trigger": {
       "recurrenceRules": [
-        14
+        16
       ]
     }
   },
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-04-24T12:12:51.000Z",
-  "versionId": "7049f96d-e109-42f0-940d-b6950eb43f53"
+  "updatedAt": "2025-04-24T12:14:26.000Z",
+  "versionId": "4b383862-e542-435d-80e9-07710d37924d"
 }
