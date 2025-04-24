@@ -277,7 +277,7 @@
       "credentials": {
         "n8nApi": {
           "id": "elkV13EKUfvNVmAe",
-          "name": "n8n account"
+          "name": "n8n account Personal"
         }
       }
     },
@@ -470,13 +470,14 @@
       "type": "n8n-nodes-base.github",
       "position": [
         2020,
-        1386.116460361175
+        1380
       ],
       "typeVersion": 1,
+      "webhookId": "b1d4b9df-d2ed-4a12-896b-58f1260bc50c",
       "credentials": {
         "githubApi": {
           "id": "G5jfmCRQcfA6jVjC",
-          "name": "GitHub account"
+          "name": "GitHub account Personal"
         }
       }
     },
@@ -506,10 +507,11 @@
         1206.116460361175
       ],
       "typeVersion": 1,
+      "webhookId": "d7cae831-8227-4c99-9bcc-48dce787243e",
       "credentials": {
         "githubApi": {
           "id": "G5jfmCRQcfA6jVjC",
-          "name": "GitHub account"
+          "name": "GitHub account Personal"
         }
       }
     },
@@ -605,10 +607,11 @@
       ],
       "typeVersion": 1,
       "alwaysOutputData": true,
+      "webhookId": "a2ba9f9e-19e6-40fa-81e3-4c31735a1d9e",
       "credentials": {
         "githubApi": {
           "id": "G5jfmCRQcfA6jVjC",
-          "name": "GitHub account"
+          "name": "GitHub account Personal"
         }
       },
       "continueOnFail": true
@@ -634,12 +637,6 @@
               "name": "repo.path",
               "type": "string",
               "value": "workflows/"
-            },
-            {
-              "id": "247a13ec-be9b-4224-a462-cbb92e6da6f1",
-              "name": "",
-              "value": "",
-              "type": "string"
             }
           ]
         },
@@ -706,6 +703,6 @@
   },
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-04-09T01:43:03.000Z",
-  "versionId": "c4735563-9209-4e0e-be61-6b576f4a5a9d"
+  "updatedAt": "2025-04-24T12:12:51.000Z",
+  "versionId": "7049f96d-e109-42f0-940d-b6950eb43f53"
 }
