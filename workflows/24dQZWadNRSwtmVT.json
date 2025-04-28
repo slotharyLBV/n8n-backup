@@ -454,7 +454,7 @@
       "credentials": {
         "notionApi": {
           "id": "zcMkS7fiCpPyLp07",
-          "name": "Notion account 2"
+          "name": "Notion Music Content Creator"
         }
       }
     },
@@ -501,7 +501,7 @@
       "credentials": {
         "notionApi": {
           "id": "zcMkS7fiCpPyLp07",
-          "name": "Notion account 2"
+          "name": "Notion Music Content Creator"
         }
       }
     },
@@ -554,7 +554,7 @@
       "credentials": {
         "notionApi": {
           "id": "zcMkS7fiCpPyLp07",
-          "name": "Notion account 2"
+          "name": "Notion Music Content Creator"
         }
       }
     },
@@ -636,7 +636,7 @@
       "credentials": {
         "notionApi": {
           "id": "zcMkS7fiCpPyLp07",
-          "name": "Notion account 2"
+          "name": "Notion Music Content Creator"
         }
       }
     },
@@ -671,7 +671,7 @@
       "credentials": {
         "googleDriveOAuth2Api": {
           "id": "pUAhW2e5sqUMqdXa",
-          "name": "Google Drive account 2"
+          "name": "Google Drive Music Content Creator"
         }
       }
     },
@@ -724,7 +724,7 @@
       "credentials": {
         "notionApi": {
           "id": "zcMkS7fiCpPyLp07",
-          "name": "Notion account 2"
+          "name": "Notion Music Content Creator"
         }
       }
     },
@@ -855,7 +855,7 @@
       "credentials": {
         "notionApi": {
           "id": "zcMkS7fiCpPyLp07",
-          "name": "Notion account 2"
+          "name": "Notion Music Content Creator"
         }
       }
     },
@@ -886,7 +886,7 @@
       "credentials": {
         "googleDriveOAuth2Api": {
           "id": "pUAhW2e5sqUMqdXa",
-          "name": "Google Drive account 2"
+          "name": "Google Drive Music Content Creator"
         }
       }
     },
@@ -976,7 +976,7 @@
       "credentials": {
         "googleDriveOAuth2Api": {
           "id": "pUAhW2e5sqUMqdXa",
-          "name": "Google Drive account 2"
+          "name": "Google Drive Music Content Creator"
         }
       }
     },
@@ -1007,7 +1007,7 @@
       "credentials": {
         "googleDriveOAuth2Api": {
           "id": "pUAhW2e5sqUMqdXa",
-          "name": "Google Drive account 2"
+          "name": "Google Drive Music Content Creator"
         }
       }
     },
@@ -1038,7 +1038,7 @@
       "credentials": {
         "googleDriveOAuth2Api": {
           "id": "pUAhW2e5sqUMqdXa",
-          "name": "Google Drive account 2"
+          "name": "Google Drive Music Content Creator"
         }
       }
     },
@@ -1107,7 +1107,7 @@
       "credentials": {
         "notionApi": {
           "id": "zcMkS7fiCpPyLp07",
-          "name": "Notion account 2"
+          "name": "Notion Music Content Creator"
         }
       }
     },
@@ -1210,7 +1210,7 @@
       "credentials": {
         "googleDriveOAuth2Api": {
           "id": "pUAhW2e5sqUMqdXa",
-          "name": "Google Drive account 2"
+          "name": "Google Drive Music Content Creator"
         }
       }
     },
@@ -1313,7 +1313,7 @@
       "credentials": {
         "googleDriveOAuth2Api": {
           "id": "pUAhW2e5sqUMqdXa",
-          "name": "Google Drive account 2"
+          "name": "Google Drive Music Content Creator"
         }
       }
     },
@@ -1365,10 +1365,9 @@
       "credentials": {
         "googleDriveOAuth2Api": {
           "id": "pUAhW2e5sqUMqdXa",
-          "name": "Google Drive account 2"
+          "name": "Google Drive Music Content Creator"
         }
-      },
-      "disabled": true
+      }
     },
     {
       "parameters": {
@@ -1389,8 +1388,7 @@
         -20
       ],
       "id": "a09b640c-2bf1-44ad-a2bb-7a35dcc22079",
-      "name": "HTTP Request9",
-      "disabled": true
+      "name": "HTTP Request9"
     },
     {
       "parameters": {
@@ -1435,10 +1433,9 @@
       "credentials": {
         "googleDriveOAuth2Api": {
           "id": "pUAhW2e5sqUMqdXa",
-          "name": "Google Drive account 2"
+          "name": "Google Drive Music Content Creator"
         }
-      },
-      "disabled": true
+      }
     },
     {
       "parameters": {
@@ -1459,8 +1456,7 @@
         -20
       ],
       "id": "dbca8240-70bd-4d69-8ed6-3dafc2a336b0",
-      "name": "HTTP Request11",
-      "disabled": true
+      "name": "HTTP Request11"
     },
     {
       "parameters": {
@@ -1491,8 +1487,7 @@
         -20
       ],
       "id": "3cd9b886-aaf1-4580-bad0-a23157598557",
-      "name": "HTTP Request12",
-      "disabled": true
+      "name": "HTTP Request12"
     },
     {
       "parameters": {
@@ -1523,8 +1518,7 @@
         -20
       ],
       "id": "ffcef640-2510-4ca8-ae9a-b2c5bff0efff",
-      "name": "HTTP Request14",
-      "disabled": true
+      "name": "HTTP Request14"
     }
   ],
   "pinData": {},
@@ -1542,6 +1536,6 @@
   },
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-04-17T11:25:32.000Z",
-  "versionId": "3b0045ba-9230-4660-ba97-5ca76399f483"
+  "updatedAt": "2025-04-27T23:51:11.000Z",
+  "versionId": "e84afbfd-93f4-4da8-b85b-336a34594534"
 }
