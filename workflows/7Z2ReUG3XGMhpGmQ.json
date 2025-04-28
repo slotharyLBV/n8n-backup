@@ -1,0 +1,473 @@
+{
+  "active": false,
+  "connections": {
+    "HTTP Request (upload file)": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request (injekt file to Vector Store)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request (injekt file to Vector Store)": {
+      "main": [
+        []
+      ]
+    },
+    "Code (erstelle aus dem Inhalt eine Binärdatei)": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request (upload file)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code (create Markdown)": {
+      "main": [
+        [
+          {
+            "node": "If3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion (Raw Idea in Notion speichern)": {
+      "main": [
+        [
+          {
+            "node": "Code (create Markdown)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "OpenAI (Frage den Expert Assistenten)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If3": {
+      "main": [
+        [
+          {
+            "node": "Code (erstelle aus dem Inhalt eine Binärdatei)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "OpenAI (Frage den Expert Assistenten)": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Code (Json in flache Hierarchie transformieren)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "OpenAI (Frage den Expert Assistenten)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code (Json in flache Hierarchie transformieren)": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Notion (Raw Idea in Notion speichern)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    }
+  },
+  "createdAt": "2025-04-28T11:49:38.408Z",
+  "id": "7Z2ReUG3XGMhpGmQ",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Category generator",
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.openai.com/v1/files",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "parameterType": "formBinaryData",
+              "name": "=file",
+              "inputDataFieldName": "=data"
+            },
+            {
+              "name": "purpose",
+              "value": "assistants"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        140,
+        -3200
+      ],
+      "id": "00433284-26db-4872-9823-15f12fdcc7a0",
+      "name": "HTTP Request (upload file)",
+      "retryOnFail": true,
+      "credentials": {
+        "openAiApi": {
+          "id": "u2KUZtdryI1kUCLm",
+          "name": "OpenAi Music Content Creator"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.openai.com/v1/vector_stores/vs_680f6af9c3988191aa9d33fac579d9d0/files",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"file_id\": \"{{ $json.id }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        340,
+        -3200
+      ],
+      "id": "db84b46c-138d-4c3a-b93e-1cfc9f0abe2f",
+      "name": "HTTP Request (injekt file to Vector Store)",
+      "retryOnFail": true,
+      "credentials": {
+        "openAiApi": {
+          "id": "u2KUZtdryI1kUCLm",
+          "name": "OpenAi Music Content Creator"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const content = $input.first().json.text;\nconst fileName = $input.first().json.filename;\n\nreturn [\n  {\n    binary: {\n      data: {\n        data: Buffer.from(content, 'utf8').toString('base64'),\n        mimeType: 'text/plain',\n        fileName,\n      },\n    },\n  },\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -60,
+        -3200
+      ],
+      "id": "51d526c5-5315-49f7-ac45-928589371f7c",
+      "name": "Code (erstelle aus dem Inhalt eine Binärdatei)"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nconst timestamp = new Date().toLocaleString('sv-SE', { timeZone: 'Europe/Berlin' })\n  .replace(/[-: ]/g, '')\n  .slice(0, 14);\n\n// Hole Kategorie-Name sicher aus aktuellem Input\nconst categoryName = $('Loop Over active Kategories').item.json.name || 'UnknownCategory';\n\n// Markdown erzeugen\nconst textOutput = items.map(item => {\n  const idea = item.json;\n  return `### ${idea.title}\n\n${idea.title}\n\nLyrics: ${idea.lyrics}  \nStyles: ${idea.styles}  \nKeywords: ${Array.isArray(idea.keywords) ? idea.keywords.join(', ') : ''}\n---`;\n}).join('\\n\\n');\n\n// Rückgabe\nreturn [\n  {\n    json: {\n      text: textOutput,\n      filename: `usedIdeas_${categoryName}_${timestamp}.md`\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -480,
+        -3200
+      ],
+      "id": "7fe77625-f2dd-4278-8162-782d3ce7ae11",
+      "name": "Code (create Markdown)",
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "1d5ab5af-d8fd-80bd-9541-fff9b0fdb556",
+          "mode": "list",
+          "cachedResultName": "Content_m",
+          "cachedResultUrl": "https://www.notion.so/1d5ab5afd8fd80bd9541fff9b0fdb556"
+        },
+        "title": "={{ $json.title }}",
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Keywords|rich_text",
+              "textContent": "={{ $json.keywords.join(', ') }}"
+            },
+            {
+              "key": "Category|relation",
+              "relationValue": [
+                "={{ $('Notion (get all active Kategories)').item.json.id }}"
+              ]
+            },
+            {
+              "key": "Status|status",
+              "statusValue": "Raw Idea"
+            },
+            {
+              "key": "rank|number"
+            },
+            {
+              "key": "Version Line|rich_text",
+              "textContent": "Radio Edit"
+            },
+            {
+              "key": "Lyrics|rich_text",
+              "textContent": "={{ $json.lyrics.replace(/\\\\n/g, '\\n') }}"
+            },
+            {
+              "key": "Lyrics JSON|rich_text",
+              "textContent": "={{ $json.lyrics }}"
+            },
+            {
+              "key": "styles|rich_text",
+              "textContent": "={{ $json.styles }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        -680,
+        -3200
+      ],
+      "id": "f0b152ff-d129-4128-97bc-42da906fa203",
+      "name": "Notion (Raw Idea in Notion speichern)",
+      "credentials": {
+        "notionApi": {
+          "id": "zcMkS7fiCpPyLp07",
+          "name": "Notion Music Content Creator"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 10
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -2000,
+        -3200
+      ],
+      "id": "44753e96-660d-4a0d-aed7-c6b18f7995ee",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f98c4c22-5952-4a42-a0a3-94005de84bf6",
+              "leftValue": "={{$json[\"text\"]}}",
+              "rightValue": 0,
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -260,
+        -3200
+      ],
+      "id": "948d6cb0-7f46-4d8e-9182-62a927691b49",
+      "name": "If3"
+    },
+    {
+      "parameters": {
+        "resource": "assistant",
+        "assistantId": {
+          "__rl": true,
+          "value": "=asst_9Kz95vJxKuyxeMRWsm3JDMy5",
+          "mode": "id"
+        },
+        "prompt": "define",
+        "text": "=give me exact **{{ $vars.CCP_ideaCountPerCategory }}** categories.",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        -1700,
+        -3200
+      ],
+      "id": "7fe07168-d367-4b87-a7d0-5371ba275d4d",
+      "name": "OpenAI (Frage den Expert Assistenten)",
+      "credentials": {
+        "openAiApi": {
+          "id": "u2KUZtdryI1kUCLm",
+          "name": "OpenAi Music Content Creator"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "33aa1c6c-a449-426c-b6a1-558eb9da9e53",
+              "leftValue": "={{ $json.output }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1340,
+        -3200
+      ],
+      "id": "dc67a089-603f-484a-b681-7437a894768b",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $input.first().json.output;\n\n// Entfernt den Markdown-Wrapper (```json ... ```)\nconst cleaned = raw\n  .replace(/^```json\\s*/, '')   // Entfernt ```json + optionalen Zeilenumbruch\n  .replace(/```$/, '')          // Entfernt das letzte ``` am Ende\n    .trim();                      // Entfernt überflüssige Leerzeichen\n\nlet parsed;\ntry {\n  parsed = JSON.parse(cleaned);\n} catch (e) {\n  // Gib ein Dummy-Objekt zurück, damit das nächste IF sauber prüfen kann\n  return [{ json: { fehler: true } }];\n}\n\n// Gib jedes Objekt einzeln zurück\nreturn parsed.map(entry => ({ json: entry }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1080,
+        -3200
+      ],
+      "id": "547f4770-f19c-4160-86bf-912351f3f632",
+      "name": "Code (Json in flache Hierarchie transformieren)",
+      "alwaysOutputData": true,
+      "retryOnFail": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "b9dc89b5-864e-43ab-9ee8-acd49b15ac71",
+              "leftValue": "={{$json[\"title\"]}}",
+              "rightValue": 0,
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -860,
+        -3200
+      ],
+      "id": "6dcca4c4-2eb7-43dc-9108-7594b77263f9",
+      "name": "If1"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-04-28T11:52:38.000Z",
+  "versionId": "5c5ca509-d2ee-4133-bf8c-caa381902ad0"
+}
