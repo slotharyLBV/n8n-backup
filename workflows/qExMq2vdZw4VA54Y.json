@@ -1,0 +1,902 @@
+{
+  "active": false,
+  "connections": {
+    "Get YouTube Comments": {
+      "main": [
+        [
+          {
+            "node": "If-totalResults",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Comment Analyzer": {
+      "main": [
+        [
+          {
+            "node": "Send YT Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Comment Analyzer",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Comment Analyzer",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get-VideoIDs": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out Comments": {
+      "main": [
+        [
+          {
+            "node": "If-authorDisplayName",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send YT Reply": {
+      "main": [
+        [
+          {
+            "node": "Update-Replies",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create-New-Comments": {
+      "main": [
+        [
+          {
+            "node": "Comment Analyzer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update-Replies": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Mails": {
+      "main": [
+        [
+          {
+            "node": "Extract-VideoTitle",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract-VideoTitle": {
+      "main": [
+        [
+          {
+            "node": "Get-VideoIDs",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get-VideoIDs-long",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get-VideoIDs1": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Get YouTube Comments1": {
+      "main": [
+        [
+          {
+            "node": "If-totalResults",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If-totalResults": {
+      "main": [
+        [
+          {
+            "node": "Split Out Comments",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If-authorDisplayName": {
+      "main": [
+        [
+          {
+            "node": "Create-New-Comments",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Trigger 5 minutes": {
+      "main": [
+        [
+          {
+            "node": "Get Mails",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Trigger 24 hours": {
+      "main": [
+        [
+          {
+            "node": "Get-VideoIDs1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get-VideoIDs-long1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Label Messages": {
+      "main": [
+        [
+          {
+            "node": "Mark as read",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Label Messages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get-VideoIDs-long": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Get YouTube Comments",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get-VideoIDs-long1": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "Get YouTube Comments1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-04-21T16:26:46.777Z",
+  "id": "qExMq2vdZw4VA54Y",
+  "meta": null,
+  "name": "Youtube_Comment_Reply_v1",
+  "nodes": [
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "youTubeOAuth2Api",
+        "url": "https://www.googleapis.com/youtube/v3/commentThreads",
+        "options": {},
+        "queryParametersUi": {
+          "parameter": [
+            {
+              "name": "part",
+              "value": "snippet,replies"
+            },
+            {
+              "name": "videoId",
+              "value": "={{ $json[\"Video-ID\"] }}"
+            },
+            {
+              "name": "maxResults",
+              "value": "100"
+            }
+          ]
+        }
+      },
+      "id": "2760c9b0-e767-4526-b500-575a851c0732",
+      "name": "Get YouTube Comments",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 2,
+      "position": [
+        1180,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Comment: {{ $json.Comment }}\nAuthor: {{ $json.Author }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=Analyze the following YouTube comment and do two things:\n\n1. Determine the **Category** of the comment. The possible categories are:\n   - Question → if the comment is a question or contains curiosity or confusion\n   - Compliment → if the comment is positive feedback, praise, or encouragement\n   - Spam → if the comment looks like advertising, irrelevant links, or nonsense\n\n2. Write a suitable short reply (as if from the channel owner), depending on the category. Use emojis where appropriate to make it feel friendly and personal.\n\nComment:\n{{ $json.Comment }}\n\nReturn a JSON object in this format:\n\n{\n  \"category\": \"Question | Compliment | Spam\",\n  \"parentId\": \"{{ $json['Comment-ID'] }}\",\n  \"reply\": \"Your generated reply goes here\"\n}\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        2440,
+        380
+      ],
+      "id": "526fe6da-e527-4613-ad1f-edae9acf6271",
+      "name": "Comment Analyzer"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        2440,
+        600
+      ],
+      "id": "e79a2817-bf28-49b0-888a-6f4a693a478f",
+      "name": "OpenAI Chat Model"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"category\": \"Question | Compliment | Spam\",\n  \"parentId\": \"safasfasff234\",\n  \"reply\": \"Your generated reply goes here\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        2620,
+        600
+      ],
+      "id": "ebfce53a-cf53-4d8c-8c12-d5515dad3f9b",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "databaseId": 183,
+        "tableId": 761,
+        "returnAll": true,
+        "additionalOptions": {
+          "filters": {
+            "fields": [
+              {
+                "field": 7694,
+                "operator": "contains",
+                "value": "={{ $json.videoTitle }}"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [
+        720,
+        380
+      ],
+      "id": "c310e781-2e9a-4df4-b88e-3a0d6e69a2a0",
+      "name": "Get-VideoIDs",
+      "alwaysOutputData": false,
+      "executeOnce": false,
+      "retryOnFail": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "items",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1660,
+        380
+      ],
+      "id": "d0c8c8a8-dd47-4949-a6ec-126365b74682",
+      "name": "Split Out Comments"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "databaseId": 183,
+        "tableId": 756,
+        "rowId": "={{ $('Create-New-Comments').item.json.id }}",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": 7618,
+              "fieldValue": "={{ $('Comment Analyzer').item.json.output.reply }}"
+            },
+            {
+              "fieldId": 7619,
+              "fieldValue": "replied"
+            },
+            {
+              "fieldId": 7620,
+              "fieldValue": "={{ $('Comment Analyzer').item.json.output.category }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [
+        3160,
+        380
+      ],
+      "id": "0786cd24-b0f3-451c-8a15-d2f9e0567d80",
+      "name": "Update-Replies"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://www.googleapis.com/youtube/v3/comments",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "youTubeOAuth2Api",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "part",
+              "value": "snippet"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"snippet\": {\n    \"parentId\": \"{{ $json.output.parentId }}\",\n    \"textOriginal\": \"{{ $json.output.reply }}\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2920,
+        380
+      ],
+      "id": "43ea681f-1663-4594-803b-3856f2b8ef8c",
+      "name": "Send YT Reply"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "databaseId": 183,
+        "tableId": 756,
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": 7616,
+              "fieldValue": "={{ $('Split Out Comments').item.json.snippet.videoId }}"
+            },
+            {
+              "fieldId": 7617,
+              "fieldValue": "={{ $('Split Out Comments').item.json.snippet.topLevelComment.snippet.textDisplay }}"
+            },
+            {
+              "fieldId": 7621,
+              "fieldValue": "={{ $('Split Out Comments').item.json.snippet.topLevelComment.snippet.authorDisplayName }}"
+            },
+            {
+              "fieldId": 7623,
+              "fieldValue": "={{ $('Split Out Comments').item.json.snippet.topLevelComment.snippet.authorChannelUrl }}"
+            },
+            {
+              "fieldId": 7619,
+              "fieldValue": "not replied"
+            },
+            {
+              "fieldId": 7624,
+              "fieldValue": "={{ $('Split Out Comments').item.json.snippet.topLevelComment.id }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [
+        2160,
+        380
+      ],
+      "id": "05ad1aed-73f8-440b-b7db-37e42f2bc99a",
+      "name": "Create-New-Comments"
+    },
+    {
+      "parameters": {
+        "operation": "addLabels",
+        "messageId": "={{ $('Get Mails').item.json.id }}",
+        "labelIds": [
+          "Label_5351541577180497605"
+        ]
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        3620,
+        380
+      ],
+      "id": "a6717eb2-9439-46e9-9e36-49977895a41a",
+      "name": "Label Messages",
+      "webhookId": "91d8067f-3c68-4adb-be40-9e640a908816"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "filters": {
+          "q": "=from:noreply@youtube.com subject:\"comment\" label:inbox -label:YT-comment-replied\n"
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        300,
+        380
+      ],
+      "id": "a6997a23-f3f8-4292-9c3d-1de8f7237710",
+      "name": "Get Mails",
+      "webhookId": "91d8067f-3c68-4adb-be40-9e640a908816"
+    },
+    {
+      "parameters": {
+        "databaseId": 183,
+        "tableId": 761,
+        "returnAll": true,
+        "additionalOptions": {
+          "filters": {
+            "fields": [
+              {
+                "field": 7695,
+                "operator": "not_empty"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [
+        720,
+        200
+      ],
+      "id": "44bd89ad-bffa-45a6-8458-418ccedf830e",
+      "name": "Get-VideoIDs1"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const snippet = $json[\"snippet\"];\nconst match = snippet.match(/(?:New comment on|New reply to a comment on)\\s+\"([^\"]+)\"/);\n\nreturn {\n  ...$json,\n  videoTitle: match ? match[1] : null\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        520,
+        380
+      ],
+      "id": "a430944d-cc1f-43bd-9382-38c48219635a",
+      "name": "Extract-VideoTitle"
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "youTubeOAuth2Api",
+        "url": "https://www.googleapis.com/youtube/v3/commentThreads",
+        "options": {},
+        "queryParametersUi": {
+          "parameter": [
+            {
+              "name": "part",
+              "value": "snippet,replies"
+            },
+            {
+              "name": "videoId",
+              "value": "={{ $json[\"Video-ID\"] }}"
+            },
+            {
+              "name": "maxResults",
+              "value": "100"
+            }
+          ]
+        }
+      },
+      "id": "b5b80517-f8ce-4b84-8517-49c17ebc7975",
+      "name": "Get YouTube Comments1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 2,
+      "position": [
+        1180,
+        200
+      ],
+      "retryOnFail": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "b68ae6e2-138a-4abf-8473-63b3cd683e6b",
+              "leftValue": "={{ $json.pageInfo.totalResults }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1420,
+        380
+      ],
+      "id": "3612d49b-5135-4a8f-9748-820524acf3cf",
+      "name": "If-totalResults"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "b68ae6e2-138a-4abf-8473-63b3cd683e6b",
+              "leftValue": "={{ $json.replies.comments[0].snippet.authorDisplayName }}",
+              "rightValue": "@bons-ai_shorts",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1900,
+        380
+      ],
+      "id": "e99658e9-83fa-47ca-9405-5b3ae028d9dd",
+      "name": "If-authorDisplayName"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 15
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        60,
+        380
+      ],
+      "id": "ffdff5e3-efd7-4a44-a5d9-e4431f7fa0c9",
+      "name": "Trigger 5 minutes"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 23,
+              "triggerAtMinute": 30
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        60,
+        200
+      ],
+      "id": "9c198479-f83e-4a82-abef-77e69101c374",
+      "name": "Trigger 24 hours"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "6c01c607-665c-4f5a-862e-0132e6f4f72c",
+              "leftValue": "={{ $('Get Mails').item.json.id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        3380,
+        380
+      ],
+      "id": "f7a76a78-9536-47e6-8009-7cb6c34a9c4e",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "operation": "markAsRead",
+        "messageId": "={{ $('Get Mails').item.json.id }}"
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        3820,
+        380
+      ],
+      "id": "6a2f7e75-724e-4cbf-bc74-0cda59a89fa9",
+      "name": "Mark as read",
+      "webhookId": "91d8067f-3c68-4adb-be40-9e640a908816"
+    },
+    {
+      "parameters": {
+        "content": "## Fetch and check new comments",
+        "height": 800,
+        "width": 2320,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "fbc11cf1-3fc8-4fea-887e-26b6d4851471",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Analyze and Categorize Comments",
+        "height": 800,
+        "width": 440
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2360,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "afaf1ae4-1f2a-4f9f-8d65-7bfb479a1571",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Reply",
+        "height": 800,
+        "width": 1200,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2840,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "a04fea46-d25c-4fe4-aaff-14e426a6c0d7",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "databaseId": 183,
+        "tableId": 763,
+        "returnAll": true,
+        "additionalOptions": {
+          "filters": {
+            "fields": [
+              {
+                "field": 7735,
+                "operator": "contains",
+                "value": "={{ $json.videoTitle }}"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [
+        720,
+        580
+      ],
+      "id": "6ff52325-fb10-4bca-bf7f-b51af4f9d813",
+      "name": "Get-VideoIDs-long",
+      "alwaysOutputData": false,
+      "executeOnce": false,
+      "retryOnFail": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.1,
+      "position": [
+        960,
+        380
+      ],
+      "id": "3013c827-f3ad-4e7c-8a72-bec118f0eb7c",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "databaseId": 183,
+        "tableId": 763,
+        "returnAll": true,
+        "additionalOptions": {
+          "filters": {
+            "fields": [
+              {
+                "field": 7736,
+                "operator": "not_empty",
+                "value": "="
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [
+        720,
+        40
+      ],
+      "id": "45910c21-5c12-459d-be95-171698c442e2",
+      "name": "Get-VideoIDs-long1",
+      "alwaysOutputData": false,
+      "executeOnce": false
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.1,
+      "position": [
+        960,
+        200
+      ],
+      "id": "3dc72e8c-2cee-4141-ae33-876ca002c6a4",
+      "name": "Merge1"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-04-21T16:26:57.000Z",
+  "versionId": "b6c3329b-f2c0-487a-8bbd-439115e34f55"
+}
