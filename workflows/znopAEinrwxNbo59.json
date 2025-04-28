@@ -1,0 +1,887 @@
+{
+  "active": false,
+  "connections": {
+    "Sub-Start": {
+      "main": [
+        [
+          {
+            "node": "Hashify",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set-YT-PlaylistID": {
+      "main": [
+        [
+          {
+            "node": "Category-to-YT-PlaylistID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Category-to-YT-PlaylistID": {
+      "main": [
+        [
+          {
+            "node": "YouTube-Set-Playlist",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Hashify": {
+      "main": [
+        [
+          {
+            "node": "Update-DB-1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "YouTube-Upload-Video": {
+      "main": [
+        [
+          {
+            "node": "YouTube-Get-VideoID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "YouTube-Get-VideoID": {
+      "main": [
+        [
+          {
+            "node": "Set-YT-PlaylistID",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Type-Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get-Project-URL": {
+      "main": [
+        [
+          {
+            "node": "YouTube-Upload-Video",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Google Drive-Upload",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Upload-post.com - Upload to Instagram",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Upload-post.com - Upload to TIKTOK",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP - Upload To Baserow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update-DB-1": {
+      "main": [
+        [
+          {
+            "node": "Get-Project-URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP - Upload To Baserow": {
+      "main": [
+        [
+          {
+            "node": "Upload-File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Type-Switch": {
+      "main": [
+        [
+          {
+            "node": "metrics_long",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "metrics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "YouTube-Set-Playlist": {
+      "main": [
+        [
+          {
+            "node": "Send YT Affiliate Comment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "metrics_long": {
+      "main": [
+        [
+          {
+            "node": "Update-DB-2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "metrics": {
+      "main": [
+        [
+          {
+            "node": "Update-DB-2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-04-21T16:23:26.757Z",
+  "id": "znopAEinrwxNbo59",
+  "meta": null,
+  "name": "Sub_Upload_BonsAI_v3",
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "id": "a0f51927-a6cb-43ca-829f-d436a350aeff",
+      "typeVersion": 1.1,
+      "name": "Sub-Start",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        -280,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.upload-post.com/api/upload",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Apikey YourKey"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "title",
+              "value": "={{\n  $('Hashify').item.json.formatted_tiktok_description\n  + '\\n\\n---\\n\\n'\n  + (($('Hashify').item.json.affiliate_cta || '') + '\\n\\n')\n  + $('Hashify').item.json.affiliate_cta_default\n}}\n"
+            },
+            {
+              "name": "user",
+              "value": "growwithbonsai"
+            },
+            {
+              "name": "platform[]",
+              "value": "tiktok"
+            },
+            {
+              "parameterType": "formBinaryData",
+              "name": "video",
+              "inputDataFieldName": "data"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        460,
+        1080
+      ],
+      "id": "e2a00cd3-91b2-4453-a90a-c5fb48337b92",
+      "name": "Upload-post.com - Upload to TIKTOK",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.upload-post.com/api/upload",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Apikey YourKey"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "title",
+              "value": "={{\n  $('Hashify').item.json.formatted_instagram_description\n  + '\\n\\n---\\n\\n'\n  + (($('Hashify').item.json.affiliate_cta || '') + '\\n\\n')\n  + $('Hashify').item.json.affiliate_cta_default\n}}\n"
+            },
+            {
+              "name": "user",
+              "value": "growwithbonsai"
+            },
+            {
+              "name": "platform[]",
+              "value": "instagram"
+            },
+            {
+              "parameterType": "formBinaryData",
+              "name": "video",
+              "inputDataFieldName": "data"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        460,
+        1320
+      ],
+      "id": "fd4dc746-36be-4d63-8f77-b832f213dfaa",
+      "name": "Upload-post.com - Upload to Instagram",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7eabb3c8-f012-470c-877c-f9c3962613ce",
+              "name": "Category",
+              "value": "={{ $('Sub-Start').item.json.Category }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        920,
+        780
+      ],
+      "id": "a75391fd-3f32-4adf-b56c-d35b1faa33c2",
+      "name": "Set-YT-PlaylistID"
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map(item => {\n  // Hole die Kategorie aus dem vorherigen Set-Node\n  const category = item.json.Category;\n  \n  // Mapping von Kategorien zu Playlist-IDs\n  const categoryToPlaylistMap = {\n    \"What if?\": \"PL9ZVvlhu0cbWc2HsGoJWJBXIfACUn76eW\",\n    \"AI tools for daily use\": \"PL9ZVvlhu0cbWp7pVgRMPBhOpgvcUjnmNK\", \n    \"Productivity with AI\": \"PL9ZVvlhu0cbWp7pVgRMPBhOpgvcUjnmNK\",\n    \"Short explainer tech tutorials\": \"PL9ZVvlhu0cbWp7pVgRMPBhOpgvcUjnmNK\",\n    \"Did you know?\": \"PL9ZVvlhu0cbVpCqNlHQn4xb9OwAOW3k_v\",\n    \"Cool Animal Facts\": \"PL9ZVvlhu0cbXmOX1uQrfru03OHl_O0tvT\",\n    \"Fails\": \"PL9ZVvlhu0cbUftONlLCZFd6th-QlwaR2M\",\n    \"This Is Actually Illegal!\": \"PL9ZVvlhu0cbWKGR4XIJeTJHNrt6jVKHeF\",\n    \"long: This Is Actually Illegal!\": \"PL9ZVvlhu0cbWso-LQ3WXR5zii6daVVU3V\",\n    \"Everyday Items You Are Using Wrong\": \"PL9ZVvlhu0cbVKpCF-Rhx_pvOX05lKpkZF\"\n  };\n  \n  // Bestimme die Playlist-ID basierend auf der Kategorie\n  const playlistId = categoryToPlaylistMap[category] || \"PL9ZVvlhu0cbXKhcZew1X6vUqCvnNEZGTy\";\n  \n  // Behalte die bestehenden Daten bei und füge die Playlist-ID hinzu\n  return {\n    json: {\n      ...item.json,\n      playlistId: playlistId\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1160,
+        780
+      ],
+      "id": "cad8b1af-44e5-497c-bbfa-88599418d5db",
+      "name": "Category-to-YT-PlaylistID"
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map(item => {\n  const metadata = item.json.output?.metadata || {};\n\n  const title = metadata.title?.trim()\n    || item.json[\"Video title (Youtube)\"]?.trim()\n    || item.json[\"Video Title\"]\n    || 'Untitled';\n\n  const description = metadata.description?.trim()\n    || item.json[\"Video Description\"]?.trim()\n    || '';\n\n  const rawKeywords = (metadata.keywords\n    || item.json[\"Keywords\"]\n    || ''\n  ).split(/[,#\\n]/).map(k => k.trim()).filter(Boolean);\n\n  const hashtags = metadata.hashtags?.trim()\n    || item.json[\"Hashed-Keywords\"]?.trim()\n    || rawKeywords.map(k => `#${k.replace(/\\s+/g, '')}`).join('');\n\n  const shortHashtags = rawKeywords.slice(0, 10).map(k => `#${k.replace(/\\s+/g, '')}`).join('');\n\n  const tiktokDescription = item.json[\"TikTok Description\"]?.trim()\n    || `${title}\\n\\n${description}\\n\\n${shortHashtags}`;\n\n  const instagramDescription = item.json[\"Instagram Description\"]?.trim()\n    || `${description.split('\\n')[0] || ''}\\n\\n${shortHashtags}`;\n\n  const affiliateDefault = metadata.AffiliateCTA_default?.trim()\n    || item.json[\"Affiliate_CTA_default\"]?.[0]?.value?.trim()\n    || '';\n\n  const affiliatePromo = metadata.AffiliateCTA?.trim()\n    || item.json[\"Affiliate_CTA\"]?.[0]?.value?.trim()\n    || '';\n\n  const affiliateCommentDefault = item.json[\"Affiliate_Comment_default\"]?.[0]?.value?.trim() || '';\n  const affiliateComment = item.json[\"Affiliate_Comment\"]?.[0]?.value?.trim() || '';\n\n  return {\n    json: {\n      title,\n      description,\n      keywords: rawKeywords.join(', '),\n      hashtags,\n      formatted_tiktok_description: tiktokDescription,\n      formatted_instagram_description: instagramDescription,\n      affiliate_cta_default: affiliateDefault,\n      affiliate_cta: affiliatePromo || null,\n      affiliate_comment_default: affiliateCommentDefault,\n      affiliate_comment: affiliateComment || null,\n\n      // Kontext\n      Category: item.json.Category,\n      TargetChannel: item.json.TargetChannel,\n      projectURL: item.json.projectURL,\n      RunStepStatus: item.json[\"RunStep-Status\"]\n    }\n  };\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        20,
+        100
+      ],
+      "id": "7673046d-8420-4b89-b863-6b31cfb53c17",
+      "name": "Hashify"
+    },
+    {
+      "parameters": {
+        "resource": "video",
+        "operation": "upload",
+        "title": "={{ $('Hashify').item.json['title'] }}",
+        "regionCode": "DE",
+        "categoryId": "1",
+        "options": {
+          "description": "={{ \n  $('Hashify').item.json['description'] \n  + '\\n\\n---\\n\\n'\n  + (($('Hashify').item.json['affiliate_cta'] || '') + '\\n\\n')\n  + $('Hashify').item.json['affiliate_cta_default']\n}}\n",
+          "privacyStatus": "public",
+          "selfDeclaredMadeForKids": false,
+          "tags": "={{ $('Hashify').item.json['keywords'] }}"
+        }
+      },
+      "type": "n8n-nodes-base.youTube",
+      "typeVersion": 1,
+      "position": [
+        460,
+        780
+      ],
+      "id": "6bcedc5e-432d-4962-8119-6090175a54e2",
+      "name": "YouTube-Upload-Video"
+    },
+    {
+      "parameters": {
+        "resource": "video",
+        "operation": "get",
+        "videoId": "={{ $('YouTube-Upload-Video').item.json.uploadId }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.youTube",
+      "typeVersion": 1,
+      "position": [
+        680,
+        780
+      ],
+      "id": "0e7a624e-bf0d-48bd-ba88-81d823037d4c",
+      "name": "YouTube-Get-VideoID",
+      "retryOnFail": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "resource": "playlistItem",
+        "playlistId": "={{ $('Category-to-YT-PlaylistID').item.json.playlistId }}",
+        "videoId": "={{ $('YouTube-Get-VideoID').item.json.id }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.youTube",
+      "typeVersion": 1,
+      "position": [
+        1380,
+        780
+      ],
+      "id": "d0bdb6d1-ffb8-49c2-bf6b-4e2b4dbf5dd4",
+      "name": "YouTube-Set-Playlist"
+    },
+    {
+      "parameters": {
+        "name": "={{ $('Sub-Start').item.json['Video Title'] }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "={{ $('Sub-Start').item.json.GoogleFolderID }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        460,
+        560
+      ],
+      "id": "7c0e20e0-d8d6-4da0-9bad-a62070afcdec",
+      "name": "Google Drive-Upload",
+      "retryOnFail": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "url": "={{ $('Sub-Start').item.json.projectURL }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        460,
+        100
+      ],
+      "id": "fd796da5-18e8-4447-9832-56d8de5416c7",
+      "name": "Get-Project-URL",
+      "retryOnFail": false
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "databaseId": 183,
+        "tableId": 755,
+        "rowId": "={{ $('Sub-Start').item.json.BaserowID }}",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": 7580,
+              "fieldValue": "={{ $('Hashify').item.json.title }}"
+            },
+            {
+              "fieldId": 7581,
+              "fieldValue": "={{ $('Hashify').item.json.description }}"
+            },
+            {
+              "fieldId": 7582,
+              "fieldValue": "={{ $('Hashify').item.json.keywords }}"
+            },
+            {
+              "fieldId": 7589,
+              "fieldValue": "={{ $('Hashify').item.json.hashtags }}"
+            },
+            {
+              "fieldId": 7590,
+              "fieldValue": "={{ $('Hashify').item.json.formatted_tiktok_description }}"
+            },
+            {
+              "fieldId": 7591,
+              "fieldValue": "={{ $('Hashify').item.json.formatted_instagram_description }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [
+        240,
+        100
+      ],
+      "id": "b1fea838-f7b7-4c23-8e9f-23655eb6f212",
+      "name": "Update-DB-1"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "databaseId": 183,
+        "tableId": 755,
+        "rowId": "={{ $('Sub-Start').item.json.BaserowID }}",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": 7575,
+              "fieldValue": "Uploaded"
+            },
+            {
+              "fieldId": 7583,
+              "fieldValue": "={{ $json.name }}"
+            },
+            {
+              "fieldId": 7593,
+              "fieldValue": "={{ $json.uploaded_at }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [
+        920,
+        100
+      ],
+      "id": "a45e1974-8794-4411-8295-f2c4172cbc7f",
+      "name": "Upload-File",
+      "retryOnFail": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "databaseId": 183,
+        "tableId": 755,
+        "rowId": "={{ $('Sub-Start').item.json.BaserowID }}",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": 7580,
+              "fieldValue": "=https://youtube.com/shorts/{{ $json[\"Video-ID\"] }}"
+            },
+            {
+              "fieldId": 7584,
+              "fieldValue": "={{ $('Sub-Start').item.json.projectURL }}"
+            },
+            {
+              "fieldId": 7601,
+              "fieldValue": "={{ $json[\"Video-ID\"] }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [
+        1600,
+        560
+      ],
+      "id": "e5bfb255-3192-430f-bab2-bba8db4d3834",
+      "name": "Update-DB-2"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://192.168.100.10:3081/api/user-files/upload-file/",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "parameterType": "formBinaryData",
+              "name": "file",
+              "inputDataFieldName": "data"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        700,
+        100
+      ],
+      "id": "7395ec45-0c84-437f-9838-1cbdb666bbc5",
+      "name": "HTTP - Upload To Baserow",
+      "retryOnFail": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Update-DB-1').item.json.Video_Type.value }}",
+                    "rightValue": "long",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    },
+                    "id": "e4e6370f-0771-4084-b4d1-fe8a4cd944aa"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "long"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "94e11e42-b6e2-4571-898e-33d35f2bdd12",
+                    "leftValue": "={{ $('Update-DB-1').item.json.Video_Type.value }}",
+                    "rightValue": "short",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "short"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1160,
+        560
+      ],
+      "id": "253c3e22-6ae7-451d-9236-fbdb69df4c46",
+      "name": "Type-Switch"
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "youTubeOAuth2Api",
+        "url": "https://www.googleapis.com/youtube/v3/commentThreads",
+        "options": {},
+        "queryParametersUi": {
+          "parameter": [
+            {
+              "name": "part",
+              "value": "snippet,replies"
+            },
+            {
+              "name": "videoId",
+              "value": "={{ $json.contentDetails.videoId }}"
+            },
+            {
+              "name": "maxResults",
+              "value": "100"
+            }
+          ]
+        }
+      },
+      "id": "af183447-c579-481f-9017-f60043d2f8dd",
+      "name": "Get YouTube Comments",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 2,
+      "position": [
+        2240,
+        400
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://www.googleapis.com/youtube/v3/commentThreads",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "youTubeOAuth2Api",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "part",
+              "value": "snippet"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"snippet\": {\n    \"videoId\": \"{{ $('YouTube-Get-VideoID').item.json.id }}\",\n    \"topLevelComment\": {\n      \"snippet\": {\n        \"textOriginal\": \"{{ ( $('Hashify').item.json.affiliate_comment || '' ) + '\\\\n\\\\n' + $('Hashify').item.json.affiliate_comment_default }}\"\n      }\n    }\n  }\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1600,
+        780
+      ],
+      "id": "20edc856-2620-4dc5-90f9-6698b5913eb8",
+      "name": "Send YT Affiliate Comment",
+      "retryOnFail": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "databaseId": 183,
+        "tableId": 763,
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": 7735,
+              "fieldValue": "={{ $('YouTube-Get-VideoID').item.json.snippet.title }}"
+            },
+            {
+              "fieldId": 7736,
+              "fieldValue": "={{ $('YouTube-Get-VideoID').item.json.id }}"
+            },
+            {
+              "fieldId": 7738,
+              "fieldValue": "2"
+            },
+            {
+              "fieldId": 7752,
+              "fieldValue": "={{ $('Update-DB-1').item.json.Category.value }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [
+        1380,
+        400
+      ],
+      "id": "b14bbb6b-0ca5-45ae-b77c-d1e6e03d2d1c",
+      "name": "metrics_long"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "databaseId": 183,
+        "tableId": 761,
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": 7694,
+              "fieldValue": "={{ $('YouTube-Get-VideoID').item.json.snippet.title }}"
+            },
+            {
+              "fieldId": 7695,
+              "fieldValue": "={{ $('YouTube-Get-VideoID').item.json.id }}"
+            },
+            {
+              "fieldId": 7698,
+              "fieldValue": "0.15"
+            },
+            {
+              "fieldId": 7713,
+              "fieldValue": "={{ $('Update-DB-1').item.json.Category.value }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [
+        1380,
+        560
+      ],
+      "id": "3def965b-2993-4b63-962a-5ea5301f0e5c",
+      "name": "metrics"
+    },
+    {
+      "parameters": {
+        "content": "# Youttube Stack",
+        "height": 220,
+        "width": 1860,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        740
+      ],
+      "typeVersion": 1,
+      "id": "3028f0bc-95a3-410c-bb1c-b5a2580749fd",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "# Other Social Media Accounts",
+        "height": 520,
+        "width": 1860
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        980
+      ],
+      "typeVersion": 1,
+      "id": "72449549-31ab-4b20-8cc8-d232f180bc39",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "# Upload: Baserow",
+        "height": 360,
+        "width": 520,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        620,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "53ce38fa-52e4-45b5-bbfe-b5fbc8d82e6e",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "# Upload: Google Drive",
+        "height": 340,
+        "width": 920
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        380
+      ],
+      "typeVersion": 1,
+      "id": "87b58f50-a334-460f-bd6b-0bd25f9de9f5",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "# Metrics",
+        "height": 340,
+        "width": 920
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        940,
+        380
+      ],
+      "typeVersion": 1,
+      "id": "be47d4b4-9ff3-4f56-a99e-81441de0c89f",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "# Prepare Data",
+        "height": 360,
+        "width": 600,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "c4916684-300b-4e6e-82e6-5a789875be93",
+      "name": "Sticky Note5"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-04-21T16:24:43.000Z",
+  "versionId": "ef62062d-936b-4c63-9e04-3d996b2431d8"
+}
