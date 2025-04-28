@@ -108,7 +108,7 @@
         [],
         [
           {
-            "node": "Edit Fields",
+            "node": "Notion3",
             "type": "main",
             "index": 0
           }
@@ -328,29 +328,7 @@
       "main": [
         [
           {
-            "node": "HTTP Request14",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "HTTP Request9": {
-      "main": [
-        [
-          {
-            "node": "Google Drive6",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "HTTP Request11": {
-      "main": [
-        [
-          {
-            "node": "Google Drive7",
+            "node": "HTTP Request13",
             "type": "main",
             "index": 0
           }
@@ -368,33 +346,44 @@
         ]
       ]
     },
+    "HTTP Request12": {
+      "main": [
+        [
+          {
+            "node": "Google Drive6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion3": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request13": {
+      "main": [
+        [
+          {
+            "node": "Google Drive7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
     "Google Drive7": {
       "main": [
         [
           {
             "node": "HTTP Request2",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "HTTP Request12": {
-      "main": [
-        [
-          {
-            "node": "HTTP Request9",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "HTTP Request14": {
-      "main": [
-        [
-          {
-            "node": "HTTP Request11",
             "type": "main",
             "index": 0
           }
@@ -756,7 +745,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1740,
+        2180,
         -600
       ],
       "id": "90fea25f-5766-4e1b-a06b-09a5de67a937",
@@ -777,7 +766,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        3280,
+        3480,
         -620
       ],
       "id": "c4173b6f-9a69-4ab6-bc96-8fde325e6a8d",
@@ -798,7 +787,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        4820,
+        4860,
         -620
       ],
       "id": "3a0d3fde-7c23-42fa-9e77-36d82641825b",
@@ -819,7 +808,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        5260,
+        5300,
         -620
       ],
       "id": "0ee2eab9-24ed-4d3a-afcf-e77297f3bec0",
@@ -878,7 +867,7 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        1960,
+        2400,
         -600
       ],
       "id": "a0d342e0-bae9-49a3-94f2-41ef592ea8d0",
@@ -897,43 +886,49 @@
             {
               "id": "95e43e7a-d0a5-4f86-82be-d480a3683dbc",
               "name": "image_url2",
-              "value": "={{ $json.property_image_url2 }}",
+              "value": "={{ $('Loop Over Items2').item.json.property_image_url2 }}",
               "type": "string"
             },
             {
               "id": "f857e88a-23cd-43bd-9bbf-63a4ae989136",
               "name": "image_url1",
-              "value": "={{ $json.property_image_url1 }}",
+              "value": "={{ $('Loop Over Items2').item.json.property_image_url1 }}",
               "type": "string"
             },
             {
               "id": "29b25c38-d0be-4302-89c2-a76dc5916749",
               "name": "audio_url1",
-              "value": "={{ $json.property_audio_url1 }}",
+              "value": "={{ $('Loop Over Items2').item.json.property_audio_url1 }}",
               "type": "string"
             },
             {
               "id": "eccc42f8-b492-44a2-8e42-73506af83344",
               "name": "audio_url2",
-              "value": "={{ $json.property_audio_url2 }}",
+              "value": "={{ $('Loop Over Items2').item.json.property_audio_url2 }}",
               "type": "string"
             },
             {
               "id": "6daf7277-96ab-462f-a5e0-85ab29c3ca1f",
               "name": "gdrive_folder",
-              "value": "={{ $json.property_gdrive_folder }}",
+              "value": "={{ $('Loop Over Items2').item.json.property_gdrive_folder }}",
               "type": "string"
             },
             {
               "id": "0b24effd-439c-4ecd-96cb-8204c2c93543",
               "name": "title",
-              "value": "={{ $json.name }}",
+              "value": "={{ $('Loop Over Items2').item.json.name }}",
               "type": "string"
             },
             {
               "id": "da5f8010-39ee-4ac2-9079-80e52f94c3e7",
               "name": "version_line",
-              "value": "={{ $json.property_version_line }}",
+              "value": "={{ $('Loop Over Items2').item.json.property_version_line }}",
+              "type": "string"
+            },
+            {
+              "id": "aafb13da-d148-4037-ba65-6a7854a81372",
+              "name": "category",
+              "value": "={{ $json.name }}",
               "type": "string"
             }
           ]
@@ -943,7 +938,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1520,
+        1960,
         -600
       ],
       "id": "3b98f407-53d2-4810-9300-5f39624c7729",
@@ -968,7 +963,7 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        3500,
+        3700,
         -620
       ],
       "id": "2ed50a24-3fd3-4e11-8e8d-d7d1c611e396",
@@ -999,7 +994,7 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        5040,
+        5080,
         -620
       ],
       "id": "1173b508-df7a-4fca-a0fa-0f719bf91de5",
@@ -1030,7 +1025,7 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        5440,
+        5480,
         -620
       ],
       "id": "622643a3-b070-494a-9907-3c748691b886",
@@ -1099,7 +1094,7 @@
       "type": "n8n-nodes-base.notion",
       "typeVersion": 2.2,
       "position": [
-        5640,
+        5680,
         -620
       ],
       "id": "2b8a3649-9cfd-4602-bd08-7976a7e28fd3",
@@ -1142,8 +1137,8 @@
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        -460,
-        80
+        -400,
+        60
       ],
       "id": "7d45c711-ab6b-4f62-9c98-2a16d975677b",
       "name": "When clicking ‘Test workflow’"
@@ -1177,7 +1172,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        2060,
+        2500,
         -280
       ],
       "id": "2e77e59f-67d2-43fd-b765-ed542a99860e",
@@ -1202,7 +1197,7 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        2440,
+        2880,
         -280
       ],
       "id": "4f5bc614-6ee3-42fb-b2f3-78fc5f9d1b21",
@@ -1229,7 +1224,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        2260,
+        2700,
         -280
       ],
       "id": "24a2c0bf-b5d2-466a-9baa-258241d9d234",
@@ -1280,7 +1275,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        3640,
+        3840,
         -300
       ],
       "id": "0730a1cd-8354-4be1-be91-a0dadbe55264",
@@ -1305,7 +1300,7 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        4020,
+        4220,
         -300
       ],
       "id": "ec5f7b84-4640-4138-aee1-f9e841ab3da3",
@@ -1332,7 +1327,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        3840,
+        4040,
         -300
       ],
       "id": "45f85d3c-d8fc-4686-9243-fb76a5a4934c",
@@ -1340,7 +1335,7 @@
     },
     {
       "parameters": {
-        "inputDataFieldName": "image_url1_final",
+        "inputDataFieldName": "cover1_final",
         "name": "cover1_final.jpeg",
         "driveId": {
           "__rl": true,
@@ -1357,7 +1352,7 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        3040,
+        3280,
         -20
       ],
       "id": "195d61f0-abed-4349-9970-ccad3a21818d",
@@ -1368,27 +1363,6 @@
           "name": "Google Drive Music Content Creator"
         }
       }
-    },
-    {
-      "parameters": {
-        "url": "={{ $json.output }}",
-        "options": {
-          "response": {
-            "response": {
-              "responseFormat": "file",
-              "outputPropertyName": "image_url1_final"
-            }
-          }
-        }
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        2860,
-        -20
-      ],
-      "id": "a09b640c-2bf1-44ad-a2bb-7a35dcc22079",
-      "name": "HTTP Request9"
     },
     {
       "parameters": {
@@ -1408,7 +1382,70 @@
     },
     {
       "parameters": {
-        "inputDataFieldName": "image_url2_final",
+        "method": "POST",
+        "url": "={{ $vars.music_content_creation_automation_render_endpoint }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $vars.music_content_creation_automation_token\t }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"background_url\": \"{{ $('HTTP Request4').item.json.output }}\",\n  \"logo_url\": \"{{ $vars.cover_logo_url }}\",\n  \"titel\": \"{{ $('Edit Fields').item.json.title }}\\n({{ $('Edit Fields').item.json.category }} {{ $('Edit Fields').item.json.version_line }})\"\n}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file",
+              "outputPropertyName": "cover1_final"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3060,
+        -20
+      ],
+      "id": "3cd9b886-aaf1-4580-bad0-a23157598557",
+      "name": "HTTP Request12"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "get",
+        "pageId": {
+          "__rl": true,
+          "value": "={{ $json.property_category[0] }}",
+          "mode": "id"
+        }
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        1600,
+        -600
+      ],
+      "id": "8826c61c-7e41-4a61-9a8c-924b19bee5b5",
+      "name": "Notion3",
+      "credentials": {
+        "notionApi": {
+          "id": "zcMkS7fiCpPyLp07",
+          "name": "Notion Music Content Creator"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "inputDataFieldName": "cover2_final",
         "name": "cover2_final.jpeg",
         "driveId": {
           "__rl": true,
@@ -1425,10 +1462,10 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        4640,
+        4700,
         -20
       ],
-      "id": "cabbe774-16d5-44cc-8648-3427b905a27d",
+      "id": "c4bff0ba-6547-4ab3-b24b-dcec19743f4c",
       "name": "Google Drive7",
       "credentials": {
         "googleDriveOAuth2Api": {
@@ -1439,12 +1476,29 @@
     },
     {
       "parameters": {
-        "url": "={{ $json.output }}",
+        "method": "POST",
+        "url": "={{ $vars.music_content_creation_automation_render_endpoint }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $vars.music_content_creation_automation_token\t }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"background_url\": \"{{ $('HTTP Request6').item.json.output }}\",\n  \"logo_url\": \"{{ $vars.cover_logo_url }}\",\n  \"titel\": \"{{ $('Edit Fields').item.json.title }}\\n({{ $('Edit Fields').item.json.category }} {{ $('Edit Fields').item.json.version_line }} 2)\"\n}",
         "options": {
           "response": {
             "response": {
               "responseFormat": "file",
-              "outputPropertyName": "image_url2_final"
+              "outputPropertyName": "cover2_final"
             }
           }
         }
@@ -1452,73 +1506,11 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        4460,
+        4480,
         -20
       ],
-      "id": "dbca8240-70bd-4d69-8ed6-3dafc2a336b0",
-      "name": "HTTP Request11"
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "={{ $vars.music_content_creation_automation_render_endpoint }}",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "Authorization",
-              "value": "=Bearer {{ $vars.music_content_creation_automation_token\t }}"
-            },
-            {
-              "name": "Content-Type",
-              "value": "application/json"
-            }
-          ]
-        },
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={\n  \"background_url\": \"{{ $('HTTP Request4').item.json.output }}\",\n  \"logo_url\": \"{{ $vars.cover_logo_url }}\",\n  \"titel\": \"{{ $('Edit Fields').item.json.title }}\\n({{ $('Edit Fields').item.json.version_line }})\"\n}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        2620,
-        -20
-      ],
-      "id": "3cd9b886-aaf1-4580-bad0-a23157598557",
-      "name": "HTTP Request12"
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "={{ $vars.music_content_creation_automation_render_endpoint }}",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "Authorization",
-              "value": "=Bearer {{ $vars.music_content_creation_automation_token\t }}"
-            },
-            {
-              "name": "Content-Type",
-              "value": "application/json"
-            }
-          ]
-        },
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={\n  \"background_url\": \"{{ $('HTTP Request6').item.json.output }}\",\n  \"logo_url\": \"{{ $vars.cover_logo_url }}\",\n  \"titel\": \"{{ $('Edit Fields').item.json.title }}\\n({{ $('Edit Fields').item.json.version_line }} 2)\"\n}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        4280,
-        -20
-      ],
-      "id": "ffcef640-2510-4ca8-ae9a-b2c5bff0efff",
-      "name": "HTTP Request14"
+      "id": "e344f380-f99d-4b7d-998e-839c36bba7d1",
+      "name": "HTTP Request13"
     }
   ],
   "pinData": {},
@@ -1536,6 +1528,6 @@
   },
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-04-27T23:51:11.000Z",
-  "versionId": "e84afbfd-93f4-4da8-b85b-336a34594534"
+  "updatedAt": "2025-04-28T00:40:21.000Z",
+  "versionId": "6b9ebfc3-7125-45e7-949c-56725a40acbb"
 }
