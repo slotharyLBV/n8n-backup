@@ -1,5 +1,5 @@
 {
-  "active": false,
+  "active": true,
   "connections": {
     "HTTP Request (upload file)": {
       "main": [
@@ -175,7 +175,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "=https://api.openai.com/v1/vector_stores/vs_680f6af9c3988191aa9d33fac579d9d0/files",
+        "url": "=https://api.openai.com/v1/vector_stores/vs_680f7485e3148191b4e1b2d7ec3082bd/files",
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "openAiApi",
         "sendBody": true,
@@ -214,7 +214,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const items = $input.all();\nconst timestamp = new Date().toLocaleString('sv-SE', { timeZone: 'Europe/Berlin' })\n  .replace(/[-: ]/g, '')\n  .slice(0, 14);\n\n// Hole Kategorie-Name sicher aus aktuellem Input\nconst categoryName = $('Loop Over active Kategories').item.json.name || 'UnknownCategory';\n\n// Markdown erzeugen\nconst textOutput = items.map(item => {\n  const idea = item.json;\n  return `### ${idea.title}\n\n${idea.title}\n\nLyrics: ${idea.lyrics}  \nStyles: ${idea.styles}  \nKeywords: ${Array.isArray(idea.keywords) ? idea.keywords.join(', ') : ''}\n---`;\n}).join('\\n\\n');\n\n// Rückgabe\nreturn [\n  {\n    json: {\n      text: textOutput,\n      filename: `usedIdeas_${categoryName}_${timestamp}.md`\n    }\n  }\n];"
+        "jsCode": "const items = $input.all();\nconst timestamp = new Date().toLocaleString('sv-SE', { timeZone: 'Europe/Berlin' })\n  .replace(/[-: ]/g, '')\n  .slice(0, 14);\n\n// Markdown erzeugen\nconst textOutput = items.map(item => {\n  const idea = item.json;\n  return `### ${idea.name}\n\nBeschreibung: ${idea.property_beschreibung}\nZielgruppe: ${idea.property_zielgruppe}\nLanguage: ${idea.property_language}\nType: ${idea.property_type}\nPrimary Genre: ${idea.property_primary_genre}\nSecondary Genre: ${idea.property_secondary_genre}\nStyles: ${idea.property_styles}\n\nRahmenstil:\n${idea.property_rahmenstil}\n---`;\n}).join('\\n\\n');\n\n// Rückgabe\nreturn [\n  {\n    json: {\n      text: textOutput,\n      filename: `usedIdeas_categories_${timestamp}.md`\n    }\n  }\n];"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -232,46 +232,58 @@
         "resource": "databasePage",
         "databaseId": {
           "__rl": true,
-          "value": "1d5ab5af-d8fd-80bd-9541-fff9b0fdb556",
+          "value": "1d5ab5af-d8fd-805f-bb50-cf7162f7c464",
           "mode": "list",
-          "cachedResultName": "Content_m",
-          "cachedResultUrl": "https://www.notion.so/1d5ab5afd8fd80bd9541fff9b0fdb556"
+          "cachedResultName": "Kategorien",
+          "cachedResultUrl": "https://www.notion.so/1d5ab5afd8fd805fbb50cf7162f7c464"
         },
         "title": "={{ $json.title }}",
         "propertiesUi": {
           "propertyValues": [
             {
-              "key": "Keywords|rich_text",
-              "textContent": "={{ $json.keywords.join(', ') }}"
-            },
-            {
-              "key": "Category|relation",
-              "relationValue": [
-                "={{ $('Notion (get all active Kategories)').item.json.id }}"
-              ]
-            },
-            {
               "key": "Status|status",
-              "statusValue": "Raw Idea"
+              "statusValue": "Inactive"
             },
             {
-              "key": "rank|number"
+              "key": "Name|title",
+              "title": "={{ $json.Name }}"
             },
             {
-              "key": "Version Line|rich_text",
-              "textContent": "Radio Edit"
+              "key": "Styles|rich_text",
+              "textContent": "={{ $json.Styles }}"
             },
             {
-              "key": "Lyrics|rich_text",
-              "textContent": "={{ $json.lyrics.replace(/\\\\n/g, '\\n') }}"
+              "key": "Zielgruppe|rich_text",
+              "textContent": "={{ $json['Target Audience'] }}"
             },
             {
-              "key": "Lyrics JSON|rich_text",
-              "textContent": "={{ $json.lyrics }}"
+              "key": "Primary Genre|rich_text",
+              "textContent": "={{ $json['Primary Genre'] }}"
             },
             {
-              "key": "styles|rich_text",
-              "textContent": "={{ $json.styles }}"
+              "key": "Secondary Genre|rich_text",
+              "textContent": "={{ $json['Secondary Genre'] }}"
+            },
+            {
+              "key": "Language|select",
+              "selectValue": "={{ $json.Language }}"
+            },
+            {
+              "key": "Beschreibung|rich_text",
+              "textContent": "={{ $json.Description }}"
+            },
+            {
+              "key": "Rahmenstil|rich_text",
+              "textContent": "={{ $json['Framework Style'] }}"
+            },
+            {
+              "key": "Type|select",
+              "selectValue": "={{ $json.type }}"
+            },
+            {
+              "key": "Erstellungsdatum|date",
+              "date": "={{ $now }}",
+              "timezone": "Europe/Berlin"
             }
           ]
         },
@@ -297,7 +309,7 @@
         "rule": {
           "interval": [
             {
-              "triggerAtHour": 10
+              "triggerAtHour": 9
             }
           ]
         }
@@ -305,7 +317,7 @@
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
       "position": [
-        -2000,
+        -2180,
         -3200
       ],
       "id": "44753e96-660d-4a0d-aed7-c6b18f7995ee",
@@ -350,7 +362,7 @@
         "resource": "assistant",
         "assistantId": {
           "__rl": true,
-          "value": "=asst_9Kz95vJxKuyxeMRWsm3JDMy5",
+          "value": "=asst_kKKxD8lnETatgnScNcg1YvVh",
           "mode": "id"
         },
         "prompt": "define",
@@ -360,7 +372,7 @@
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 1.8,
       "position": [
-        -1700,
+        -1880,
         -3200
       ],
       "id": "7fe07168-d367-4b87-a7d0-5371ba275d4d",
@@ -400,7 +412,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -1340,
+        -1520,
         -3200
       ],
       "id": "dc67a089-603f-484a-b681-7437a894768b",
@@ -413,7 +425,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -1080,
+        -1260,
         -3200
       ],
       "id": "547f4770-f19c-4160-86bf-912351f3f632",
@@ -434,7 +446,7 @@
           "conditions": [
             {
               "id": "b9dc89b5-864e-43ab-9ee8-acd49b15ac71",
-              "leftValue": "={{$json[\"title\"]}}",
+              "leftValue": "={{ $json.Name }}",
               "rightValue": 0,
               "operator": {
                 "type": "string",
@@ -450,7 +462,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -860,
+        -1040,
         -3200
       ],
       "id": "6dcca4c4-2eb7-43dc-9108-7594b77263f9",
@@ -468,6 +480,6 @@
   },
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-04-28T11:52:38.000Z",
-  "versionId": "5c5ca509-d2ee-4133-bf8c-caa381902ad0"
+  "updatedAt": "2025-04-28T13:57:12.000Z",
+  "versionId": "5e9fc58d-ebe2-413d-a5ee-3bfb80a7f8a8"
 }
