@@ -1,5 +1,5 @@
 {
-  "active": false,
+  "active": true,
   "connections": {
     "HTTP Request (upload file)": {
       "main": [
@@ -209,7 +209,7 @@
       "credentials": {
         "openAiApi": {
           "id": "u2KUZtdryI1kUCLm",
-          "name": "OpenAi account 2"
+          "name": "OpenAi Music Content Creator"
         }
       }
     },
@@ -236,7 +236,7 @@
       "credentials": {
         "openAiApi": {
           "id": "u2KUZtdryI1kUCLm",
-          "name": "OpenAi account 2"
+          "name": "OpenAi Music Content Creator"
         }
       }
     },
@@ -255,7 +255,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const items = $input.all();\nconst timestamp = new Date().toLocaleString('sv-SE', { timeZone: 'Europe/Berlin' })\n  .replace(/[-: ]/g, '')\n  .slice(0, 14);\n\n// Hole Kategorie-Name sicher aus aktuellem Input\nconst categoryName = $input.first().json.property_name || 'UnknownCategory';\n\n// Markdown erzeugen\nconst textOutput = items.map(item => {\n  const idea = item.json;\n  return `### ${idea.title}\n\n${idea.title}\n\nLyrics: ${idea.lyrics}  \nStyles: ${idea.styles}  \nKeywords: ${Array.isArray(idea.keywords) ? idea.keywords.join(', ') : ''}\n\n---`;\n}).join('\\n\\n');\n\n// Rückgabe\nreturn [\n  {\n    json: {\n      text: textOutput,\n      filename: `usedIdeas_${categoryName}_${timestamp}.md`\n    }\n  }\n];"
+        "jsCode": "const items = $input.all();\nconst timestamp = new Date().toLocaleString('sv-SE', { timeZone: 'Europe/Berlin' })\n  .replace(/[-: ]/g, '')\n  .slice(0, 14);\n\n// Hole Kategorie-Name sicher aus aktuellem Input\nconst categoryName = $('Loop Over active Kategories').item.json.name || 'UnknownCategory';\n\n// Markdown erzeugen\nconst textOutput = items.map(item => {\n  const idea = item.json;\n  return `### ${idea.title}\n\n${idea.title}\n\nLyrics: ${idea.lyrics}  \nStyles: ${idea.styles}  \nKeywords: ${Array.isArray(idea.keywords) ? idea.keywords.join(', ') : ''}\n---`;\n}).join('\\n\\n');\n\n// Rückgabe\nreturn [\n  {\n    json: {\n      text: textOutput,\n      filename: `usedIdeas_${categoryName}_${timestamp}.md`\n    }\n  }\n];"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -312,7 +312,7 @@
       "credentials": {
         "notionApi": {
           "id": "zcMkS7fiCpPyLp07",
-          "name": "Notion account 2"
+          "name": "Notion Music Content Creator"
         }
       }
     },
@@ -352,7 +352,7 @@
       "credentials": {
         "openAiApi": {
           "id": "u2KUZtdryI1kUCLm",
-          "name": "OpenAi account 2"
+          "name": "OpenAi Music Content Creator"
         }
       }
     },
@@ -412,7 +412,7 @@
             },
             {
               "key": "Lyrics JSON|rich_text",
-              "textContent": "={{ $json.lyrics }}"
+              "textContent": "={{ $json.lyrics.replace(/\\n/g, '\\\\n') }}"
             },
             {
               "key": "styles|rich_text",
@@ -433,7 +433,7 @@
       "credentials": {
         "notionApi": {
           "id": "zcMkS7fiCpPyLp07",
-          "name": "Notion account 2"
+          "name": "Notion Music Content Creator"
         }
       }
     },
@@ -570,6 +570,6 @@
   },
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-04-15T07:57:43.000Z",
-  "versionId": "a5fccefb-a810-4239-8137-e4fc36097ff2"
+  "updatedAt": "2025-04-28T13:55:04.000Z",
+  "versionId": "00bccd53-1bb6-4a5e-bda4-fac32fd2edf3"
 }
