@@ -209,7 +209,7 @@
       "credentials": {
         "openAiApi": {
           "id": "xSvlcZNPoASPwcvk",
-          "name": "OpenAi account"
+          "name": "OpenAi account Content Creator Automation"
         }
       }
     },
@@ -236,7 +236,7 @@
       "credentials": {
         "openAiApi": {
           "id": "xSvlcZNPoASPwcvk",
-          "name": "OpenAi account"
+          "name": "OpenAi account Content Creator Automation"
         }
       }
     },
@@ -255,7 +255,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const items = $input.all();\nconst timestamp = new Date().toLocaleString('sv-SE', { timeZone: 'Europe/Berlin' })\n  .replace(/[-: ]/g, '')\n  .slice(0, 14);\n\n// Hole Kategorie-Name sicher aus aktuellem Input\nconst categoryName = $input.first().json.property_name || 'UnknownCategory';\n\n// Markdown erzeugen\nconst textOutput = items.map(item => {\n  const idea = item.json;\n  return `### ${idea.title}\n\n${idea.description}\n\nRelevanz: ${idea.relevance}  \nProblem gelöst: ${idea.problemSolved}  \nIn Scope: ${idea.inScope}  \nOut of Scope: ${idea.outOfScope}  \nKeywords: ${Array.isArray(idea.keywords) ? idea.keywords.join(', ') : ''}\n\n---`;\n}).join('\\n\\n');\n\n// Rückgabe\nreturn [\n  {\n    json: {\n      text: textOutput,\n      filename: `usedIdeas_${categoryName}_${timestamp}.md`\n    }\n  }\n];"
+        "jsCode": "const items = $input.all();\nconst timestamp = new Date().toLocaleString('sv-SE', { timeZone: 'Europe/Berlin' })\n  .replace(/[-: ]/g, '')\n  .slice(0, 14);\n\n// Hole Kategorie-Name sicher aus aktuellem Input\nconst categoryName = $('Loop Over active Kategories').item.json.name || 'UnknownCategory';\n\n// Markdown erzeugen\nconst textOutput = items.map(item => {\n  const idea = item.json;\n  return `### ${idea.title}\n\n${idea.description}\n\nRelevanz: ${idea.relevance}  \nProblem gelöst: ${idea.problemSolved}  \nIn Scope: ${idea.inScope}  \nOut of Scope: ${idea.outOfScope}  \nKeywords: ${Array.isArray(idea.keywords) ? idea.keywords.join(', ') : ''}\n\n---`;\n}).join('\\n\\n');\n\n// Rückgabe\nreturn [\n  {\n    json: {\n      text: textOutput,\n      filename: `usedIdeas_${categoryName}_${timestamp}.md`\n    }\n  }\n];"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -312,7 +312,7 @@
       "credentials": {
         "notionApi": {
           "id": "yDYyBY9jyV4cRvEx",
-          "name": "Notion account"
+          "name": "Notion account Content Creator Automation"
         }
       }
     },
@@ -352,7 +352,7 @@
       "credentials": {
         "openAiApi": {
           "id": "xSvlcZNPoASPwcvk",
-          "name": "OpenAi account"
+          "name": "OpenAi account Content Creator Automation"
         }
       }
     },
@@ -434,7 +434,7 @@
       "credentials": {
         "notionApi": {
           "id": "yDYyBY9jyV4cRvEx",
-          "name": "Notion account"
+          "name": "Notion account Content Creator Automation"
         }
       }
     },
@@ -571,6 +571,6 @@
   },
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-04-13T22:08:22.000Z",
-  "versionId": "b02f6249-c5e5-430d-ace8-15ecd0222d54"
+  "updatedAt": "2025-04-23T12:05:23.000Z",
+  "versionId": "e0d428df-de35-419e-8064-cdcec37ae880"
 }
