@@ -134,7 +134,7 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n\"title\": \"{{ $json.id }}\",\n\"style\": \"{{ $json.property_styles }}\",\n\"lyric\": \"{{ $json.property_lyrics_json }}\",\n\"custom\": true\n}",
+        "jsonBody": "={\n\"title\": \"{{ $json.name }}\",\n\"style\": \"{{ $json.property_styles }}\",\n\"lyric\": \"{{ $json.property_lyrics_json }}\",\n\"custom\": true\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
@@ -182,7 +182,7 @@
       "credentials": {
         "notionApi": {
           "id": "zcMkS7fiCpPyLp07",
-          "name": "Notion account 2"
+          "name": "Notion Music Content Creator"
         }
       }
     },
@@ -280,7 +280,7 @@
       "credentials": {
         "notionApi": {
           "id": "zcMkS7fiCpPyLp07",
-          "name": "Notion account 2"
+          "name": "Notion Music Content Creator"
         }
       }
     },
@@ -350,6 +350,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-04-15T08:56:03.000Z",
-  "versionId": "0de05d6c-53c7-45f1-9c82-482aa65f702f"
+  "updatedAt": "2025-04-28T12:55:15.000Z",
+  "versionId": "c470a1c1-9c87-4f76-9b74-1ec56435a16f"
 }
