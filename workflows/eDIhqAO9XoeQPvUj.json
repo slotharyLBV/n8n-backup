@@ -1,0 +1,276 @@
+{
+  "active": false,
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get-Missing-Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get-Missing-Fields": {
+      "main": [
+        [
+          {
+            "node": "Fix-Missing-Vaues",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get-Missing-Fields1": {
+      "main": [
+        [
+          {
+            "node": "Fix-Missing-Vaues1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-04-21T16:25:26.731Z",
+  "id": "eDIhqAO9XoeQPvUj",
+  "meta": null,
+  "name": "Fix_Missing_DB_Fields",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {},
+            {
+              "triggerAtHour": 12
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -220,
+        380
+      ],
+      "id": "6a25bda5-c6c5-4670-8c6c-00d507a6a6aa",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "databaseId": 183,
+        "tableId": 755,
+        "returnAll": true,
+        "additionalOptions": {
+          "filters": {
+            "fields": [
+              {
+                "field": 7603,
+                "operator": "empty"
+              },
+              {
+                "field": 7599,
+                "operator": "empty"
+              },
+              {
+                "field": 7600,
+                "operator": "empty"
+              },
+              {
+                "field": 7595,
+                "operator": "empty"
+              },
+              {
+                "field": 7587,
+                "operator": "empty"
+              },
+              {
+                "field": 7605,
+                "operator": "empty"
+              },
+              {
+                "field": 7608,
+                "operator": "empty"
+              },
+              {
+                "field": 7609,
+                "operator": "empty"
+              },
+              {
+                "field": 7610,
+                "operator": "empty"
+              },
+              {
+                "field": 7611,
+                "operator": "empty"
+              },
+              {
+                "field": 7615,
+                "operator": "contains",
+                "value": "false"
+              }
+            ]
+          },
+          "filterType": "OR"
+        }
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [
+        40,
+        380
+      ],
+      "id": "6fc98807-dae6-418c-bf99-26d7a2a1c95a",
+      "name": "Get-Missing-Fields"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "databaseId": 183,
+        "tableId": 755,
+        "rowId": "={{ $json.id }}",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": 7603,
+              "fieldValue": "={{ $json.Category.value }}"
+            },
+            {
+              "fieldId": 7600,
+              "fieldValue": "={{ $json.Category.value }}"
+            },
+            {
+              "fieldId": 7599,
+              "fieldValue": "={{ $json.Category.value }}"
+            },
+            {
+              "fieldId": 7595,
+              "fieldValue": "={{ $json.Category.value }}"
+            },
+            {
+              "fieldId": 7587,
+              "fieldValue": "={{ $json.Category.value }}"
+            },
+            {
+              "fieldId": 7605,
+              "fieldValue": "={{ $json.Category.value }}"
+            },
+            {
+              "fieldId": 7606,
+              "fieldValue": "={{ $json.Category.value }}"
+            },
+            {
+              "fieldId": 7607,
+              "fieldValue": "={{ $json.Category.value }}"
+            },
+            {
+              "fieldId": 7608,
+              "fieldValue": "={{ $json.Category.value }}"
+            },
+            {
+              "fieldId": 7609,
+              "fieldValue": "={{ $json.Category.value }}"
+            },
+            {
+              "fieldId": 7610,
+              "fieldValue": "={{ $json.Category.value }}"
+            },
+            {
+              "fieldId": 7611,
+              "fieldValue": "={{ $json.Category.value }}"
+            },
+            {
+              "fieldId": 7615,
+              "fieldValue": "true"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [
+        240,
+        380
+      ],
+      "id": "7c040ac0-05c9-4fc6-8d2f-5534364bbd0a",
+      "name": "Fix-Missing-Vaues"
+    },
+    {
+      "parameters": {
+        "databaseId": 172,
+        "tableId": 700,
+        "returnAll": true,
+        "additionalOptions": {
+          "filters": {
+            "fields": [
+              {
+                "field": 7172,
+                "operator": "empty"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "51b2868e-174e-4ef3-af87-65505811e87c",
+      "name": "Get-Missing-Fields1"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "databaseId": 172,
+        "tableId": 700,
+        "rowId": "={{ $json.id }}",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": 7172,
+              "fieldValue": "short"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [
+        180,
+        0
+      ],
+      "id": "83de29bc-a654-4806-b8f9-8ed6d99cd1d4",
+      "name": "Fix-Missing-Vaues1"
+    },
+    {
+      "parameters": {
+        "content": "# Helper tools\n## populates missing Baserow Linkings from Video Table to Templates Table",
+        "height": 360,
+        "width": 960
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -380,
+        240
+      ],
+      "typeVersion": 1,
+      "id": "c4d80b39-f92e-416b-8b8e-fa156d1773c3",
+      "name": "Sticky Note"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-04-21T16:26:20.000Z",
+  "versionId": "0f6fd99d-38b9-413a-a1fb-f60186d16da9"
+}
