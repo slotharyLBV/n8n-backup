@@ -160,12 +160,17 @@
         },
         "returnAll": true,
         "filterType": "manual",
+        "matchType": "allFilters",
         "filters": {
           "conditions": [
             {
               "key": "Status|status",
               "condition": "equals",
               "statusValue": "Generate"
+            },
+            {
+              "key": "Name|title",
+              "condition": "is_not_empty"
             }
           ]
         },
@@ -350,6 +355,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-04-28T12:55:15.000Z",
-  "versionId": "c470a1c1-9c87-4f76-9b74-1ec56435a16f"
+  "updatedAt": "2025-04-29T12:15:41.000Z",
+  "versionId": "80c310cf-9cd0-48bc-85bd-14ec5bb504de"
 }
