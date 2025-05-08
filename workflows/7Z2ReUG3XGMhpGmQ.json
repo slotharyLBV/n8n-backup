@@ -175,7 +175,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "=https://api.openai.com/v1/vector_stores/vs_681c76fa1f608191a572dd63e99b1eaf/files",
+        "url": "=https://api.openai.com/v1/vector_stores/vs_681c963ffb588191bd0a9a4d10acd546/files",
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "openAiApi",
         "sendBody": true,
@@ -362,7 +362,7 @@
         "resource": "assistant",
         "assistantId": {
           "__rl": true,
-          "value": "=asst_eDXXLTlr978POeJzf66qqUz4",
+          "value": "=asst_YTnYsVcxaMi9St7H7I9VsUr8",
           "mode": "id"
         },
         "prompt": "define",
@@ -480,6 +480,6 @@
   },
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-05-08T09:20:48.000Z",
-  "versionId": "f2a46a99-9143-4aaa-ba80-c43bc61d5b8e"
+  "updatedAt": "2025-05-08T11:33:27.000Z",
+  "versionId": "189d466e-40fc-4051-8126-2ea62331a732"
 }
