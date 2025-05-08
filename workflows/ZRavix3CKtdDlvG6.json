@@ -338,7 +338,7 @@
           "mode": "id"
         },
         "prompt": "define",
-        "text": "=give me exact **{{ $vars.CCP_ideaCountPerCategory }}** songs.",
+        "text": "={{ $vars.CCP_ideaCountPerCategory }}",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.openAi",
@@ -570,6 +570,6 @@
   },
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-05-08T09:20:26.000Z",
-  "versionId": "00bccd53-1bb6-4a5e-bda4-fac32fd2edf3"
+  "updatedAt": "2025-05-08T21:10:22.000Z",
+  "versionId": "8fd8593f-cb89-4cbf-86f4-11b7c5ee7840"
 }
