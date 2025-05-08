@@ -1,5 +1,5 @@
 {
-  "active": true,
+  "active": false,
   "connections": {
     "HTTP Request (upload file)": {
       "main": [
@@ -175,7 +175,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "=https://api.openai.com/v1/vector_stores/vs_680f8be62b0481918dd443d942251fbb/files",
+        "url": "=https://api.openai.com/v1/vector_stores/vs_681c76fa1f608191a572dd63e99b1eaf/files",
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "openAiApi",
         "sendBody": true,
@@ -362,7 +362,7 @@
         "resource": "assistant",
         "assistantId": {
           "__rl": true,
-          "value": "=asst_yfCaIki6ckq469yRTZDuPbim",
+          "value": "=asst_eDXXLTlr978POeJzf66qqUz4",
           "mode": "id"
         },
         "prompt": "define",
@@ -480,6 +480,6 @@
   },
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-04-28T14:09:23.000Z",
-  "versionId": "612b39ca-26f6-4059-aeb0-72de44e62a5a"
+  "updatedAt": "2025-05-08T09:20:48.000Z",
+  "versionId": "f2a46a99-9143-4aaa-ba80-c43bc61d5b8e"
 }
