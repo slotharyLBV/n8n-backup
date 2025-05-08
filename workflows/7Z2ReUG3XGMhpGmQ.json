@@ -175,7 +175,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "=https://api.openai.com/v1/vector_stores/vs_681c963ffb588191bd0a9a4d10acd546/files",
+        "url": "=https://api.openai.com/v1/vector_stores/vs_681cb618a43081918893379c7cd1b1b2/files",
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "openAiApi",
         "sendBody": true,
@@ -362,11 +362,11 @@
         "resource": "assistant",
         "assistantId": {
           "__rl": true,
-          "value": "=asst_YTnYsVcxaMi9St7H7I9VsUr8",
+          "value": "=asst_F9EylMpShs6slkqbRj6gBzbl",
           "mode": "id"
         },
         "prompt": "define",
-        "text": "=give me exact **{{ $vars.CCP_ideaCountPerCategory }}** categories.",
+        "text": "={{ $vars.CCP_ideaCountPerCategory }}",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.openAi",
@@ -467,6 +467,33 @@
       ],
       "id": "6dcca4c4-2eb7-43dc-9108-7594b77263f9",
       "name": "If1"
+    },
+    {
+      "parameters": {
+        "resource": "assistant",
+        "assistantId": {
+          "__rl": true,
+          "value": "=asst_YTnYsVcxaMi9St7H7I9VsUr8",
+          "mode": "id"
+        },
+        "prompt": "define",
+        "text": "=give me exact **{{ $vars.CCP_ideaCountPerCategory }}** categories.",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        0,
+        0
+      ],
+      "id": "c4be0072-1e8d-43e6-9e49-d849b8996293",
+      "name": "OpenAI (Frage den Expert Assistenten)1",
+      "credentials": {
+        "openAiApi": {
+          "id": "u2KUZtdryI1kUCLm",
+          "name": "OpenAi Music Content Creator"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -480,6 +507,6 @@
   },
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-05-08T11:33:27.000Z",
-  "versionId": "189d466e-40fc-4051-8126-2ea62331a732"
+  "updatedAt": "2025-05-08T13:49:29.000Z",
+  "versionId": "08141e58-4978-49a5-8dee-e18908f42783"
 }
