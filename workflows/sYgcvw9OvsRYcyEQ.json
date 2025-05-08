@@ -338,7 +338,7 @@
           "mode": "id"
         },
         "prompt": "define",
-        "text": "=give me exact **{{ $vars.CCP_ideaCountPerCategory }}**",
+        "text": "={{ $vars.CCP_ideaCountPerCategory }}",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.openAi",
@@ -571,6 +571,6 @@
   },
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-04-23T12:05:23.000Z",
-  "versionId": "e0d428df-de35-419e-8064-cdcec37ae880"
+  "updatedAt": "2025-05-08T21:22:15.000Z",
+  "versionId": "152b9782-b08d-4f12-83b3-26928201cafe"
 }
